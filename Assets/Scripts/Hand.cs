@@ -68,6 +68,7 @@ public class Hand : MonoBehaviour
 
         Rigidbody targetBody = m_CurrentInteractable.GetComponent<Rigidbody>();
         m_Joint.connectedBody = targetBody;
+        
 
         m_CurrentInteractable.m_ActiveHand = this;
     }
@@ -77,8 +78,8 @@ public class Hand : MonoBehaviour
         if (!m_CurrentInteractable)
             return;
         Rigidbody targetBody = m_CurrentInteractable.GetComponent<Rigidbody>();
-        targetBody.velocity = m_Pose.GetVelocity();
-        targetBody.angularVelocity = m_Pose.GetAngularVelocity();
+        targetBody.velocity = Vector3.zero;
+        targetBody.angularVelocity = Vector3.zero;
 
         m_Joint.connectedBody = null;
 
