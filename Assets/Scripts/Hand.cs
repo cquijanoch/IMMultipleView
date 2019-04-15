@@ -13,6 +13,8 @@ public class Hand : MonoBehaviour
     private Interactable m_CurrentInteractable = null;
     public List<Interactable> m_ContactInteractables = new List<Interactable>();
 
+    public float m_moveSped = 10f;
+
     private void Awake()
     {
         m_Pose = GetComponent<SteamVR_Behaviour_Pose>();
@@ -62,7 +64,7 @@ public class Hand : MonoBehaviour
         if (m_CurrentInteractable.m_ActiveHand)
             m_CurrentInteractable.m_ActiveHand.Drop();
 
-        m_CurrentInteractable.transform.position = transform.position;
+        //m_CurrentInteractable.transform.position = transform.position;
 
         Rigidbody targetBody = m_CurrentInteractable.GetComponent<Rigidbody>();
         m_Joint.connectedBody = targetBody;

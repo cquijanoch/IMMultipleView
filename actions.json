@@ -42,6 +42,18 @@
       "requirement": "optional"
     },
     {
+      "name": "/actions/default/in/JostickPad",
+      "type": "vector2"
+    },
+    {
+      "name": "/actions/default/in/TouchXbutton",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/TouchYbutton",
+      "type": "boolean"
+    },
+    {
       "name": "/actions/default/out/Haptic",
       "type": "vibration"
     },
@@ -143,7 +155,10 @@
       "/actions/default/in/SkeletonRightHand": "Skeleton (Right)",
       "/actions/default/in/Teleport": "Teleport",
       "/actions/default/out/Haptic": "Haptic",
-      "/actions/platformer/in/Jump": "Jump"
+      "/actions/platformer/in/Jump": "Jump",
+      "/actions/default/in/JostickPad": "JostickPad",
+      "/actions/default/in/TouchXbutton": "TouchXbutton",
+      "/actions/default/in/TouchYbutton": "TouchYbutton"
     }
   ]
 }

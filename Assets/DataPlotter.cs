@@ -70,6 +70,7 @@ public class DataPlotter : MonoBehaviour
 
         Debug.Log("Coordenada: " + PointHolder.transform.position.x + " " + PointHolder.transform.position.y + " " + PointHolder.transform.position.z);
 
+        
     }
 
     private float FindMaxValue(string columnName)

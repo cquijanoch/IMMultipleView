@@ -89,6 +89,30 @@ namespace Valve.VR
             }
         }
         
+        public virtual SteamVR_Action_Vector2 JostickPad
+        {
+            get
+            {
+                return SteamVR_Actions.default_JostickPad;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean TouchXbutton
+        {
+            get
+            {
+                return SteamVR_Actions.default_TouchXbutton;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean TouchYbutton
+        {
+            get
+            {
+                return SteamVR_Actions.default_TouchYbutton;
+            }
+        }
+        
         public virtual SteamVR_Action_Vibration Haptic
         {
             get
