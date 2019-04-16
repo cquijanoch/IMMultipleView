@@ -18,7 +18,7 @@ public class DataPlotter : MonoBehaviour
     public string yName;
     public string zName;
 
-    public float plotScale = 10;
+    public float plotScale = 1;
 
     public GameObject PointPrefab;
     public GameObject PointHolder;
@@ -47,19 +47,22 @@ public class DataPlotter : MonoBehaviour
         float xMin = 0f;
         float yMin = 0f;
         float zMin = 0f;**/
-        
+        //PointHolder.transform.localPosition = PointHolder.transform.parent.position;
 
 
         for (var i = 0; i < pointList.Count; i++)
         {
             float x = (System.Convert.ToSingle(pointList[i][xName]) - xMin) / (xMax - xMin);
+            x += PointHolder.transform.position.x;
             float y = (System.Convert.ToSingle(pointList[i][yName]) - yMin) / (yMax - yMin);
+            y += PointHolder.transform.position.y;
             float z = (System.Convert.ToSingle(pointList[i][zName]) - zMin) / (zMax - zMin);
+            z += PointHolder.transform.position.z;
 
             //Debug.Log("Coordenada: " + x + " " + y + " " + z);
             GameObject dataPoint = Instantiate(PointPrefab, new Vector3(x, y, z) * plotScale, Quaternion.identity);
             dataPoint.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-            dataPoint.transform.SetParent(PointHolder.transform);
+            //dataPoint.transform.SetParent(PointHolder.transform);
             string dataPointName = pointList[i][xName] + " " + pointList[i][yName] + " " + pointList[i][zName];
             dataPoint.transform.name = dataPointName;
             //Debug.Log("GameObjetc: " + dataPoint.transform.position.x + " " + dataPoint.transform.position.y + " " + dataPoint.transform.position.z);
@@ -69,6 +72,7 @@ public class DataPlotter : MonoBehaviour
         }
 
         Debug.Log("Coordenada: " + PointHolder.transform.position.x + " " + PointHolder.transform.position.y + " " + PointHolder.transform.position.z);
+        
 
         
     }
