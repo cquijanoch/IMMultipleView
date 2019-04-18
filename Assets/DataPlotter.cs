@@ -40,6 +40,10 @@ public class DataPlotter : MonoBehaviour
         float xMin = FindMinValue(xName);
         float yMin = FindMinValue(yName);
         float zMin = FindMinValue(zName);
+
+        float midX = (xMax - xMin) / 2;
+        float midY = (yMax - yMin) / 2;
+        float midZ = (zMax - zMin) / 2;
         /**float xMax = 0.5f;
         float yMax = 0.5f;
         float zMax = 0.5f;
@@ -53,16 +57,16 @@ public class DataPlotter : MonoBehaviour
         for (var i = 0; i < pointList.Count; i++)
         {
             float x = (System.Convert.ToSingle(pointList[i][xName]) - xMin) / (xMax - xMin);
-            x += PointHolder.transform.position.x;
+            x += PointHolder.transform.position.x - midX / (xMax - xMin);
             float y = (System.Convert.ToSingle(pointList[i][yName]) - yMin) / (yMax - yMin);
-            y += PointHolder.transform.position.y;
+            y += PointHolder.transform.position.y - midY / (yMax - yMin);
             float z = (System.Convert.ToSingle(pointList[i][zName]) - zMin) / (zMax - zMin);
-            z += PointHolder.transform.position.z;
+            z += PointHolder.transform.position.z - midZ / (zMax - zMin);
 
             //Debug.Log("Coordenada: " + x + " " + y + " " + z);
             GameObject dataPoint = Instantiate(PointPrefab, new Vector3(x, y, z) * plotScale, Quaternion.identity);
-            dataPoint.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-            //dataPoint.transform.SetParent(PointHolder.transform);
+            dataPoint.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+            dataPoint.transform.SetParent(PointHolder.transform);
             string dataPointName = pointList[i][xName] + " " + pointList[i][yName] + " " + pointList[i][zName];
             dataPoint.transform.name = dataPointName;
             //Debug.Log("GameObjetc: " + dataPoint.transform.position.x + " " + dataPoint.transform.position.y + " " + dataPoint.transform.position.z);

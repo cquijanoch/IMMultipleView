@@ -12,6 +12,7 @@ public class Hand : MonoBehaviour
 
     private Interactable m_CurrentInteractable = null;
     public List<Interactable> m_ContactInteractables = new List<Interactable>();
+    private int m_currentIndexSelected = 0;
 
     public float m_moveSped = 10f;
 
@@ -47,6 +48,8 @@ public class Hand : MonoBehaviour
         if (!other.gameObject.CompareTag("Interactable"))
             return;
         m_ContactInteractables.Add(other.gameObject.GetComponent<Interactable>());
+        m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = new Color(0.6666527f, 0.6581524f, 0.1f, 0.2941177f);
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -54,6 +57,9 @@ public class Hand : MonoBehaviour
         if (!other.gameObject.CompareTag("Interactable"))
             return;
         m_ContactInteractables.Remove(other.gameObject.GetComponent<Interactable>());
+        other.GetComponent<Renderer>().material.color = new Color(0.6666527f, 0.6581524f, 0.9622641f, 0.2941177f);
+        if (m_ContactInteractables.Count > 0)
+            m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = new Color(0.6666527f, 0.6581524f, 0.1f, 0.2941177f);
     }
 
     public void Pickup()
