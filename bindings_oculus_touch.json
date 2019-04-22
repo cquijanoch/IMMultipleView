@@ -181,64 +181,7 @@
           }
         },
         {
-          "path": "/user/hand/right/input/trigger",
-          "mode": "button",
-          "parameters": {},
-          "inputs": {
-            "click": {
-              "output": "/actions/default/in/interactui"
-            }
-          }
-        },
-        {
-          "path": "/user/hand/right/input/trigger",
-          "mode": "button",
-          "parameters": {
-            "click_activate_threshold": "0.8",
-            "click_deactivate_threshold": "0.7"
-          },
-          "inputs": {
-            "click": {
-              "output": "/actions/default/in/grabpinch"
-            }
-          }
-        },
-        {
-          "path": "/user/hand/right/input/joystick",
-          "mode": "joystick",
-          "parameters": {},
-          "inputs": {
-            "position": {
-              "output": "/actions/default/in/jostickpad"
-            }
-          }
-        },
-        {
-          "path": "/user/hand/right/input/grip",
-          "mode": "button",
-          "parameters": {
-            "click_activate_threshold": "0.8",
-            "click_deactivate_threshold": "0.7",
-            "force_input": "force"
-          },
-          "inputs": {
-            "click": {
-              "output": "/actions/default/in/grabgrip"
-            }
-          }
-        },
-        {
           "path": "/user/hand/left/input/grip",
-          "mode": "trigger",
-          "parameters": {},
-          "inputs": {
-            "pull": {
-              "output": "/actions/default/in/squeeze"
-            }
-          }
-        },
-        {
-          "path": "/user/hand/right/input/grip",
           "mode": "trigger",
           "parameters": {},
           "inputs": {
@@ -258,7 +201,67 @@
           }
         },
         {
+          "path": "/user/hand/right/input/grip",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/default/in/grabgrip"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/grip",
+          "mode": "trigger",
+          "parameters": {},
+          "inputs": {
+            "pull": {
+              "output": "/actions/default/in/squeeze"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/joystick",
+          "mode": "joystick",
+          "parameters": {},
+          "inputs": {
+            "position": {
+              "output": "/actions/default/in/jostickpad"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/trigger",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/default/in/interactui"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/trigger",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/default/in/grabpinch"
+            }
+          }
+        },
+        {
           "path": "/user/hand/right/input/x",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/default/in/touchxbutton"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/a",
           "mode": "button",
           "parameters": {},
           "inputs": {

@@ -176,6 +176,9 @@ MonoBehaviour:
   m_GrabAction:
     actionPath: /actions/default/in/GrabPinch
     needsReinit: 0
+  m_GripAction:
+    actionPath: 
+    needsReinit: 0
   m_ContactInteractables: []
   m_moveSped: 10
 --- !u!1 &170076733
@@ -247,7 +250,107 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!43 &310767232
+--- !u!1 &229193628 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1665772455, guid: ddee11972033d0945aaf0afdd0fdf6a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2060561946}
+  m_PrefabAsset: {fileID: 0}
+--- !u!21 &434955188
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sprites/Default
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - PixelSnap: 0
+    - _EnableExternalAlpha: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!1 &849155934 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 146900, guid: 4d293c8e162f3874b982baadd71153d2,
+    type: 3}
+  m_PrefabInstance: {fileID: 1822059305}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &849155935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849155934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e1148ce6fc9fe408125e05bd08ae31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hand: 0
+  speed: 1
+  Head: {fileID: 1032853413}
+  Collider: {fileID: 849155939}
+  AxisHand: {fileID: 123926190}
+  Deadzone: 0
+--- !u!54 &849155936
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849155934}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &849155939
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849155934}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  m_Radius: 1.07
+  m_Height: 0
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.01, z: 0}
+--- !u!1 &1032853413 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1000014254142504, guid: 4d293c8e162f3874b982baadd71153d2,
+    type: 3}
+  m_PrefabInstance: {fileID: 1822059305}
+  m_PrefabAsset: {fileID: 0}
+--- !u!43 &1615503665
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -407,100 +510,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!21 &716955259
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Sprites/Default
-  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _AlphaTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - PixelSnap: 0
-    - _EnableExternalAlpha: 0
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
---- !u!1 &849155934 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 146900, guid: 4d293c8e162f3874b982baadd71153d2,
-    type: 3}
-  m_PrefabInstance: {fileID: 1822059305}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &849155935
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 849155934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5e1148ce6fc9fe408125e05bd08ae31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Hand: 0
-  speed: 1
-  Head: {fileID: 1032853413}
-  Collider: {fileID: 849155939}
-  AxisHand: {fileID: 123926190}
-  Deadzone: 0
---- !u!54 &849155936
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 849155934}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!136 &849155939
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 849155934}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 1.07
-  m_Height: 0
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.01, z: 0}
---- !u!1 &1032853413 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1000014254142504, guid: 4d293c8e162f3874b982baadd71153d2,
-    type: 3}
-  m_PrefabInstance: {fileID: 1822059305}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1627457007
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -636,11 +645,11 @@ PrefabInstance:
     - target: {fileID: 2348914, guid: 4d293c8e162f3874b982baadd71153d2, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 716955259}
+      objectReference: {fileID: 434955188}
     - target: {fileID: 3380982, guid: 4d293c8e162f3874b982baadd71153d2, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 310767232}
+      objectReference: {fileID: 1615503665}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d293c8e162f3874b982baadd71153d2, type: 3}
 --- !u!1 &2021878331
@@ -799,6 +808,9 @@ MonoBehaviour:
   m_GrabAction:
     actionPath: /actions/default/in/GrabPinch
     needsReinit: 0
+  m_GripAction:
+    actionPath: 
+    needsReinit: 0
   m_ContactInteractables: []
   m_moveSped: 10
 --- !u!1001 &2060561946
@@ -868,6 +880,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 971542102, guid: ddee11972033d0945aaf0afdd0fdf6a0, type: 3}
+      propertyPath: PointHolder
+      value: 
+      objectReference: {fileID: 229193628}
+    - target: {fileID: 971542102, guid: ddee11972033d0945aaf0afdd0fdf6a0, type: 3}
+      propertyPath: PointPrefab
+      value: 
+      objectReference: {fileID: 4626905323466237893, guid: edd6094ff33198347863bfcc02d9b158,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddee11972033d0945aaf0afdd0fdf6a0, type: 3}
 --- !u!1001 &2144623185
@@ -885,7 +906,7 @@ PrefabInstance:
     - target: {fileID: 1350182624467195999, guid: ddee11972033d0945aaf0afdd0fdf6a0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.44
+      value: -0.038
       objectReference: {fileID: 0}
     - target: {fileID: 1350182624467195999, guid: ddee11972033d0945aaf0afdd0fdf6a0,
         type: 3}
@@ -937,5 +958,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 971542102, guid: ddee11972033d0945aaf0afdd0fdf6a0, type: 3}
+      propertyPath: PointPrefab
+      value: 
+      objectReference: {fileID: 4920441736578095170, guid: 78e47a3f3d5fee94ab2ddf59b6e326b8,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddee11972033d0945aaf0afdd0fdf6a0, type: 3}
