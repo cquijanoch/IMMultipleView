@@ -17,8 +17,8 @@ public class Hand : MonoBehaviour
 
     public float m_moveSped = 10f;
 
-    private Color m_colorSpaceSelected = new Color(0.6666527f, 0.6581524f, 0.1f, 0.2941177f);
-    private Color m_colorSpaceWithoutSelected = new Color(0.6666527f, 0.6581524f, 0.9622641f, 0.2941177f);
+    private bool m_isPressedPrimaryPickup = false;
+    private int m_TypeHand = Constants.HAND_NONE_USE;
 
     private void Awake()
     {
@@ -27,28 +27,28 @@ public class Hand : MonoBehaviour
     }
     void Start()
     {
-        
+
     }
 
     void Update()
     {
 
-        if(m_GrabAction.GetStateDown(m_Pose.inputSource))
+        if (m_GrabAction.GetStateDown(m_Pose.inputSource))
         {
             print(m_Pose.inputSource + " Trigger Grab Down");
             Pickup();
-        }
-
-        if (m_ContactInteractables.Count > 1 && SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource))
-        {
-            print(m_Pose.inputSource + " Trigger Grip Down");
-            ChangeCurrentSelectionSpace();
         }
 
         if (m_GrabAction.GetStateUp(m_Pose.inputSource))
         {
             print(m_Pose.inputSource + "Trigger Grab Up");
             Drop();
+        }
+
+        if (m_ContactInteractables.Count > 1 && SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource))
+        {
+            print(m_Pose.inputSource + " Trigger Grip Down");
+            ChangeCurrentSelectionSpace();
         }
 
         if (m_CurrentInteractable && SteamVR_Actions._default.TouchXbutton.GetStateDown(m_Pose.inputSource) && m_ContactInteractables.Count > 1)
@@ -65,28 +65,45 @@ public class Hand : MonoBehaviour
         if (m_CurrentInteractable.DetectSimimilarTransform(target))
         {
             m_CurrentInteractable.SetTransformToObject(target);
+            Drop();
         }
     }
 
 
     private void ChangeCurrentSelectionSpace()
     {
-        m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = m_colorSpaceWithoutSelected;
-        if ( ++m_currentIndexSelected == m_ContactInteractables.Count)
+        if (m_TypeHand == Constants.HAND_PRIMARY_USE)
         {
-            m_currentIndexSelected = 0;
+            if (m_ContactInteractables[m_currentIndexSelected].m_numControllersInner == 1)
+            {
+                //m_ContactInteractables[m_currentIndexSelected].m_isTarget = false;
+                m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
+            }
+            Drop();
+            if (++m_currentIndexSelected == m_ContactInteractables.Count)
+            {
+                m_currentIndexSelected = 0;
+            }
+            //m_ContactInteractables[m_currentIndexSelected].m_isTarget = true;
+            m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
+            if (m_isPressedPrimaryPickup)
+                Pickup();
         }
-        m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = m_colorSpaceSelected;
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (!other.gameObject.CompareTag("Interactable"))
             return;
-        m_ContactInteractables.Add(other.gameObject.GetComponent<Interactable>());
-        if (m_currentIndexSelected < 0) m_currentIndexSelected = 0;
-        m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = m_colorSpaceSelected;
-
+        Interactable subspace = other.gameObject.GetComponent<Interactable>();
+        m_ContactInteractables.Add(subspace);
+        if (m_currentIndexSelected < 0)
+            m_currentIndexSelected = 0;
+        subspace.m_numControllersInner++;
+        m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
+        //subspace.m_isTarget = true;
+        DetectTypeHand();
 
     }
 
@@ -94,44 +111,59 @@ public class Hand : MonoBehaviour
     {
         if (!other.gameObject.CompareTag("Interactable"))
             return;
-        m_ContactInteractables.Remove(other.gameObject.GetComponent<Interactable>());
-        other.GetComponent<Renderer>().material.color = m_colorSpaceWithoutSelected;
-        if ( m_currentIndexSelected + 1 > m_ContactInteractables.Count )
+        Interactable subspace = other.gameObject.GetComponent<Interactable>();
+        m_ContactInteractables.Remove(subspace);
+        subspace.m_numControllersInner--;
+
+        if (subspace.m_numControllersInner == 0)
         {
-            m_currentIndexSelected--;
+            other.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
+            //subspace.m_isTarget = false;
         }
+        if (m_currentIndexSelected + 1 > m_ContactInteractables.Count)
+            m_currentIndexSelected--;
         if (m_ContactInteractables.Count > 0)
-            m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = m_colorSpaceSelected;
+            m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
     }
 
     public void Pickup()
     {
-        if (m_currentIndexSelected < 0 )
+        if (m_currentIndexSelected < 0)
             return;
         m_CurrentInteractable = m_ContactInteractables[m_currentIndexSelected];
         if (!m_CurrentInteractable)
             return;
-        if (m_CurrentInteractable.m_ActiveHand)
-            m_CurrentInteractable.m_ActiveHand.Drop();
+        if (m_TypeHand == Constants.HAND_PRIMARY_USE)
+        {
+            Rigidbody targetBody = m_CurrentInteractable.GetComponent<Rigidbody>();
+            m_Joint.connectedBody = targetBody;
+            m_CurrentInteractable.m_PrimaryHand = this;
+            m_isPressedPrimaryPickup = true;
+        }
 
-        Rigidbody targetBody = m_CurrentInteractable.GetComponent<Rigidbody>();
-        m_Joint.connectedBody = targetBody;
-
-        m_CurrentInteractable.m_ActiveHand = this;
+        if (m_TypeHand == Constants.HAND_SECONDARY_USE)
+        {
+        
+        }
     }
+
 
     public void Drop()
     {
-        if (!m_CurrentInteractable)
+        if (!m_CurrentInteractable) 
             return;
-        Rigidbody targetBody = m_CurrentInteractable.GetComponent<Rigidbody>();
-        targetBody.velocity = Vector3.zero;
-        targetBody.angularVelocity = Vector3.zero;
+        if (m_CurrentInteractable.m_PrimaryHand)
+        {
+            Rigidbody targetBody = m_CurrentInteractable.GetComponent<Rigidbody>();
+            targetBody.velocity = Vector3.zero;
+            targetBody.angularVelocity = Vector3.zero;
 
-        m_Joint.connectedBody = null;
-
-        m_CurrentInteractable.m_ActiveHand = null;
-        m_CurrentInteractable = null;
+            m_Joint.connectedBody = null;
+            m_CurrentInteractable.m_PrimaryHand = null;
+            m_CurrentInteractable = null;
+            m_isPressedPrimaryPickup = false;
+        }
+        DetectTypeHand();
     }
 
     private Interactable GetNearestInteractable()
@@ -152,5 +184,26 @@ public class Hand : MonoBehaviour
         return nearest;
     }
 
+    private void DetectTypeHand()
+    {
+        if (m_ContactInteractables.Count == 0)
+        {
+            m_TypeHand = Constants.HAND_NONE_USE;
+            return;
+        }
+           
+        if (m_TypeHand == Constants.HAND_NONE_USE && m_ContactInteractables[m_currentIndexSelected].m_PrimaryHand)
+        {
+            m_TypeHand = Constants.HAND_SECONDARY_USE;
+            return;
+        }
+            
+        if (m_TypeHand == Constants.HAND_NONE_USE && !m_ContactInteractables[m_currentIndexSelected].m_PrimaryHand)
+        {
+            m_TypeHand = Constants.HAND_PRIMARY_USE;
+            return;
+        }
+            
+    }
 
 }

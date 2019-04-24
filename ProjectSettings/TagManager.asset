@@ -8,6 +8,7 @@ TagManager:
   - FxTemporaire
   - Interactable
   - Plane
+  - Controller
   layers:
   - Default
   - TransparentFX

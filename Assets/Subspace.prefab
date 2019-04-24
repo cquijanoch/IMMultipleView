@@ -220,4 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3072a8c8f7df589419625d7a13e2d0fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ActiveHand: {fileID: 0}
+  m_minPositionDistance: 0.5
+  m_minRotationDistance: 300
+  m_PrimaryHand: {fileID: 0}
+  m_SecondaryHand: {fileID: 0}

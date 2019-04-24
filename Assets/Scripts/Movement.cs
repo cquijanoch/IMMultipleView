@@ -32,7 +32,7 @@ public class Movement : MonoBehaviour
         Collider.center = new Vector3(Head.transform.localPosition.x, Head.transform.localPosition.y / 2, Head.transform.localPosition.z);
         
         moveDirection = Quaternion.AngleAxis(Angle(trackpad) + AxisHand.transform.localRotation.eulerAngles.y, Vector3.up) * Head.transform.forward;//get the angle of the touch and correct it for the rotation of the controller
-        updateInput();
+        UpdateInput();
         if (GetComponent<Rigidbody>().velocity.magnitude < speed && trackpad.magnitude > Deadzone)
         {//make sure the touch isn't in the deadzone and we aren't going to fast.
             //GetComponent<Rigidbody>().AddForce(moveDirection * 30);
@@ -52,7 +52,7 @@ public class Movement : MonoBehaviour
         }
     }
 
-    private void updateInput()
+    private void UpdateInput()
     {
         trackpad = SteamVR_Actions._default.JostickPad.GetAxis(Hand);
     }
