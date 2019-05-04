@@ -74,11 +74,7 @@ public class DataPlotter : MonoBehaviour
             dataPoint.GetComponent<Renderer>().material.color =
                 new Color(x, y, z, 1.0f);
         }
-
         Debug.Log("Coordenada: " + PointHolder.transform.position.x + " " + PointHolder.transform.position.y + " " + PointHolder.transform.position.z);
-        
-
-        
     }
 
     private float FindMaxValue(string columnName)

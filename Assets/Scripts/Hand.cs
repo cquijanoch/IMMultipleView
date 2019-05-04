@@ -15,10 +15,9 @@ public class Hand : MonoBehaviour
     public List<Interactable> m_ContactInteractables = new List<Interactable>();
     private int m_currentIndexSelected = -1;
 
-    public float m_moveSped = 10f;
-
     private bool m_isPressedPrimaryPickup = false;
-    private int m_TypeHand = Constants.HAND_NONE_USE;
+    private bool m_isPressedSecundaryPickup = false;
+    public int m_TypeHand = Constants.HAND_NONE_USE;
 
     private void Awake()
     {
@@ -74,9 +73,10 @@ public class Hand : MonoBehaviour
     {
         if (m_TypeHand == Constants.HAND_PRIMARY_USE)
         {
+            m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner.Remove(this);
             if (m_ContactInteractables[m_currentIndexSelected].m_numControllersInner == 1)
             {
-                //m_ContactInteractables[m_currentIndexSelected].m_isTarget = false;
+
                 m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
             }
             Drop();
@@ -84,12 +84,14 @@ public class Hand : MonoBehaviour
             {
                 m_currentIndexSelected = 0;
             }
-            //m_ContactInteractables[m_currentIndexSelected].m_isTarget = true;
+            m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner.Add(this);
             m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
-            if (m_isPressedPrimaryPickup)
-                Pickup();
+            //if (m_isPressedPrimaryPickup)
+            //    Pickup();
+            DetectTypeHand();
         }
-        
+
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -102,7 +104,8 @@ public class Hand : MonoBehaviour
             m_currentIndexSelected = 0;
         subspace.m_numControllersInner++;
         m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
-        //subspace.m_isTarget = true;
+        if (!m_isPressedPrimaryPickup)
+            subspace.m_HandsActivedInner.Add(this);
         DetectTypeHand();
 
     }
@@ -114,25 +117,27 @@ public class Hand : MonoBehaviour
         Interactable subspace = other.gameObject.GetComponent<Interactable>();
         m_ContactInteractables.Remove(subspace);
         subspace.m_numControllersInner--;
-
-        if (subspace.m_numControllersInner == 0)
+        subspace.m_HandsActivedInner.Remove(this);
+        if (subspace.m_numControllersInner == 0 || subspace.m_HandsActivedInner.Count == 0)
         {
             other.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
-            //subspace.m_isTarget = false;
         }
         if (m_currentIndexSelected + 1 > m_ContactInteractables.Count)
             m_currentIndexSelected--;
         if (m_ContactInteractables.Count > 0)
             m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
+        DetectTypeHand();
     }
 
     public void Pickup()
     {
         if (m_currentIndexSelected < 0)
             return;
+
         m_CurrentInteractable = m_ContactInteractables[m_currentIndexSelected];
         if (!m_CurrentInteractable)
             return;
+        DetectTypeHand();
         if (m_TypeHand == Constants.HAND_PRIMARY_USE)
         {
             Rigidbody targetBody = m_CurrentInteractable.GetComponent<Rigidbody>();
@@ -143,27 +148,79 @@ public class Hand : MonoBehaviour
 
         if (m_TypeHand == Constants.HAND_SECONDARY_USE)
         {
-        
+            m_CurrentInteractable.m_SecondaryHand = this;
+            m_isPressedSecundaryPickup = true;
+            StopJoiningIteractable();
+            m_CurrentInteractable.m_distanceInitialForScale = Vector3.Distance(m_CurrentInteractable.m_PrimaryHand.transform.position, transform.position);
+            m_CurrentInteractable.m_modeScale = true;
+            //float dist = Vector3.Distance(m_CurrentInteractable.m_PrimaryHand.transform.position, transform.position);
+            //print(dist);
+
         }
+        DetectTypeHand();
     }
 
 
     public void Drop()
     {
-        if (!m_CurrentInteractable) 
+        if (!m_CurrentInteractable)
             return;
-        if (m_CurrentInteractable.m_PrimaryHand)
+        if (m_TypeHand == Constants.HAND_PRIMARY_USE)
         {
-            Rigidbody targetBody = m_CurrentInteractable.GetComponent<Rigidbody>();
-            targetBody.velocity = Vector3.zero;
-            targetBody.angularVelocity = Vector3.zero;
-
-            m_Joint.connectedBody = null;
-            m_CurrentInteractable.m_PrimaryHand = null;
-            m_CurrentInteractable = null;
-            m_isPressedPrimaryPickup = false;
+            if (m_CurrentInteractable.m_PrimaryHand)
+            {
+                Rigidbody targetBody = m_CurrentInteractable.GetComponent<Rigidbody>();
+                targetBody.velocity = Vector3.zero;
+                targetBody.angularVelocity = Vector3.zero;
+                m_Joint.connectedBody = null;
+                m_CurrentInteractable.m_PrimaryHand = null;
+                m_CurrentInteractable = null;
+                m_isPressedPrimaryPickup = false;
+            }
+        }
+        if (m_TypeHand == Constants.HAND_SECONDARY_USE)
+        {
+            m_CurrentInteractable.ResetDistanceInitialForScale();
+            m_CurrentInteractable.m_SecondaryHand = null;
+            m_isPressedSecundaryPickup = false;
+            JoiningIteractable();
+            
         }
         DetectTypeHand();
+    }
+
+    private void StopJoiningIteractable()
+    {
+        Hand hp = GetPrimaryHandPressedFromInner();
+        if (!hp)
+            return;
+        if (!hp.m_CurrentInteractable)
+            return;
+        Rigidbody targetBody = hp.m_CurrentInteractable.GetComponent<Rigidbody>();
+        targetBody.velocity = Vector3.zero;
+        targetBody.angularVelocity = Vector3.zero;
+        hp.m_Joint.connectedBody = null;
+    }
+
+    private void JoiningIteractable()
+    {
+        Hand hp = GetPrimaryHandPressedFromInner();
+        if (!hp)
+            return;
+        if (!hp.m_CurrentInteractable)
+            return;
+        Rigidbody targetBody = hp.m_CurrentInteractable.GetComponent<Rigidbody>();
+        hp.m_Joint.connectedBody = targetBody;
+    }
+
+    private Hand GetPrimaryHandPressedFromInner()
+    {
+        foreach(Hand h in m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner)
+        {
+            if (h.m_TypeHand == Constants.HAND_PRIMARY_USE && h.m_isPressedPrimaryPickup)
+                return h;
+        }
+        return null;
     }
 
     private Interactable GetNearestInteractable()
@@ -172,10 +229,10 @@ public class Hand : MonoBehaviour
         float minDistance = float.MaxValue;
         float distance = 0.0f;
 
-        foreach(Interactable interactable in m_ContactInteractables)
+        foreach (Interactable interactable in m_ContactInteractables)
         {
             distance = (interactable.transform.position - transform.position).sqrMagnitude;
-            if(distance < minDistance)
+            if (distance < minDistance)
             {
                 minDistance = distance;
                 nearest = interactable;
@@ -186,24 +243,31 @@ public class Hand : MonoBehaviour
 
     private void DetectTypeHand()
     {
+        /* If not exists contact with interactables*/
         if (m_ContactInteractables.Count == 0)
         {
             m_TypeHand = Constants.HAND_NONE_USE;
             return;
         }
-           
-        if (m_TypeHand == Constants.HAND_NONE_USE && m_ContactInteractables[m_currentIndexSelected].m_PrimaryHand)
+
+        /* If in the current interactable is not asigned primaryHand*/
+        if (!m_ContactInteractables[m_currentIndexSelected].m_PrimaryHand)
         {
-            m_TypeHand = Constants.HAND_SECONDARY_USE;
+            foreach (Hand h in m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner)
+                h.m_TypeHand = Constants.HAND_PRIMARY_USE;
             return;
         }
-            
-        if (m_TypeHand == Constants.HAND_NONE_USE && !m_ContactInteractables[m_currentIndexSelected].m_PrimaryHand)
+
+        /*  RECALIBRATING HANDS INNER INTO INTERACTABLE     */
+
+        foreach (Hand h in m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner)
         {
-            m_TypeHand = Constants.HAND_PRIMARY_USE;
-            return;
+            if (h.m_isPressedPrimaryPickup)
+                h.m_TypeHand = Constants.HAND_PRIMARY_USE;
+            else
+                h.m_TypeHand = Constants.HAND_SECONDARY_USE;
         }
-            
+
     }
 
 }
