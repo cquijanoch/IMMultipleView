@@ -25,7 +25,8 @@ public class DataPlotter : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Coordenada: " + PointHolder.transform.position.x + " " + PointHolder.transform.position.y + " " + PointHolder.transform.position.z);
+        //plotScale = gameObject.transform.parent.localScale.x;
+        Debug.Log("Coordenada: " + PointHolder.transform.localPosition.x + " " + PointHolder.transform.localPosition.y + " " + PointHolder.transform.localPosition.z);
         pointList = CSVReader.Read(inputfile);
         List<string> columnList = new List<string>(pointList[1].Keys);
 
@@ -52,16 +53,18 @@ public class DataPlotter : MonoBehaviour
         float yMin = 0f;
         float zMin = 0f;**/
         //PointHolder.transform.localPosition = PointHolder.transform.parent.position;
+        Transform subspace = transform.parent;
+        float scaleSubspace = subspace.localScale.x /2f;
 
 
         for (var i = 0; i < pointList.Count; i++)
         {
-            float x = (System.Convert.ToSingle(pointList[i][xName]) - xMin) / (xMax - xMin);
-            x += PointHolder.transform.position.x - midX / (xMax - xMin);
-            float y = (System.Convert.ToSingle(pointList[i][yName]) - yMin) / (yMax - yMin);
-            y += PointHolder.transform.position.y - midY / (yMax - yMin);
-            float z = (System.Convert.ToSingle(pointList[i][zName]) - zMin) / (zMax - zMin);
-            z += PointHolder.transform.position.z - midZ / (zMax - zMin);
+            float x = (System.Convert.ToSingle(pointList[i][xName]) - xMin) * scaleSubspace * 2f/ (xMax - xMin);
+            x += subspace.localPosition.x - scaleSubspace; //- midX / (xMax - xMin);
+            float y = (System.Convert.ToSingle(pointList[i][yName]) - yMin) * scaleSubspace * 2f / (yMax - yMin);
+            y += subspace.localPosition.y - scaleSubspace; //- midY / (yMax - yMin);
+            float z = (System.Convert.ToSingle(pointList[i][zName]) - zMin)  * scaleSubspace * 2f / (zMax - zMin);
+            z += subspace.localPosition.z - scaleSubspace; //- midZ / (zMax - zMin);
 
             //Debug.Log("Coordenada: " + x + " " + y + " " + z);
             GameObject dataPoint = Instantiate(PointPrefab, new Vector3(x, y, z) * plotScale, Quaternion.identity);

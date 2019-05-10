@@ -99,7 +99,7 @@ public class Interactable : MonoBehaviour
         Vector3 pos2 = m_SecondaryHand.transform.position;
 
         float dist = Vector3.Distance(pos1, pos2);
-        transform.localScale += new Vector3(dist - m_distanceInitialForScale, dist - m_distanceInitialForScale, dist - m_distanceInitialForScale) * 2f;
+        transform.localScale += new Vector3(dist - m_distanceInitialForScale, dist - m_distanceInitialForScale, dist - m_distanceInitialForScale) * 1f;
         m_distanceInitialForScale = dist;
     }
 
