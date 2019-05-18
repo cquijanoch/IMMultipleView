@@ -14,12 +14,8 @@ public class Movement : MonoBehaviour
     public float speed;
     public GameObject Head;
     public CapsuleCollider Collider;
-    public GameObject AxisHand;//Hand Controller GameObject
     public float Deadzone;//the Deadzone of the trackpad. used to prevent unwanted walking.
-
-    //public SteamVR_Action_Vector2 m_jostick = null;
-
-    //private SteamVR_Behaviour_Pose m_Pose = null;
+    public bool fly = false;
 
     private void Awake()
     {
@@ -31,8 +27,9 @@ public class Movement : MonoBehaviour
         Collider.height = Head.transform.localPosition.y;
         Collider.center = new Vector3(Head.transform.localPosition.x, Head.transform.localPosition.y / 2, Head.transform.localPosition.z);
         
-        moveDirection = Quaternion.AngleAxis(Angle(trackpad) + AxisHand.transform.localRotation.eulerAngles.y, Vector3.up) * Head.transform.forward;//get the angle of the touch and correct it for the rotation of the controller
+        moveDirection = Quaternion.AngleAxis(Angle(trackpad), Vector3.up) * Head.transform.forward;//get the angle of the touch and correct it for the rotation of the controller
         UpdateInput();
+        moveDirection.y = 0;
         if (GetComponent<Rigidbody>().velocity.magnitude < speed && trackpad.magnitude > Deadzone)
         {//make sure the touch isn't in the deadzone and we aren't going to fast.
             //GetComponent<Rigidbody>().AddForce(moveDirection * 30);
