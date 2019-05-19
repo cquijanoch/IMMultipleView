@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 6389676174847367996}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.15657, y: 1.81, z: 2.1751208}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 3826137106481473698}
   - {fileID: 1584981428177775826}
@@ -213,15 +213,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9153940334410059348, guid: b4b59560fc1eed449bae4c88ded1dba2,
         type: 3}
-      propertyPath: PointHolder
-      value: 
-      objectReference: {fileID: 1584981428177775837}
-    - target: {fileID: 9153940334410059348, guid: b4b59560fc1eed449bae4c88ded1dba2,
-        type: 3}
       propertyPath: PointPrefab
       value: 
       objectReference: {fileID: 4920441736578095170, guid: 78e47a3f3d5fee94ab2ddf59b6e326b8,
         type: 3}
+    - target: {fileID: 9153940334410059348, guid: b4b59560fc1eed449bae4c88ded1dba2,
+        type: 3}
+      propertyPath: PointHolder
+      value: 
+      objectReference: {fileID: 1584981428177775837}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4b59560fc1eed449bae4c88ded1dba2, type: 3}
 --- !u!4 &3826137106481473698 stripped

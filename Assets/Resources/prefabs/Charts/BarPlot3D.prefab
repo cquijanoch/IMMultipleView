@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 6572061452126044604}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.634, y: 1.65, z: 1.921}
-  m_LocalScale: {x: 1.9154643, y: 0.42524192, z: 0.1671075}
+  m_LocalScale: {x: 0.85, y: 0.42524192, z: 0.1671075}
   m_Children:
   - {fileID: 1614236471456372937}
   - {fileID: 681236821758218933}
@@ -216,11 +216,6 @@ PrefabInstance:
       propertyPath: PointHolder
       value: 
       objectReference: {fileID: 1614236471456372934}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: AxisLabel
-      value: 
-      objectReference: {fileID: 197276, guid: 622e58fcefdc85a4bbcd6bcef0d19a4d, type: 3}
     - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
         type: 3}
       propertyPath: createAxisXLabel

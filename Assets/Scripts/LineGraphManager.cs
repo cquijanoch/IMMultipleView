@@ -33,19 +33,22 @@ public class LineGraphManager : MonoBehaviour {
 	public TextMesh player1name;
 	public TextMesh player2name;
 
-	private float lrWidth = 0.1f;
+	private float lrWidth = 0.01f;
 	private int dataGap = 0;
 
     public int numTotal = Constants.MINIMAL_NUM_POINTS_FOR_STEP_1;
 
+    private float incrementX = 1f;
+    private float incrementY = 1f;
 
 
-	void Start()
+
+    void Start()
     {
+        incrementX = transform.localScale.x * transform.parent.localScale.x;
+        incrementY = transform.localScale.y * transform.parent.localScale.y;
 
-		// adding random data
-		//int index = Random.Range(20,120);
-		for(int i = 0; i < numTotal; i++){
+        for (int i = 0; i < numTotal; i++){
 			GraphData gd = new GraphData();
 			gd.marbles = Random.Range(10,47);
 			graphDataPlayer1.Add(gd);
@@ -63,18 +66,12 @@ public class LineGraphManager : MonoBehaviour {
 		// Adjusting value to fit in graph
 		for(int i = 0; i < gdlist.Length; i++)
 		{
-			// since Y axis is from 0 to 7 we are dividing the marbles with the highestValue
-			// so that we get a value less than or equals to 1 and than we can multiply that
-			// number with Y axis range to fit in graph. 
-			// e.g. marbles = 90, highest = 90 so 90/90 = 1 and than 1*7 = 7 so for 90, Y = 7
 			gdlist[i].marbles = (gdlist[i].marbles/ highestValueY) * numStepY;
 		}
         if (playerNum == 1)
-            //BarGraphBlue(gdlist, gap);
-            StartCoroutine(BarGraphBlue(gdlist,gap));
+            StartCoroutine(BarGraphRed(gdlist,gap));
         else if (playerNum == 2)
             StartCoroutine(BarGraphGreen(gdlist,gap));
-            //BarGraphGreen(gdlist, gap);
 
     }
 
@@ -179,44 +176,43 @@ public class LineGraphManager : MonoBehaviour {
 	}
 
 
-	IEnumerator BarGraphBlue(GraphData[] gd,float gap)
+	IEnumerator BarGraphRed(GraphData[] gd,float gap)
 	{
-		float xIncrement = gap * transform.localScale.x;
-		int dataCount = 0;
+        float xIncrement = gap * incrementX;
+        int dataCount = 0;
 		bool flag = false;
-		Vector3 startpoint = new Vector3((origin.position.x+xIncrement),origin.position.y+gd[dataCount].marbles * transform.localScale.y,(origin.position.z));//origin.position;//
+		Vector3 startpoint = new Vector3((origin.position.x+xIncrement),origin.position.y+gd[dataCount].marbles * incrementY,origin.position.z);//origin.position;//
 
 
         while (dataCount < gd.Length)
 		{
 			
-			Vector3 endpoint = new Vector3((origin.position.x+xIncrement),origin.position.y+gd[dataCount].marbles * transform.localScale.y, (origin.position.z));
+			Vector3 endpoint = new Vector3((origin.position.x+xIncrement),origin.position.y+gd[dataCount].marbles * incrementY, origin.position.z);
 			startpoint = new Vector3(startpoint.x,startpoint.y,origin.position.z);
-        
-			// pointer is an empty gameObject, i made a prefab of it and attach it in the inspector
-			GameObject p = Instantiate(pointer, new Vector3(startpoint.x, startpoint.y, origin.position.z),Quaternion.identity) as GameObject;
-			p.transform.parent = holder.transform;
-            p.name = gd[dataCount].marbles.ToString();
 
-            /** Line Number **/
-            GameObject lineNumber = Instantiate(xLineNumber, new Vector3(origin.position.x+xIncrement, origin.position.y-0.18f , origin.position.z),Quaternion.identity) as GameObject;
+            /** Axis X Number **/
+            GameObject lineNumber = Instantiate(xLineNumber, new Vector3(origin.position.x+xIncrement, origin.position.y-0.02f , origin.position.z),Quaternion.identity) as GameObject;
 			lineNumber.transform.parent = holder.transform;
 			lineNumber.GetComponent<TextMesh>().text = (dataCount+1).ToString();
 
+            /** Pointers **/
+			GameObject pointered = Instantiate(pointerRed,endpoint,pointerRed.transform.rotation) as GameObject ;
+			pointered.transform.parent = holder.transform;
+            pointered.name = "pointered " + gd[dataCount].marbles.ToString();
 
-			// linerenderer is an empty gameObject with Line Renderer Component Attach to it, 
-			// i made a prefab of it and attach it in the inspector
-			GameObject lineObj = Instantiate(linerenderer,startpoint,Quaternion.identity) as GameObject;
-			lineObj.transform.parent = holder.transform;
-			lineObj.name = dataCount.ToString();
-			
-			LineRenderer lineRenderer = lineObj.GetComponent<LineRenderer>();
-            
+            /** LineRenderer between two lineObj**/
+            GameObject lineObj = Instantiate(linerenderer, startpoint, Quaternion.identity) as GameObject;
+            lineObj.transform.parent = holder.transform;
+            lineObj.name = "LineObj " + dataCount.ToString();
+
+            LineRenderer lineRenderer = lineObj.GetComponent<LineRenderer>();
+
             lineRenderer.material = bluemat;
-            
-			lineRenderer.SetWidth(lrWidth, lrWidth);
-			lineRenderer.SetVertexCount(2);
-            lineRenderer.transform.localPosition = origin.transform.localPosition;
+
+            lineRenderer.SetWidth(lrWidth, lrWidth);
+            lineRenderer.SetVertexCount(2);
+            lineRenderer.transform.localPosition = new Vector3(origin.transform.localPosition.x, origin.transform.localPosition.y, 0); 
+
 
             /* animation */
             /**
@@ -231,14 +227,7 @@ public class LineGraphManager : MonoBehaviour {
 			}**/
 
             lineRenderer.SetPosition(0, startpoint);
-			lineRenderer.SetPosition(1, endpoint);
-
-
-            p.transform.position = endpoint;
-
-			GameObject pointered = Instantiate(pointerRed,endpoint,pointerRed.transform.rotation) as GameObject ;
-			pointered.transform.parent = holder.transform;
-            pointered.name = gd[dataCount].marbles.ToString();
+            lineRenderer.SetPosition(1, endpoint);
 
             startpoint = endpoint;
 
@@ -260,7 +249,7 @@ public class LineGraphManager : MonoBehaviour {
 			else
 				dataCount+=dataGap;
 
-			xIncrement+= gap;
+			xIncrement+= gap * incrementX;
 			
 			yield return null;
 			
@@ -269,32 +258,31 @@ public class LineGraphManager : MonoBehaviour {
 
 	IEnumerator BarGraphGreen(GraphData[] gd, float gap)
 	{
-		float xIncrement = gap * transform.localScale.x;
+  
+        float xIncrement = gap * incrementX;
 		int dataCount = 0;
 		bool flag = false;
 
-		Vector3 startpoint = new Vector3((origin.position.x+xIncrement),origin.position.y+gd[dataCount].marbles * transform.localScale.y, (origin.position.z));
+		Vector3 startpoint = new Vector3((origin.position.x+xIncrement),origin.position.y+gd[dataCount].marbles * incrementY, origin.position.z);
 		while(dataCount < gd.Length)
 		{
 			
-			Vector3 endpoint = new Vector3((origin.position.x+xIncrement),origin.position.y+gd[dataCount].marbles * transform.localScale.y, (origin.position.z));
+			Vector3 endpoint = new Vector3((origin.position.x+xIncrement),origin.position.y+gd[dataCount].marbles * incrementY, origin.position.z);
 			startpoint = new Vector3(startpoint.x,startpoint.y,origin.position.z);
-			// pointer is an empty gameObject, i made a prefab of it and attach it in the inspector
-			GameObject p = Instantiate(pointer, new Vector3(startpoint.x, startpoint.y, origin.position.z),Quaternion.identity) as GameObject;
-			p.transform.parent = holder.transform;
 			
-			// linerenderer is an empty gameObject with Line Renderer Component Attach to it, 
-			// i made a prefab of it and attach it in the inspector
+            GameObject pointerblue = Instantiate(pointerBlue,endpoint,pointerBlue.transform.rotation) as GameObject; 
+			pointerblue.transform.parent = holder.transform;
+            pointerblue.name = "PointerBlue" + gd[dataCount].marbles.ToString();
+
 			GameObject lineObj = Instantiate(linerenderer,startpoint,Quaternion.identity) as GameObject;
 			lineObj.transform.parent = holder.transform;
-			lineObj.name = dataCount.ToString();
+			lineObj.name = "LineObj" + dataCount.ToString();
 			
 			LineRenderer lineRenderer = lineObj.GetComponent<LineRenderer>();
-			
 			lineRenderer.material = greenmat;
 			lineRenderer.SetWidth(lrWidth, lrWidth);
 			lineRenderer.SetVertexCount(2);
-            lineRenderer.transform.localPosition = origin.transform.localPosition;
+            lineRenderer.transform.localPosition = new Vector3(origin.transform.localPosition.x, origin.transform.localPosition.y, 0);
 
             /* Animation */
             /**
@@ -310,12 +298,7 @@ public class LineGraphManager : MonoBehaviour {
 
             lineRenderer.SetPosition(0, startpoint);
 			lineRenderer.SetPosition(1, endpoint);
-			
-			
-			p.transform.position = endpoint;
-			GameObject pointerblue = Instantiate(pointerBlue,endpoint,pointerBlue.transform.rotation) as GameObject; 
-			pointerblue.transform.parent = holder.transform;
-            pointerblue.name = gd[dataCount].marbles.ToString();
+				
             startpoint = endpoint;
 
 			if(dataGap > 1){
@@ -336,7 +319,7 @@ public class LineGraphManager : MonoBehaviour {
 			else
 				dataCount+=dataGap;
 
-			xIncrement+= gap;
+			xIncrement+= gap * incrementX;
 			
 			yield return null;
 			
