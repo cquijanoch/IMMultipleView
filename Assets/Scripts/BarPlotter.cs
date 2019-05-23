@@ -34,6 +34,7 @@ public class BarPlotter : MonoBehaviour
     void Start()
     {
         barList = CSVReader.Read(inputfile);
+        
         List<string> columnList = new List<string>(barList[1].Keys);
 
         xName = columnList[columnX];
@@ -43,17 +44,17 @@ public class BarPlotter : MonoBehaviour
         float dataMin = FindMinValue(yName);
 
         Transform subspace = transform.parent;
-
+        Quaternion localrotation = subspace.localRotation;
+        subspace.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
         float characterSize = (1f / (float)characterAxisLabelSize / 20f);
         if (characterSize > 0.1f)
-            characterSize = 0.1f;  // beyond 0.1, font gets too big
+            characterSize = 0.1f; 
 
         for (var i = 0; i < barList.Count; i++)
         {
             //Bar plot
             float height = (Convert.ToSingle(barList[i][yName]) - dataMin) * subspace.localScale.y/(dataMax - dataMin);
             float posX = 0.1f + subspace.localPosition.x - subspace.localScale.x/2f + i * 0.1f;
-            print(posX);
             GameObject bar = Instantiate(BarPrefab, new Vector3(posX, subspace.localPosition.y - subspace.localScale.y/2f + height/2f , subspace.localPosition.z), Quaternion.identity) as GameObject;
             Vector3 barScale = new Vector3(0.05f, height, 0.05f);
             bar.transform.localScale = barScale;
@@ -61,18 +62,15 @@ public class BarPlotter : MonoBehaviour
             string dataPointName = barList[i][xName] + "";
             bar.transform.name = dataPointName;
 
-            //AxisXlabel
             if (createAxisXLabel)
             {
                 GameObject newLabel = Instantiate(AxisXLabel, new Vector3(posX, subspace.localPosition.y - subspace.localScale.y / 2f, subspace.localPosition.z - 0.05f), Quaternion.Euler(0, 180, 0)) as GameObject;
-                //newLabel.transform.localScale = barScale;
                 newLabel.GetComponent<TextMesh>().text = "  " + barList[i][xName].ToString();
                 newLabel.GetComponent<TextMesh>().characterSize = characterSize;
                 newLabel.transform.Rotate(90f, 0, -90f);
                 newLabel.transform.SetParent(PointHolder.transform);
             }
             
-
         }
 
         //AxiYlabel
@@ -88,11 +86,12 @@ public class BarPlotter : MonoBehaviour
                 var YLabelValue = line;
                 YLineLabel.GetComponent<TextMesh>().text = YLabelValue.ToString("0,0");
                 YLineLabel.GetComponent<TextMesh>().characterSize = characterSize;
-                //YLine.transform.localScale = new Vector3(subspace.localScale.z, YLine.transform.localScale.y, YLine.transform.localScale.z);
                 YLine.transform.SetParent(PointHolder.transform);
                 YLineLabel.transform.SetParent(PointHolder.transform);
             }
         }
+        subspace.localRotation = localrotation;
+
     }
 
     private float FindMinValue(string columnName)

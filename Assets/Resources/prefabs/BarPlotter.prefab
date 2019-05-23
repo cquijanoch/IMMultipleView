@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4682711875730730083}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0.23975043, z: -0, w: 0.9708346}
   m_LocalPosition: {x: 2.87, y: 0, z: 3.9367998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -27.744001, z: 0}
 --- !u!114 &4682711875730730080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52,3 +52,10 @@ MonoBehaviour:
   BarPrefab: {fileID: 6224929412240574976, guid: cb69ea9f97d202c43b41c6065e12cc7a,
     type: 3}
   PointHolder: {fileID: 0}
+  createAxisXLabel: 0
+  AxisXLabel: {fileID: 0}
+  createAxisYLabel: 0
+  AxisYLabel: {fileID: 0}
+  AxisYLine: {fileID: 0}
+  characterAxisLabelSize: 6
+  numLinesAxisY: 10

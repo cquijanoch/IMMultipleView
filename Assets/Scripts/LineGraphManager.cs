@@ -45,8 +45,11 @@ public class LineGraphManager : MonoBehaviour {
 
     void Start()
     {
-        incrementX = transform.localScale.x * transform.parent.localScale.x;
-        incrementY = transform.localScale.y * transform.parent.localScale.y;
+        Transform subspace = transform.parent;
+        Quaternion localrotation = subspace.localRotation;
+        subspace.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        incrementX = transform.localScale.x * subspace.localScale.x;
+        incrementY = transform.localScale.y * subspace.localScale.y;
 
         for (int i = 0; i < numTotal; i++){
 			GraphData gd = new GraphData();
@@ -56,23 +59,19 @@ public class LineGraphManager : MonoBehaviour {
 			gd2.marbles = Random.Range(10,47);
 			graphDataPlayer2.Add(gd2);
 		}
-
-		// showing graph
 		ShowGraph();
+        subspace.localRotation = localrotation;
 	}
 
     public void ShowData(GraphData[] gdlist,int playerNum,float gap) {
 
 		// Adjusting value to fit in graph
 		for(int i = 0; i < gdlist.Length; i++)
-		{
 			gdlist[i].marbles = (gdlist[i].marbles/ highestValueY) * numStepY;
-		}
         if (playerNum == 1)
-            StartCoroutine(BarGraphRed(gdlist,gap));
+            BarGraphRed(gdlist,gap);
         else if (playerNum == 2)
-            StartCoroutine(BarGraphGreen(gdlist,gap));
-
+            BarGraphGreen(gdlist,gap);
     }
 
 	public void AddPlayer1Data(int numOfStones){
@@ -94,7 +93,7 @@ public class LineGraphManager : MonoBehaviour {
         {
 			holder = Instantiate(HolderPrefb,Vector3.zero,Quaternion.identity) as GameObject;
 			holder.name = "h2";
-            holder.transform.SetParent(transform);
+            holder.transform.SetParent(transform.parent);
 
             GraphData[] gd1 = new GraphData[graphDataPlayer1.Count];
 			GraphData[] gd2 = new GraphData[graphDataPlayer2.Count];
@@ -113,7 +112,6 @@ public class LineGraphManager : MonoBehaviour {
 
 			dataGap = GetDataGap(graphDataPlayer2.Count);
 
-
 			int dataCount = 0;
 			int gapLength = 1;
 			float gap = 1.0f;
@@ -121,19 +119,21 @@ public class LineGraphManager : MonoBehaviour {
 
 			while(dataCount < graphDataPlayer2.Count)
 			{
-				if (dataGap > 1){
-
-					if((dataCount+dataGap) == graphDataPlayer2.Count){
-
+				if (dataGap > 1)
+                {
+					if ((dataCount+dataGap) == graphDataPlayer2.Count)
+                    {
 						dataCount+=dataGap-1;
 						flag = true;
 					}
-					else if((dataCount+dataGap) > graphDataPlayer2.Count && !flag){
+					else if ((dataCount+dataGap) > graphDataPlayer2.Count && !flag)
+                    {
 
 						dataCount =	graphDataPlayer2.Count-1;
 						flag = true;
 					}
-					else{
+					else
+                    {
 						dataCount+=dataGap;
 						if(dataCount == (graphDataPlayer2.Count-1))
 							flag = true;
@@ -141,68 +141,64 @@ public class LineGraphManager : MonoBehaviour {
 				}
 				else
 					dataCount+=dataGap;
-
 				gapLength++;
 			}
 
 			if (graphDataPlayer2.Count > 13)
 			{
-				if(graphDataPlayer2.Count < Constants.MINIMAL_NUM_POINTS_FOR_STEP_1)
+				if (graphDataPlayer2.Count < Constants.MINIMAL_NUM_POINTS_FOR_STEP_1)
 					gap = 13.0f/graphDataPlayer2.Count;
 				else 
 					gap = 13.0f/gapLength;
 				
 			}
-
 			ShowData(gd1,1,gap);
 			ShowData(gd2,2,gap);
 		}
 	}
 
 	public void ClearGraph(){
-		if(holder)
+		if (holder)
 			Destroy(holder);
 	}
 
 	int GetDataGap(int dataCount){
 		int value = 1;
 		int num = 0;
-		while((dataCount-(Constants.MINIMAL_NUM_POINTS_FOR_STEP_1 + num)) >= 0){
+		while ((dataCount-(Constants.MINIMAL_NUM_POINTS_FOR_STEP_1 + num)) >= 0)
+        {
 			value+= 1;
 			num+= 20;
 		}
-		
 		return value;
 	}
 
 
-	IEnumerator BarGraphRed(GraphData[] gd,float gap)
+	void BarGraphRed(GraphData[] gd,float gap)
 	{
         float xIncrement = gap * incrementX;
         int dataCount = 0;
 		bool flag = false;
 		Vector3 startpoint = new Vector3((origin.position.x+xIncrement),origin.position.y+gd[dataCount].marbles * incrementY,origin.position.z);//origin.position;//
 
-
         while (dataCount < gd.Length)
 		{
-			
 			Vector3 endpoint = new Vector3((origin.position.x+xIncrement),origin.position.y+gd[dataCount].marbles * incrementY, origin.position.z);
 			startpoint = new Vector3(startpoint.x,startpoint.y,origin.position.z);
 
             /** Axis X Number **/
             GameObject lineNumber = Instantiate(xLineNumber, new Vector3(origin.position.x+xIncrement, origin.position.y-0.02f , origin.position.z),Quaternion.identity) as GameObject;
-			lineNumber.transform.parent = holder.transform;
+			lineNumber.transform.SetParent(holder.transform);
 			lineNumber.GetComponent<TextMesh>().text = (dataCount+1).ToString();
 
             /** Pointers **/
 			GameObject pointered = Instantiate(pointerRed,endpoint,pointerRed.transform.rotation) as GameObject ;
-			pointered.transform.parent = holder.transform;
+			pointered.transform.SetParent(holder.transform);
             pointered.name = "pointered " + gd[dataCount].marbles.ToString();
 
             /** LineRenderer between two lineObj**/
             GameObject lineObj = Instantiate(linerenderer, startpoint, Quaternion.identity) as GameObject;
-            lineObj.transform.parent = holder.transform;
+            lineObj.transform.SetParent(holder.transform);
             lineObj.name = "LineObj " + dataCount.ToString();
 
             LineRenderer lineRenderer = lineObj.GetComponent<LineRenderer>();
@@ -231,16 +227,20 @@ public class LineGraphManager : MonoBehaviour {
 
             startpoint = endpoint;
 
-			if(dataGap > 1){
-				if((dataCount+dataGap) == gd.Length){
+			if (dataGap > 1)
+            {
+				if((dataCount+dataGap) == gd.Length)
+                {
 					dataCount+=dataGap-1;
 					flag = true;
 				}
-				else if((dataCount+dataGap) > gd.Length && !flag){
+				else if ((dataCount+dataGap) > gd.Length && !flag)
+                {
 					dataCount =	gd.Length-1;
 					flag = true;
 				}
-				else{
+				else
+                {
 					dataCount+=dataGap;
 					if(dataCount == (gd.Length-1))
 						flag = true;
@@ -248,34 +248,28 @@ public class LineGraphManager : MonoBehaviour {
 			}
 			else
 				dataCount+=dataGap;
-
 			xIncrement+= gap * incrementX;
-			
-			yield return null;
-			
 		}
 	}
 
-	IEnumerator BarGraphGreen(GraphData[] gd, float gap)
+	void BarGraphGreen(GraphData[] gd, float gap)
 	{
-  
         float xIncrement = gap * incrementX;
 		int dataCount = 0;
 		bool flag = false;
 
 		Vector3 startpoint = new Vector3((origin.position.x+xIncrement),origin.position.y+gd[dataCount].marbles * incrementY, origin.position.z);
-		while(dataCount < gd.Length)
+		while (dataCount < gd.Length)
 		{
-			
 			Vector3 endpoint = new Vector3((origin.position.x+xIncrement),origin.position.y+gd[dataCount].marbles * incrementY, origin.position.z);
 			startpoint = new Vector3(startpoint.x,startpoint.y,origin.position.z);
 			
             GameObject pointerblue = Instantiate(pointerBlue,endpoint,pointerBlue.transform.rotation) as GameObject; 
-			pointerblue.transform.parent = holder.transform;
+			pointerblue.transform.SetParent(holder.transform);
             pointerblue.name = "PointerBlue" + gd[dataCount].marbles.ToString();
 
 			GameObject lineObj = Instantiate(linerenderer,startpoint,Quaternion.identity) as GameObject;
-			lineObj.transform.parent = holder.transform;
+			lineObj.transform.SetParent(holder.transform);
 			lineObj.name = "LineObj" + dataCount.ToString();
 			
 			LineRenderer lineRenderer = lineObj.GetComponent<LineRenderer>();
@@ -301,16 +295,20 @@ public class LineGraphManager : MonoBehaviour {
 				
             startpoint = endpoint;
 
-			if(dataGap > 1){
-				if((dataCount+dataGap) == gd.Length){
+			if (dataGap > 1)
+            {
+				if ((dataCount+dataGap) == gd.Length)
+                {
 					dataCount+=dataGap-1;
 					flag = true;
 				}
-				else if((dataCount+dataGap) > gd.Length && !flag){
+				else if ((dataCount+dataGap) > gd.Length && !flag)
+                {
 					dataCount =	gd.Length-1;
 					flag = true;
 				}
-				else{
+				else
+                {
 					dataCount+=dataGap;
 					if(dataCount == (gd.Length-1))
 						flag = true;
@@ -318,11 +316,7 @@ public class LineGraphManager : MonoBehaviour {
 			}
 			else
 				dataCount+=dataGap;
-
 			xIncrement+= gap * incrementX;
-			
-			yield return null;
-			
 		}
 	}
 
