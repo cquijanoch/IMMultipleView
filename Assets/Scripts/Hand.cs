@@ -75,19 +75,12 @@ public class Hand : MonoBehaviour
         {
             m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner.Remove(this);
             if (m_ContactInteractables[m_currentIndexSelected].m_numControllersInner == 1)
-            {
-
                 m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
-            }
             Drop();
             if (++m_currentIndexSelected == m_ContactInteractables.Count)
-            {
                 m_currentIndexSelected = 0;
-            }
             m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner.Add(this);
             m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
-            //if (m_isPressedPrimaryPickup)
-            //    Pickup();
             DetectTypeHand();
         }
 
@@ -98,6 +91,7 @@ public class Hand : MonoBehaviour
     {
         if (!other.gameObject.CompareTag("Interactable"))
             return;
+        print("OnTriggerEnter : " + other.gameObject.name);
         Interactable subspace = other.gameObject.GetComponent<Interactable>();
         m_ContactInteractables.Add(subspace);
         if (m_currentIndexSelected < 0)
@@ -114,14 +108,15 @@ public class Hand : MonoBehaviour
     {
         if (!other.gameObject.CompareTag("Interactable"))
             return;
+        print("OnTriggerExit : " + other.gameObject.name);
         Interactable subspace = other.gameObject.GetComponent<Interactable>();
         m_ContactInteractables.Remove(subspace);
         subspace.m_numControllersInner--;
         subspace.m_HandsActivedInner.Remove(this);
         if (subspace.m_numControllersInner == 0 || subspace.m_HandsActivedInner.Count == 0)
-        {
             other.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
-        }
+        if (subspace.m_modeScale && subspace.m_PrimaryHand && subspace.m_SecondaryHand)
+            StopScaleAndAutoDetectHand(subspace);
         if (m_currentIndexSelected + 1 > m_ContactInteractables.Count)
             m_currentIndexSelected--;
         if (m_ContactInteractables.Count > 0)
@@ -153,13 +148,9 @@ public class Hand : MonoBehaviour
             StopJoiningIteractable();
             m_CurrentInteractable.m_distanceInitialForScale = Vector3.Distance(m_CurrentInteractable.m_PrimaryHand.transform.position, transform.position);
             m_CurrentInteractable.m_modeScale = true;
-            //float dist = Vector3.Distance(m_CurrentInteractable.m_PrimaryHand.transform.position, transform.position);
-            //print(dist);
-
         }
         DetectTypeHand();
     }
-
 
     public void Drop()
     {
@@ -268,6 +259,15 @@ public class Hand : MonoBehaviour
                 h.m_TypeHand = Constants.HAND_SECONDARY_USE;
         }
 
+    }
+
+    private void StopScaleAndAutoDetectHand(Interactable subspace)
+    {
+        subspace.m_HandsActivedInner.Remove(this);
+        subspace.m_PrimaryHand.m_isPressedPrimaryPickup = false;
+        subspace.m_SecondaryHand.m_isPressedPrimaryPickup = false;
+        subspace.m_PrimaryHand = null;
+        subspace.m_SecondaryHand = null;
     }
 
 }
