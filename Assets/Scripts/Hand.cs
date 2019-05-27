@@ -1,273 +1,69 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR;
 
 public class Hand : MonoBehaviour
 {
-    public SteamVR_Action_Boolean m_GrabAction = null;
-    public SteamVR_Action_Boolean m_GripAction = null;
-
     private SteamVR_Behaviour_Pose m_Pose = null;
-    private FixedJoint m_Joint = null;
 
-    private Interactable m_CurrentInteractable = null;
-    public List<Interactable> m_ContactInteractables = new List<Interactable>();
-    private int m_currentIndexSelected = -1;
+    public bool showMenu = false;
+    private int modeTypeHand = Constants.INT_HAND_MODE_MACRO;
 
-    private bool m_isPressedPrimaryPickup = false;
-    private bool m_isPressedSecundaryPickup = false;
-    public int m_TypeHand = Constants.HAND_NONE_USE;
+    public GameObject menuCanvas;
 
-    private void Awake()
-    {
-        m_Pose = GetComponent<SteamVR_Behaviour_Pose>();
-        m_Joint = GetComponent<FixedJoint>();
-    }
+    private GameObject m_menuCanvas;
+    // private MacroHand m_typeMacroHand;
+    private MacroHand m_currentMacroHand;
+    //private MicroHand m_typeMicroHand;
+    private MicroHand m_currentMicroHand;
+
     void Start()
     {
-
+        m_Pose = GetComponent<SteamVR_Behaviour_Pose>();
+        m_currentMacroHand = GetComponent<MacroHand>();
+        m_currentMicroHand = GetComponent<MicroHand>();
+        ChangeModeTypeHand(modeTypeHand);
     }
 
+    // Update is called once per frame
     void Update()
     {
-
-        if (m_GrabAction.GetStateDown(m_Pose.inputSource))
+        if (SteamVR_Actions._default.TouchYbutton.GetStateDown(m_Pose.inputSource))
         {
-            print(m_Pose.inputSource + " Trigger Grab Down");
-            Pickup();
-        }
-
-        if (m_GrabAction.GetStateUp(m_Pose.inputSource))
-        {
-            print(m_Pose.inputSource + "Trigger Grab Up");
-            Drop();
-        }
-
-        if (m_ContactInteractables.Count > 1 && SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource))
-        {
-            print(m_Pose.inputSource + " Trigger Grip Down");
-            ChangeCurrentSelectionSpace();
-        }
-
-        if (m_CurrentInteractable && SteamVR_Actions._default.TouchXbutton.GetStateDown(m_Pose.inputSource) && m_ContactInteractables.Count > 1)
-        {
-            print(m_Pose.inputSource + "XButton Down");
-            SetTransformForSimilar();
-        }
-
-    }
-
-    private void SetTransformForSimilar()
-    {
-        Interactable target = m_currentIndexSelected + 1 == m_ContactInteractables.Count ? m_ContactInteractables[0] : m_ContactInteractables[m_currentIndexSelected + 1];
-        if (m_CurrentInteractable.DetectSimimilarTransform(target))
-        {
-            m_CurrentInteractable.SetTransformToObject(target);
-            Drop();
+            print(m_Pose.inputSource + "YButton Down");
+            ToogleMenuCanvas();
         }
     }
 
-
-    private void ChangeCurrentSelectionSpace()
+    public void ChangeModeTypeHand(int intHandMode)
     {
-        if (m_TypeHand == Constants.HAND_PRIMARY_USE)
+        if (intHandMode == Constants.INT_HAND_MODE_MACRO)
         {
-            m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner.Remove(this);
-            if (m_ContactInteractables[m_currentIndexSelected].m_numControllersInner == 1)
-                m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
-            Drop();
-            if (++m_currentIndexSelected == m_ContactInteractables.Count)
-                m_currentIndexSelected = 0;
-            m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner.Add(this);
-            m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
-            DetectTypeHand();
+            m_currentMicroHand.enabled = false;
+            m_currentMacroHand.enabled = true;
         }
 
-
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!other.gameObject.CompareTag("Interactable"))
-            return;
-        print("OnTriggerEnter : " + other.gameObject.name);
-        Interactable subspace = other.gameObject.GetComponent<Interactable>();
-        m_ContactInteractables.Add(subspace);
-        if (m_currentIndexSelected < 0)
-            m_currentIndexSelected = 0;
-        subspace.m_numControllersInner++;
-        m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
-        if (!m_isPressedPrimaryPickup)
-            subspace.m_HandsActivedInner.Add(this);
-        DetectTypeHand();
-
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (!other.gameObject.CompareTag("Interactable"))
-            return;
-        print("OnTriggerExit : " + other.gameObject.name);
-        Interactable subspace = other.gameObject.GetComponent<Interactable>();
-        m_ContactInteractables.Remove(subspace);
-        subspace.m_numControllersInner--;
-        subspace.m_HandsActivedInner.Remove(this);
-        if (subspace.m_numControllersInner == 0 || subspace.m_HandsActivedInner.Count == 0)
-            other.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
-        if (subspace.m_modeScale && subspace.m_PrimaryHand && subspace.m_SecondaryHand)
-            StopScaleAndAutoDetectHand(subspace);
-        if (m_currentIndexSelected + 1 > m_ContactInteractables.Count)
-            m_currentIndexSelected--;
-        if (m_ContactInteractables.Count > 0)
-            m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
-        DetectTypeHand();
-    }
-
-    public void Pickup()
-    {
-        if (m_currentIndexSelected < 0)
-            return;
-
-        m_CurrentInteractable = m_ContactInteractables[m_currentIndexSelected];
-        if (!m_CurrentInteractable)
-            return;
-        DetectTypeHand();
-        if (m_TypeHand == Constants.HAND_PRIMARY_USE)
+        if (intHandMode == Constants.INT_HAND_MODE_MICRO)
         {
-            Rigidbody targetBody = m_CurrentInteractable.GetComponent<Rigidbody>();
-            m_Joint.connectedBody = targetBody;
-            m_CurrentInteractable.m_PrimaryHand = this;
-            m_isPressedPrimaryPickup = true;
+            m_currentMacroHand.enabled = false;
+            m_currentMicroHand.enabled = true;
         }
-
-        if (m_TypeHand == Constants.HAND_SECONDARY_USE)
-        {
-            m_CurrentInteractable.m_SecondaryHand = this;
-            m_isPressedSecundaryPickup = true;
-            StopJoiningIteractable();
-            m_CurrentInteractable.m_distanceInitialForScale = Vector3.Distance(m_CurrentInteractable.m_PrimaryHand.transform.position, transform.position);
-            m_CurrentInteractable.m_modeScale = true;
-        }
-        DetectTypeHand();
     }
 
-    public void Drop()
+    private void ToogleMenuCanvas()
     {
-        if (!m_CurrentInteractable)
-            return;
-        if (m_TypeHand == Constants.HAND_PRIMARY_USE)
+        if (!showMenu && !m_menuCanvas)
         {
-            if (m_CurrentInteractable.m_PrimaryHand)
-            {
-                Rigidbody targetBody = m_CurrentInteractable.GetComponent<Rigidbody>();
-                targetBody.velocity = Vector3.zero;
-                targetBody.angularVelocity = Vector3.zero;
-                m_Joint.connectedBody = null;
-                m_CurrentInteractable.m_PrimaryHand = null;
-                m_CurrentInteractable = null;
-                m_isPressedPrimaryPickup = false;
-            }
+            m_menuCanvas = Instantiate(menuCanvas);
+            m_menuCanvas.transform.SetParent(transform);
+            showMenu = true;
         }
-        if (m_TypeHand == Constants.HAND_SECONDARY_USE)
+        else
         {
-            m_CurrentInteractable.ResetDistanceInitialForScale();
-            m_CurrentInteractable.m_SecondaryHand = null;
-            m_isPressedSecundaryPickup = false;
-            JoiningIteractable();
-            
+            Destroy(m_menuCanvas);
+            showMenu = false;
         }
-        DetectTypeHand();
-    }
-
-    private void StopJoiningIteractable()
-    {
-        Hand hp = GetPrimaryHandPressedFromInner();
-        if (!hp)
-            return;
-        if (!hp.m_CurrentInteractable)
-            return;
-        Rigidbody targetBody = hp.m_CurrentInteractable.GetComponent<Rigidbody>();
-        targetBody.velocity = Vector3.zero;
-        targetBody.angularVelocity = Vector3.zero;
-        hp.m_Joint.connectedBody = null;
-    }
-
-    private void JoiningIteractable()
-    {
-        Hand hp = GetPrimaryHandPressedFromInner();
-        if (!hp)
-            return;
-        if (!hp.m_CurrentInteractable)
-            return;
-        Rigidbody targetBody = hp.m_CurrentInteractable.GetComponent<Rigidbody>();
-        hp.m_Joint.connectedBody = targetBody;
-    }
-
-    private Hand GetPrimaryHandPressedFromInner()
-    {
-        foreach(Hand h in m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner)
-        {
-            if (h.m_TypeHand == Constants.HAND_PRIMARY_USE && h.m_isPressedPrimaryPickup)
-                return h;
-        }
-        return null;
-    }
-
-    private Interactable GetNearestInteractable()
-    {
-        Interactable nearest = null;
-        float minDistance = float.MaxValue;
-        float distance = 0.0f;
-
-        foreach (Interactable interactable in m_ContactInteractables)
-        {
-            distance = (interactable.transform.position - transform.position).sqrMagnitude;
-            if (distance < minDistance)
-            {
-                minDistance = distance;
-                nearest = interactable;
-            }
-        }
-        return nearest;
-    }
-
-    private void DetectTypeHand()
-    {
-        /* If not exists contact with interactables*/
-        if (m_ContactInteractables.Count == 0)
-        {
-            m_TypeHand = Constants.HAND_NONE_USE;
-            return;
-        }
-
-        /* If in the current interactable is not asigned primaryHand*/
-        if (!m_ContactInteractables[m_currentIndexSelected].m_PrimaryHand)
-        {
-            foreach (Hand h in m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner)
-                h.m_TypeHand = Constants.HAND_PRIMARY_USE;
-            return;
-        }
-
-        /*  RECALIBRATING HANDS INNER INTO INTERACTABLE     */
-
-        foreach (Hand h in m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner)
-        {
-            if (h.m_isPressedPrimaryPickup)
-                h.m_TypeHand = Constants.HAND_PRIMARY_USE;
-            else
-                h.m_TypeHand = Constants.HAND_SECONDARY_USE;
-        }
-
-    }
-
-    private void StopScaleAndAutoDetectHand(Interactable subspace)
-    {
-        subspace.m_HandsActivedInner.Remove(this);
-        subspace.m_PrimaryHand.m_isPressedPrimaryPickup = false;
-        subspace.m_SecondaryHand.m_isPressedPrimaryPickup = false;
-        subspace.m_PrimaryHand = null;
-        subspace.m_SecondaryHand = null;
+        
     }
 
 }

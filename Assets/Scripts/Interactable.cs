@@ -17,13 +17,13 @@ public class Interactable : MonoBehaviour
     public float m_distanceInitialForScale = 0f;
 
     [HideInInspector]
-    public Hand m_PrimaryHand = null;
+    public MacroHand m_PrimaryHand = null;
 
     [HideInInspector]
-    public Hand m_SecondaryHand = null;
+    public MacroHand m_SecondaryHand = null;
 
     [HideInInspector]
-    public HashSet<Hand> m_HandsActivedInner = new HashSet<Hand>();
+    public HashSet<MacroHand> m_HandsActivedInner = new HashSet<MacroHand>();
 
     public int m_numControllersInner = 0;
 
@@ -42,8 +42,7 @@ public class Interactable : MonoBehaviour
 
     public bool DetectSimimilarTransform(Interactable other)
     {
-        if (Vector3.Distance(transform.position, other.gameObject.transform.position) <= m_minPositionDistance) //&&
-                                                                                                                // Vector3.Distance(transform.rotation.eulerAngles, other.gameObject.transform.rotation.eulerAngles) < m_minRotationDistance)
+        if (Vector3.Distance(transform.position, other.gameObject.transform.position) <= m_minPositionDistance) //&&                                                                                                 // Vector3.Distance(transform.rotation.eulerAngles, other.gameObject.transform.rotation.eulerAngles) < m_minRotationDistance)
             return true;
         return false;
     }
@@ -73,11 +72,9 @@ public class Interactable : MonoBehaviour
                         angle = anglebtw;
                         result = diff;
                     }
-
                 }
             }
         }
-
         return result;
     }
 
