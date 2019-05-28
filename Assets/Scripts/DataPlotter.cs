@@ -62,13 +62,15 @@ public class DataPlotter : MonoBehaviour
             z += subspace.localPosition.z - scaleSubspace; //- midZ / (zMax - zMin);
 
             GameObject dataPoint = Instantiate(PointPrefab, new Vector3(x, y, z) * plotScale, Quaternion.identity);
-            dataPoint.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
             dataPoint.transform.SetParent(PointHolder.transform);
+            dataPoint.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
             string dataPointName = pointList[i][xName] + " " + pointList[i][yName] + " " + pointList[i][zName];
             dataPoint.transform.name = dataPointName;
             dataPoint.GetComponent<Renderer>().material.color = color;
         }
         subspace.localRotation = localrotation;
+
+        this.enabled = false;
     }
 
     private float FindMaxValue(string columnName)

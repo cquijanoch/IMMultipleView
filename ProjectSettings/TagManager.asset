@@ -6,9 +6,10 @@ TagManager:
   tags:
   - projectile
   - FxTemporaire
-  - Interactable
   - Plane
   - Controller
+  - pointer
+  - Subspace
   layers:
   - Default
   - TransparentFX

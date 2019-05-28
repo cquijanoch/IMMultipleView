@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5336905546399389927}
   m_Layer: 0
   m_Name: CubeScaterplot3D
-  m_TagString: Interactable
+  m_TagString: Subspace
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

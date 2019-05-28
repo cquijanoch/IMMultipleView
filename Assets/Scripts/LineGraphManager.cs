@@ -41,8 +41,6 @@ public class LineGraphManager : MonoBehaviour {
     private float incrementX = 1f;
     private float incrementY = 1f;
 
-
-
     void Start()
     {
         Transform subspace = transform.parent;
@@ -61,7 +59,9 @@ public class LineGraphManager : MonoBehaviour {
 		}
 		ShowGraph();
         subspace.localRotation = localrotation;
-	}
+        this.enabled = false;
+
+    }
 
     public void ShowData(GraphData[] gdlist,int playerNum,float gap) {
 

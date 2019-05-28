@@ -11,8 +11,8 @@ public class MacroHand : MonoBehaviour
     private SteamVR_Behaviour_Pose m_Pose = null;
     private FixedJoint m_Joint = null;
 
-    private Interactable m_CurrentInteractable = null;
-    public List<Interactable> m_ContactInteractables = new List<Interactable>();
+    private Subspace m_CurrentInteractable = null;
+    public List<Subspace> m_ContactInteractables = new List<Subspace>();
     private int m_currentIndexSelected = -1;
 
     private bool m_isPressedPrimaryPickup = false;
@@ -24,6 +24,10 @@ public class MacroHand : MonoBehaviour
 
     private float m_quantityTriggGripDown = float.MaxValue;
     private bool m_FlagToTriggGrip = false;
+
+    public GameObject dialogCommon;
+    private GameObject m_currentDialog;
+    private Subspace dataToDelete;
 
     private void Awake()
     {
@@ -68,10 +72,10 @@ public class MacroHand : MonoBehaviour
             return;
         }
 
-        if (m_ContactInteractables.Count == 1 && SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource) &&
+        if (m_ContactInteractables.Count < 2 && SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource) &&
             m_quantityTriggGripDown > Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER)
         {
-            print(m_Pose.inputSource + "Single Trigger Grip Down");
+            print(m_Pose.inputSource + " Single Trigger Grip Down");
             m_quantityTriggGripDown = 0;
             m_FlagToTriggGrip = true;
             return;
@@ -79,18 +83,27 @@ public class MacroHand : MonoBehaviour
 
         if (m_ContactInteractables.Count > 1 && SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource))
         {
-            print(m_Pose.inputSource + "Inner Trigger Grip Down");
+            print(m_Pose.inputSource + " Inner Trigger Grip Down");
             ChangeCurrentSelectionSpace();
             return;
         }
 
-        if (m_ContactInteractables.Count == 1 && SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource) &&
+        if (m_ContactInteractables.Count == 0 && m_currentDialog && SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource) &&
+            m_quantityTriggGripDown < Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER)
+        {
+            print(m_Pose.inputSource + " Double Trigger Grip Down No Subspaces");
+            Destroy(m_currentDialog);
+            m_FlagToTriggGrip = false;
+            m_quantityTriggGripDown = float.MaxValue;
+        }
+
+        if (m_ContactInteractables.Count == 1 && !m_currentDialog && SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource) &&
             m_quantityTriggGripDown < Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER)
         {
             print(m_Pose.inputSource + " Double Trigger Grip Down");
             m_FlagToTriggGrip = false;
             m_quantityTriggGripDown = float.MaxValue;
-            Delete();
+            PrepareToDelete();
             return;
         }
 
@@ -105,7 +118,7 @@ public class MacroHand : MonoBehaviour
 
     private void SetTransformForSimilar()
     {
-        Interactable target = m_currentIndexSelected + 1 == m_ContactInteractables.Count ? m_ContactInteractables[0] : m_ContactInteractables[m_currentIndexSelected + 1];
+        Subspace target = m_currentIndexSelected + 1 == m_ContactInteractables.Count ? m_ContactInteractables[0] : m_ContactInteractables[m_currentIndexSelected + 1];
         if (m_CurrentInteractable.DetectSimimilarTransform(target))
         {
             m_CurrentInteractable.SetTransformToObject(target);
@@ -134,10 +147,10 @@ public class MacroHand : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.gameObject.CompareTag("Interactable"))
+        if (!other.gameObject.CompareTag("Subspace"))
             return;
         print("OnTriggerEnter : " + other.gameObject.name);
-        Interactable subspace = other.gameObject.GetComponent<Interactable>();
+        Subspace subspace = other.gameObject.GetComponent<Subspace>();
         m_ContactInteractables.Add(subspace);
         if (m_currentIndexSelected < 0)
             m_currentIndexSelected = 0;
@@ -151,10 +164,10 @@ public class MacroHand : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.gameObject.CompareTag("Interactable"))
+        if (!other.gameObject.CompareTag("Subspace"))
             return;
         print("OnTriggerExit : " + other.gameObject.name);
-        Interactable subspace = other.gameObject.GetComponent<Interactable>();
+        Subspace subspace = other.gameObject.GetComponent<Subspace>();
         m_ContactInteractables.Remove(subspace);
         subspace.m_numControllersInner--;
         subspace.m_HandsActivedInner.Remove(this);
@@ -259,13 +272,13 @@ public class MacroHand : MonoBehaviour
         return null;
     }
 
-    private Interactable GetNearestInteractable()
+    private Subspace GetNearestInteractable()
     {
-        Interactable nearest = null;
+        Subspace nearest = null;
         float minDistance = float.MaxValue;
         float distance = 0.0f;
 
-        foreach (Interactable interactable in m_ContactInteractables)
+        foreach (Subspace interactable in m_ContactInteractables)
         {
             distance = (interactable.transform.position - transform.position).sqrMagnitude;
             if (distance < minDistance)
@@ -306,7 +319,7 @@ public class MacroHand : MonoBehaviour
 
     }
 
-    private void StopScaleAndAutoDetectHand(Interactable subspace)
+    private void StopScaleAndAutoDetectHand(Subspace subspace)
     {
         subspace.m_HandsActivedInner.Remove(this);
         subspace.m_PrimaryHand.m_isPressedPrimaryPickup = false;
@@ -322,16 +335,30 @@ public class MacroHand : MonoBehaviour
         Instantiate(m_ContactInteractables[m_currentIndexSelected].gameObject);
     }
 
-    private void Delete()
+    private void PrepareToDelete()
     {
         if (m_currentIndexSelected < 0 && !m_ContactInteractables[m_currentIndexSelected])
             return;
-        Interactable dataToDelete = m_ContactInteractables[m_currentIndexSelected];
+        dataToDelete = m_ContactInteractables[m_currentIndexSelected];
+        dataToDelete.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_PREPARE_TO_DELETE;
+        m_currentDialog = Instantiate(dialogCommon);
+        m_currentDialog.transform.SetParent(transform);
+    }
+
+    public void Delete(bool answer)
+    {
+        print("delete");
+        if (!answer && m_currentDialog)
+        {
+            Destroy(m_currentDialog);
+            return;
+        }
         m_ContactInteractables.Remove(dataToDelete);
         m_CurrentInteractable = null;
         Destroy(dataToDelete.gameObject);
         m_currentIndexSelected--;
         DetectTypeHand();
+        Destroy(m_currentDialog);
     }
 
 }

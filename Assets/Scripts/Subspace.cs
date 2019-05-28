@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Interactable : MonoBehaviour
+public class Subspace : MonoBehaviour
 {
     public float m_minPositionDistance = 0.5f;
     public float m_minRotationDistance = 300f;
@@ -30,7 +30,7 @@ public class Interactable : MonoBehaviour
     private void Start()
     {
         Physics.IgnoreCollision(GameObject.FindGameObjectWithTag("Plane").GetComponent<Collider>(), GetComponent<Collider>());
-        foreach (GameObject gm in GameObject.FindGameObjectsWithTag("Interactable"))
+        foreach (GameObject gm in GameObject.FindGameObjectsWithTag("Subspace"))
             Physics.IgnoreCollision(gm.GetComponent<Collider>(), GetComponent<Collider>());
     }
 
@@ -40,14 +40,14 @@ public class Interactable : MonoBehaviour
             ChangeScale();
     }
 
-    public bool DetectSimimilarTransform(Interactable other)
+    public bool DetectSimimilarTransform(Subspace other)
     {
         if (Vector3.Distance(transform.position, other.gameObject.transform.position) <= m_minPositionDistance) //&&                                                                                                 // Vector3.Distance(transform.rotation.eulerAngles, other.gameObject.transform.rotation.eulerAngles) < m_minRotationDistance)
             return true;
         return false;
     }
 
-    public void SetTransformToObject(Interactable obj)
+    public void SetTransformToObject(Subspace obj)
     {
         transform.position = obj.transform.position;
         transform.rotation *= GetShortestQuaternion(obj.transform);

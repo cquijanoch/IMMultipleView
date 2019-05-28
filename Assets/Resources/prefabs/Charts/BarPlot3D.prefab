@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5298600289853342311}
   m_Layer: 0
   m_Name: BarPlot3D
-  m_TagString: Interactable
+  m_TagString: Subspace
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
