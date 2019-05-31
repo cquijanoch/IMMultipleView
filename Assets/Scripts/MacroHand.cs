@@ -95,6 +95,14 @@ public class MacroHand : MonoBehaviour
             Destroy(m_currentDialog);
             m_FlagToTriggGrip = false;
             m_quantityTriggGripDown = float.MaxValue;
+            GetComponent<Hand>().ShowHand();
+            if (dataToDelete.m_numControllersInner == 0 || dataToDelete.m_HandsActivedInner.Count == 0)
+                dataToDelete.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
+            else
+                dataToDelete.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
+            dataToDelete.m_modePrepareToDelete = false;
+            dataToDelete = null;
+
         }
 
         if (m_ContactInteractables.Count == 1 && !m_currentDialog && SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource) &&
@@ -103,7 +111,7 @@ public class MacroHand : MonoBehaviour
             print(m_Pose.inputSource + " Double Trigger Grip Down");
             m_FlagToTriggGrip = false;
             m_quantityTriggGripDown = float.MaxValue;
-            PrepareToDelete();
+            EnableToDelete();
             return;
         }
 
@@ -155,14 +163,15 @@ public class MacroHand : MonoBehaviour
         if (m_currentIndexSelected < 0)
             m_currentIndexSelected = 0;
         subspace.m_numControllersInner++;
-        m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
+        if (!subspace.m_modePrepareToDelete)
+            m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
         if (!m_isPressedPrimaryPickup)
             subspace.m_HandsActivedInner.Add(this);
         DetectTypeHand();
 
     }
 
-    private void OnTriggerExit(Collider other)
+    public void OnTriggerExit(Collider other)
     {
         if (!other.gameObject.CompareTag("Subspace"))
             return;
@@ -171,7 +180,7 @@ public class MacroHand : MonoBehaviour
         m_ContactInteractables.Remove(subspace);
         subspace.m_numControllersInner--;
         subspace.m_HandsActivedInner.Remove(this);
-        if (subspace.m_numControllersInner == 0 || subspace.m_HandsActivedInner.Count == 0)
+        if (!subspace.m_modePrepareToDelete && (subspace.m_numControllersInner == 0 || subspace.m_HandsActivedInner.Count == 0))
             other.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
         if (subspace.m_modeScale && subspace.m_PrimaryHand && subspace.m_SecondaryHand)
             StopScaleAndAutoDetectHand(subspace);
@@ -330,35 +339,52 @@ public class MacroHand : MonoBehaviour
 
     private void Clone()
     {
-        if (m_currentIndexSelected < 0 && !m_ContactInteractables[m_currentIndexSelected])
+        if (m_currentIndexSelected < 0 || !m_ContactInteractables[m_currentIndexSelected])
             return;
-        Instantiate(m_ContactInteractables[m_currentIndexSelected].gameObject);
+        GameObject clone = Instantiate(m_ContactInteractables[m_currentIndexSelected].gameObject);
+        clone.GetComponent<Subspace>().m_numControllersInner = 0;
+        clone.GetComponent<Subspace>().m_modePrepareToDelete = false;
     }
 
-    private void PrepareToDelete()
+    private void EnableToDelete()
     {
         if (m_currentIndexSelected < 0 && !m_ContactInteractables[m_currentIndexSelected])
             return;
         dataToDelete = m_ContactInteractables[m_currentIndexSelected];
+        dataToDelete.m_modePrepareToDelete = true;
         dataToDelete.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_PREPARE_TO_DELETE;
+        GetComponent<Hand>().HideHand();
         m_currentDialog = Instantiate(dialogCommon);
         m_currentDialog.transform.SetParent(transform);
     }
 
     public void Delete(bool answer)
     {
-        print("delete");
         if (!answer && m_currentDialog)
         {
-            Destroy(m_currentDialog);
+            DisableToDelete();
             return;
         }
+        GetComponent<Valve.VR.InteractionSystem.Hand>().otherHand.GetComponent<MacroHand>().OnTriggerExit(dataToDelete.GetComponent<Collider>());
         m_ContactInteractables.Remove(dataToDelete);
         m_CurrentInteractable = null;
         Destroy(dataToDelete.gameObject);
         m_currentIndexSelected--;
         DetectTypeHand();
         Destroy(m_currentDialog);
+        GetComponent<Hand>().ShowHand();
+    }
+
+    private void DisableToDelete()
+    {
+        dataToDelete.m_modePrepareToDelete = false;
+        if (dataToDelete.m_numControllersInner == 0 || dataToDelete.m_HandsActivedInner.Count == 0)
+            dataToDelete.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
+        else
+            dataToDelete.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
+        dataToDelete = null;
+        Destroy(m_currentDialog);
+        GetComponent<Hand>().ShowHand();
     }
 
 }

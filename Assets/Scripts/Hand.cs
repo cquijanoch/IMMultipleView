@@ -66,4 +66,46 @@ public class Hand : MonoBehaviour
         
     }
 
+    public void HideFisicHand()
+    {
+        GetComponent<Valve.VR.InteractionSystem.Hand>().HideSkeleton();
+        GetComponent<Valve.VR.InteractionSystem.Hand>().HideGrabHint();
+    }
+
+    public void ShowFisicHand()
+    {
+        GetComponent<Valve.VR.InteractionSystem.Hand>().ShowSkeleton();
+        GetComponent<Valve.VR.InteractionSystem.Hand>().ShowGrabHint();
+    }
+
+    public void HideFisicController()
+    {
+        GetComponent<Valve.VR.InteractionSystem.Hand>().HideController();
+        GetComponent<Valve.VR.InteractionSystem.Hand>().HideGrabHint();
+    }
+
+    public void ShowFisicController()
+    {
+        GetComponent<Valve.VR.InteractionSystem.Hand>().ShowController();
+        GetComponent<Valve.VR.InteractionSystem.Hand>().ShowGrabHint();
+    }
+
+    public void HideHand()
+    {
+        //GetComponent<Valve.VR.InteractionSystem.Hand>().HideGrabHint();
+        GetComponent<Valve.VR.InteractionSystem.Hand>().HideController();
+        GetComponent<Valve.VR.InteractionSystem.Hand>().HideSkeleton();
+        GetComponent<Valve.VR.InteractionSystem.Hand>().enabled = false;
+    }
+
+    public void ShowHand()
+    {
+        GetComponent<Valve.VR.InteractionSystem.Hand>().enabled = true;
+        GetComponent<Valve.VR.InteractionSystem.Hand>().ShowController();
+        GetComponent<Valve.VR.InteractionSystem.Hand>().ShowSkeleton();
+
+        
+        //GetComponent<Valve.VR.InteractionSystem.Hand>().ShowGrabHint();
+    }
+
 }

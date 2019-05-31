@@ -30,19 +30,18 @@ public class InitDialogCanvas : MonoBehaviour
         print("entro");
     }**/
 
-    public bool onClickYesButton()
+    public void onClickYesButton()
     {
         print("Yes Button Clicked");
         Answer = true;
         transform.parent.GetComponent<MacroHand>().Delete(Answer);
-        return Answer;
     }
 
-    public bool onClickNoButton()
+    public void onClickNoButton()
     {
         print("No Button Clicked");
         Answer = false;
-        return Answer;
+        transform.parent.GetComponent<MacroHand>().Delete(Answer);
     }
 
 }
