@@ -263,6 +263,16 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 559782419}
+    - target: {fileID: 903098985108386607, guid: 787ca25852bb05a498de842afe9d1944,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 945036678277908653, guid: 787ca25852bb05a498de842afe9d1944,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 787ca25852bb05a498de842afe9d1944, type: 3}
 --- !u!1001 &299766417
@@ -1057,6 +1067,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3020931974140650110, guid: e1de3f3bfe40ca341ab2e656a0837646,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3020931974140650110, guid: e1de3f3bfe40ca341ab2e656a0837646,
+        type: 3}
+      propertyPath: useControllerHoverComponent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3020931974140650110, guid: e1de3f3bfe40ca341ab2e656a0837646,
+        type: 3}
+      propertyPath: useHoverSphere
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3020931974140650110, guid: e1de3f3bfe40ca341ab2e656a0837646,
+        type: 3}
+      propertyPath: hoverSphereRadius
+      value: 0.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1de3f3bfe40ca341ab2e656a0837646, type: 3}

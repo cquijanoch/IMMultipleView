@@ -92,17 +92,10 @@ public class MacroHand : MonoBehaviour
             m_quantityTriggGripDown < Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER)
         {
             print(m_Pose.inputSource + " Double Trigger Grip Down No Subspaces");
-            Destroy(m_currentDialog);
             m_FlagToTriggGrip = false;
             m_quantityTriggGripDown = float.MaxValue;
-            GetComponent<Hand>().ShowHand();
-            if (dataToDelete.m_numControllersInner == 0 || dataToDelete.m_HandsActivedInner.Count == 0)
-                dataToDelete.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
-            else
-                dataToDelete.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
-            dataToDelete.m_modePrepareToDelete = false;
-            dataToDelete = null;
-
+            DisableToDelete();
+            return;
         }
 
         if (m_ContactInteractables.Count == 1 && !m_currentDialog && SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource) &&
