@@ -108,4 +108,28 @@ public class Subspace : MonoBehaviour
         m_modeScale = false;
     }
 
+    public int CountHandsActivedInner()
+    {
+        int q = 0;
+        foreach(MacroHand mc in m_HandsActivedInner)
+        {
+            if (mc.enabled)
+                q++;
+        }
+        return q;
+    }
+
+    public void SetAutoColor()
+    {
+        if (m_numControllersInner == 0 || m_HandsActivedInner.Count == 0)
+        {
+            GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
+        }
+        else
+        {
+            GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
+        }
+
+    }
+
 }

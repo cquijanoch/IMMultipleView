@@ -15,8 +15,8 @@ public class MacroHand : MonoBehaviour
     public List<Subspace> m_ContactInteractables = new List<Subspace>();
     private int m_currentIndexSelected = -1;
 
-    private bool m_isPressedPrimaryPickup = false;
-    private bool m_isPressedSecundaryPickup = false;
+    public bool m_isPressedPrimaryPickup = false;
+    //private bool m_isPressedSecundaryPickup = false;
     public int m_TypeHand = Constants.HAND_NONE_USE;
 
     private float m_quantityTriggGrabDown = float.MaxValue;
@@ -156,7 +156,7 @@ public class MacroHand : MonoBehaviour
         if (m_currentIndexSelected < 0)
             m_currentIndexSelected = 0;
         subspace.m_numControllersInner++;
-        if (!subspace.m_modePrepareToDelete)
+        if (enabled && !subspace.m_modePrepareToDelete)
             m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
         if (!m_isPressedPrimaryPickup)
             subspace.m_HandsActivedInner.Add(this);
@@ -173,7 +173,7 @@ public class MacroHand : MonoBehaviour
         m_ContactInteractables.Remove(subspace);
         subspace.m_numControllersInner--;
         subspace.m_HandsActivedInner.Remove(this);
-        if (!subspace.m_modePrepareToDelete && (subspace.m_numControllersInner == 0 || subspace.m_HandsActivedInner.Count == 0))
+        if (enabled && !subspace.m_modePrepareToDelete && (subspace.CountHandsActivedInner() == 0))
             other.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
         if (subspace.m_modeScale && subspace.m_PrimaryHand && subspace.m_SecondaryHand)
             StopScaleAndAutoDetectHand(subspace);
@@ -204,7 +204,7 @@ public class MacroHand : MonoBehaviour
         if (m_TypeHand == Constants.HAND_SECONDARY_USE)
         {
             m_CurrentInteractable.m_SecondaryHand = this;
-            m_isPressedSecundaryPickup = true;
+            //m_isPressedSecundaryPickup = true;
             StopJoiningIteractable();
             m_CurrentInteractable.m_distanceInitialForScale = Vector3.Distance(m_CurrentInteractable.m_PrimaryHand.transform.position, transform.position);
             m_CurrentInteractable.m_modeScale = true;
@@ -233,7 +233,7 @@ public class MacroHand : MonoBehaviour
         {
             m_CurrentInteractable.ResetDistanceInitialForScale();
             m_CurrentInteractable.m_SecondaryHand = null;
-            m_isPressedSecundaryPickup = false;
+            //m_isPressedSecundaryPickup = false;
             JoiningIteractable();
             
         }
@@ -366,18 +366,42 @@ public class MacroHand : MonoBehaviour
         DetectTypeHand();
         Destroy(m_currentDialog);
         GetComponent<Hand>().ShowHand();
+
     }
 
     private void DisableToDelete()
     {
         dataToDelete.m_modePrepareToDelete = false;
-        if (dataToDelete.m_numControllersInner == 0 || dataToDelete.m_HandsActivedInner.Count == 0)
+        if (dataToDelete.CountHandsActivedInner() == 0)
             dataToDelete.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
         else
             dataToDelete.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
         dataToDelete = null;
         Destroy(m_currentDialog);
         GetComponent<Hand>().ShowHand();
+    }
+
+    public void SetEmptyColorSubspaces()
+    {
+        foreach (Subspace sub in m_ContactInteractables)
+        {
+            sub.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
+        }
+    }
+
+    public void SetAutoColorSubspaces()
+    {
+        foreach (Subspace sub in m_ContactInteractables)
+        {
+            sub.SetAutoColor();
+        }
+    }
+
+    public Subspace GetCurrentSubspace()
+    {
+        if (m_currentIndexSelected < 0)
+            return null;
+        return m_ContactInteractables[m_currentIndexSelected];
     }
 
 }

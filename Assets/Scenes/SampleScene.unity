@@ -1086,7 +1086,35 @@ PrefabInstance:
     - target: {fileID: 3020931974140650110, guid: e1de3f3bfe40ca341ab2e656a0837646,
         type: 3}
       propertyPath: hoverSphereRadius
-      value: 0.01
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3020931974140650110, guid: e1de3f3bfe40ca341ab2e656a0837646,
+        type: 3}
+      propertyPath: controllerHoverRadius
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3020931974140650110, guid: e1de3f3bfe40ca341ab2e656a0837646,
+        type: 3}
+      propertyPath: hoverUpdateInterval
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3020931974140699360, guid: e1de3f3bfe40ca341ab2e656a0837646,
+        type: 3}
+      propertyPath: hoverSphereRadius
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3020931974140699360, guid: e1de3f3bfe40ca341ab2e656a0837646,
+        type: 3}
+      propertyPath: controllerHoverRadius
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2034341037, guid: e1de3f3bfe40ca341ab2e656a0837646, type: 3}
+      propertyPath: m_Radius
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 2034357407, guid: e1de3f3bfe40ca341ab2e656a0837646, type: 3}
+      propertyPath: m_Radius
+      value: 0.05
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1de3f3bfe40ca341ab2e656a0837646, type: 3}

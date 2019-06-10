@@ -31,7 +31,7 @@ public class Hand : MonoBehaviour
         if (SteamVR_Actions._default.TouchYbutton.GetStateDown(m_Pose.inputSource))
         {
             print(m_Pose.inputSource + "YButton Down");
-            ToogleMenuCanvas();
+            ToogleModeHand();
         }
     }
 
@@ -66,6 +66,28 @@ public class Hand : MonoBehaviour
         
     }
 
+    private void ToogleModeHand()
+    {  
+        // Change MACRO to MICRO
+        if (modeTypeHand == Constants.INT_HAND_MODE_MACRO)
+        {
+            GetComponent<Valve.VR.InteractionSystem.Hand>().HideController(true);
+            if (m_currentMacroHand.GetCurrentSubspace() && m_currentMacroHand.GetCurrentSubspace().CountHandsActivedInner() == 1)//if isnt other macrohand inner
+                m_currentMacroHand.SetEmptyColorSubspaces();
+            m_currentMacroHand.enabled = false;
+            modeTypeHand = Constants.INT_HAND_MODE_MICRO;
+        }
+        //Change MICRO TO MACRO
+        else if (modeTypeHand == Constants.INT_HAND_MODE_MICRO)
+        {
+            GetComponent<Valve.VR.InteractionSystem.Hand>().ShowController(true);
+            m_currentMacroHand.SetAutoColorSubspaces();
+            m_currentMacroHand.enabled = true;
+            modeTypeHand = Constants.INT_HAND_MODE_MACRO;
+        }
+        
+    }
+
     public void HideFisicHand()
     {
         GetComponent<Valve.VR.InteractionSystem.Hand>().HideSkeleton();
@@ -96,6 +118,7 @@ public class Hand : MonoBehaviour
         GetComponent<Valve.VR.InteractionSystem.Hand>().HideController();
         GetComponent<Valve.VR.InteractionSystem.Hand>().HideSkeleton();
         GetComponent<Valve.VR.InteractionSystem.Hand>().enabled = false;
+        DisableBothMacroHand();
     }
 
     public void ShowHand()
@@ -103,9 +126,31 @@ public class Hand : MonoBehaviour
         GetComponent<Valve.VR.InteractionSystem.Hand>().enabled = true;
         GetComponent<Valve.VR.InteractionSystem.Hand>().ShowController();
         GetComponent<Valve.VR.InteractionSystem.Hand>().ShowSkeleton();
-
-        
+        EnableBothMacroHand();
         //GetComponent<Valve.VR.InteractionSystem.Hand>().ShowGrabHint();
     }
+
+    public void DisableBothMacroHand()
+    {
+        GetComponent<MacroHand>().enabled = false;
+        DisableOtherMacroHand();
+    }
+
+    public void DisableOtherMacroHand()
+    {
+        GetComponent<Valve.VR.InteractionSystem.Hand>().otherHand.GetComponent<MacroHand>().enabled = false;
+    }
+
+    public void EnableBothMacroHand()
+    {
+        GetComponent<MacroHand>().enabled = true;
+        EnableOtherMacroHand();
+    }
+
+    public void EnableOtherMacroHand()
+    {
+        GetComponent<Valve.VR.InteractionSystem.Hand>().otherHand.GetComponent<MacroHand>().enabled = true;
+    }
+
 
 }
