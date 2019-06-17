@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 2770818784088486474}
   - component: {fileID: 2753626361879802145}
   - component: {fileID: 6480551660243123144}
-  - component: {fileID: 1047969033978295802}
-  m_Layer: 0
+  - component: {fileID: 8213848307531514000}
+  m_Layer: 9
   m_Name: DataCube
-  m_TagString: Untagged
+  m_TagString: DataScatterplot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,8 +78,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &1047969033978295802
-SphereCollider:
+--- !u!65 &8213848307531514000
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -87,7 +87,7 @@ SphereCollider:
   m_GameObject: {fileID: 4920441736578095170}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.1
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}

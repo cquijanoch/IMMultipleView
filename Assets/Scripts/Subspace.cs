@@ -10,19 +10,15 @@ public class Subspace : MonoBehaviour
     public float m_minRotationDistance = 300f;
     public float m_minDiffAngleRotation = 15f;
 
-    [HideInInspector]
     public bool m_modeScale = false;
 
-    [HideInInspector]
     public float m_distanceInitialForScale = 0f;
 
-    [HideInInspector]
     public MacroHand m_PrimaryHand = null;
 
-    [HideInInspector]
     public MacroHand m_SecondaryHand = null;
 
-    [HideInInspector]
+    /** HashSet of MacroHands inner into subspace**/
     public HashSet<MacroHand> m_HandsActivedInner = new HashSet<MacroHand>();
 
     public int m_numControllersInner = 0;
@@ -32,8 +28,8 @@ public class Subspace : MonoBehaviour
     private void Start()
     {
         Physics.IgnoreCollision(GameObject.FindGameObjectWithTag("Plane").GetComponent<Collider>(), GetComponent<Collider>());
-        foreach (GameObject gm in GameObject.FindGameObjectsWithTag("Subspace"))
-            Physics.IgnoreCollision(gm.GetComponent<Collider>(), GetComponent<Collider>());
+        /**foreach (GameObject gm in GameObject.FindGameObjectsWithTag("Subspace"))
+            Physics.IgnoreCollision(gm.GetComponent<Collider>(), GetComponent<Collider>());**/
     }
 
     private void Update()
@@ -121,7 +117,7 @@ public class Subspace : MonoBehaviour
 
     public void SetAutoColor()
     {
-        if (m_numControllersInner == 0 || m_HandsActivedInner.Count == 0)
+        if (m_numControllersInner == 0 || GetNumberUsedHandsInner(true) == 0)
         {
             GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
         }
@@ -130,6 +126,17 @@ public class Subspace : MonoBehaviour
             GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
         }
 
+    }
+
+    public int GetNumberUsedHandsInner(bool isUsing = true)
+    {
+        int n = 0;
+        foreach (MacroHand mc in m_HandsActivedInner)
+        {
+            if (mc.enabled && mc.GetCurrentSubspace() == this)
+                n++;
+        }
+        return isUsing ? n : m_HandsActivedInner.Count - n;
     }
 
 }

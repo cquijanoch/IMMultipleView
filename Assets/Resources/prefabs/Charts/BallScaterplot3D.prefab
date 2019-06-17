@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2470488500404599848}
   - component: {fileID: 3527514511855779825}
   - component: {fileID: 3527514511855779824}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BallScaterplot3D
   m_TagString: Subspace
   m_Icon: {fileID: 0}
@@ -144,6 +144,7 @@ MonoBehaviour:
   m_PrimaryHand: {fileID: 0}
   m_SecondaryHand: {fileID: 0}
   m_numControllersInner: 0
+  m_modePrepareToDelete: 0
 --- !u!1001 &3527514510899401124
 PrefabInstance:
   m_ObjectHideFlags: 0

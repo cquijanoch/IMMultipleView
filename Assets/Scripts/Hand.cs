@@ -17,6 +17,8 @@ public class Hand : MonoBehaviour
     //private MicroHand m_typeMicroHand;
     private MicroHand m_currentMicroHand;
 
+    private bool lastEnableMacroHand;
+
     void Start()
     {
         m_Pose = GetComponent<SteamVR_Behaviour_Pose>();
@@ -28,11 +30,14 @@ public class Hand : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SteamVR_Actions._default.TouchYbutton.GetStateDown(m_Pose.inputSource))
+        if (!m_currentMacroHand.m_CurrentTakedSubspace && !m_currentMacroHand.dataToDelete
+            && SteamVR_Actions._default.TouchYbutton.GetStateDown(m_Pose.inputSource))
         {
             print(m_Pose.inputSource + "YButton Down");
             ToogleModeHand();
         }
+
+        print(GetComponent<Valve.VR.InteractionSystem.Hand>().hoveringInteractable);
     }
 
     public void ChangeModeTypeHand(int intHandMode)
@@ -72,8 +77,10 @@ public class Hand : MonoBehaviour
         if (modeTypeHand == Constants.INT_HAND_MODE_MACRO)
         {
             GetComponent<Valve.VR.InteractionSystem.Hand>().HideController(true);
-            if (m_currentMacroHand.GetCurrentSubspace() && m_currentMacroHand.GetCurrentSubspace().CountHandsActivedInner() == 1)//if isnt other macrohand inner
-                m_currentMacroHand.SetEmptyColorSubspaces();
+            if (m_currentMacroHand.GetCurrentSubspace() && m_currentMacroHand.GetCurrentSubspace().GetNumberUsedHandsInner() == 1)//if isnt other macrohand inner
+                m_currentMacroHand.SetEmptyColorCurrentSubspace();
+            //if (m_currentMacroHand.GetCurrentSubspace())
+            //    m_currentMacroHand.GetCurrentSubspace().m_HandsActivedInner.Remove(m_currentMacroHand);
             m_currentMacroHand.enabled = false;
             modeTypeHand = Constants.INT_HAND_MODE_MICRO;
         }
@@ -81,9 +88,12 @@ public class Hand : MonoBehaviour
         else if (modeTypeHand == Constants.INT_HAND_MODE_MICRO)
         {
             GetComponent<Valve.VR.InteractionSystem.Hand>().ShowController(true);
-            m_currentMacroHand.SetAutoColorSubspaces();
+            //if (m_currentMacroHand.GetCurrentSubspace())
+            //    m_currentMacroHand.GetCurrentSubspace().m_HandsActivedInner.Add(m_currentMacroHand);
+            
             m_currentMacroHand.enabled = true;
             modeTypeHand = Constants.INT_HAND_MODE_MACRO;
+            m_currentMacroHand.SetAutoColorSubspaces();
         }
         
     }
@@ -114,11 +124,12 @@ public class Hand : MonoBehaviour
 
     public void HideHand()
     {
-        //GetComponent<Valve.VR.InteractionSystem.Hand>().HideGrabHint();
         GetComponent<Valve.VR.InteractionSystem.Hand>().HideController();
         GetComponent<Valve.VR.InteractionSystem.Hand>().HideSkeleton();
         GetComponent<Valve.VR.InteractionSystem.Hand>().enabled = false;
-        DisableBothMacroHand();
+        lastEnableMacroHand = m_currentMacroHand.enabled;
+        m_currentMacroHand.enabled = false;
+        //DisableBothMacroHand();
     }
 
     public void ShowHand()
@@ -126,8 +137,8 @@ public class Hand : MonoBehaviour
         GetComponent<Valve.VR.InteractionSystem.Hand>().enabled = true;
         GetComponent<Valve.VR.InteractionSystem.Hand>().ShowController();
         GetComponent<Valve.VR.InteractionSystem.Hand>().ShowSkeleton();
-        EnableBothMacroHand();
-        //GetComponent<Valve.VR.InteractionSystem.Hand>().ShowGrabHint();
+        m_currentMacroHand.enabled = lastEnableMacroHand;
+        //EnableBothMacroHand();
     }
 
     public void DisableBothMacroHand()
@@ -152,5 +163,8 @@ public class Hand : MonoBehaviour
         GetComponent<Valve.VR.InteractionSystem.Hand>().otherHand.GetComponent<MacroHand>().enabled = true;
     }
 
-
+    public MacroHand GetOtherMacroHand()
+    {
+        return GetComponent<Valve.VR.InteractionSystem.Hand>().otherHand.GetComponent<MacroHand>();
+    }
 }

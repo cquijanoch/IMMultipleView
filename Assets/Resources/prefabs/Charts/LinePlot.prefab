@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6965025381409120180}
   - component: {fileID: 8220320973900422253}
   - component: {fileID: 8220320973900422252}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LinePlot
   m_TagString: Subspace
   m_Icon: {fileID: 0}
@@ -143,6 +143,7 @@ MonoBehaviour:
   m_PrimaryHand: {fileID: 0}
   m_SecondaryHand: {fileID: 0}
   m_numControllersInner: 0
+  m_modePrepareToDelete: 0
 --- !u!1001 &8220320972602336918
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -22,4 +22,8 @@ public class Constants
 
     /** Constants for Event Hand Macro **/
     public static float MINIMAL_TIME_PER_DOUBLE_TRIGGER = 0.5f;
+
+    /** Tags  **/
+    public static string TAG_SUBSBPACE = "Subspace";
+    public static string TAG_DATA_SCATTERPLOT = "DataScatterplot";
 }
