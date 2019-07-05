@@ -67,6 +67,9 @@ public class DataPlotter : MonoBehaviour
             string dataPointName = pointList[i][xName] + " " + pointList[i][yName] + " " + pointList[i][zName];
             dataPoint.transform.name = dataPointName;
             dataPoint.GetComponent<Renderer>().material.color = color;
+            dataPoint.GetComponent<Data>().Name_1 = x.ToString();
+            dataPoint.GetComponent<Data>().Name_2 = y.ToString();
+            dataPoint.GetComponent<Data>().Name_3 = z.ToString();
         }
         subspace.localRotation = localrotation;
 

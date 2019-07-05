@@ -32,7 +32,9 @@ public class MacroHand : MonoBehaviour
     public Subspace dataToDelete;
 
     private Hand m_myHand;
-    private MacroHand m_otherHand; 
+    private MacroHand m_otherHand;
+
+    public bool printEvents = false;
 
     private void Awake()
     {
@@ -55,7 +57,7 @@ public class MacroHand : MonoBehaviour
 
         if (m_GrabAction.GetStateDown(m_Pose.inputSource) && m_quantityTriggGrabDown > Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER)
         {
-            print(Time.deltaTime + " " + m_Pose.inputSource + " Trigger Grab Down");
+            if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " Trigger Grab Down");
             m_quantityTriggGrabDown = 0;
             m_FlagToTriggGrab = true;
             Pickup();
@@ -64,7 +66,7 @@ public class MacroHand : MonoBehaviour
 
         if (m_GrabAction.GetStateDown(m_Pose.inputSource) && m_quantityTriggGrabDown < Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER)
         {
-            print(Time.deltaTime + " " + m_Pose.inputSource + " Double Trigger Grab Down");
+            if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " Double Trigger Grab Down");
             m_FlagToTriggGrab = false;
             m_quantityTriggGrabDown = float.MaxValue;
             Clone();
@@ -73,7 +75,7 @@ public class MacroHand : MonoBehaviour
 
         if (m_GrabAction.GetStateUp(m_Pose.inputSource))
         {
-            print(Time.deltaTime + " " + m_Pose.inputSource + "Trigger Grab Up");
+            if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + "Trigger Grab Up");
             Drop();
             return;
         }
@@ -81,7 +83,7 @@ public class MacroHand : MonoBehaviour
         if (m_ContactInteractables.Count < 2 && SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource) &&
             m_quantityTriggGripDown > Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER)
         {
-            print(Time.deltaTime + " " + m_Pose.inputSource + " Single Trigger Grip Down");
+            if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " Single Trigger Grip Down");
             m_quantityTriggGripDown = 0;
             m_FlagToTriggGrip = true;
             return;
@@ -90,7 +92,7 @@ public class MacroHand : MonoBehaviour
         if (m_ContactInteractables.Count > 1 && SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource) &&
             !m_isPressedPrimaryPickup && !m_isPressedSecundaryPickup)
         {
-            print(Time.deltaTime + " " + m_Pose.inputSource + " Inner Trigger Grip Down");
+            if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " Inner Trigger Grip Down");
             ChangeCurrentSelectionSpace();
             return;
         }
@@ -98,7 +100,7 @@ public class MacroHand : MonoBehaviour
         if (m_ContactInteractables.Count == 0 && m_currentDialog && SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource) &&
             m_quantityTriggGripDown < Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER && !m_isPressedPrimaryPickup)
         {
-            print(Time.deltaTime + " " + m_Pose.inputSource + " Double Trigger Grip Down No Subspaces");
+            if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " Double Trigger Grip Down No Subspaces");
             m_FlagToTriggGrip = false;
             m_quantityTriggGripDown = float.MaxValue;
             DisableToDelete();
@@ -108,7 +110,7 @@ public class MacroHand : MonoBehaviour
         if (m_ContactInteractables.Count == 1 && !m_currentDialog && SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource) &&
             m_quantityTriggGripDown < Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER && !m_isPressedPrimaryPickup)
         {
-            print(Time.deltaTime + " " + m_Pose.inputSource + " Double Trigger Grip Down");
+            if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " Double Trigger Grip Down");
             m_FlagToTriggGrip = false;
             m_quantityTriggGripDown = float.MaxValue;
             EnableToDelete();
@@ -117,7 +119,7 @@ public class MacroHand : MonoBehaviour
 
         if (m_CurrentTakedSubspace && SteamVR_Actions._default.TouchXbutton.GetStateDown(m_Pose.inputSource) && m_ContactInteractables.Count > 1)
         {
-            print(Time.deltaTime + " " + m_Pose.inputSource + "XButton Down");
+            if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + "XButton Down");
             SetTransformForSimilar();
             return;
         }
@@ -156,7 +158,7 @@ public class MacroHand : MonoBehaviour
     {
         if (!other.gameObject.CompareTag("Subspace"))
             return;
-        print(Time.deltaTime + " " + "OnTriggerEnter : " + other.gameObject.name);
+        if (printEvents) print(Time.deltaTime + " " + "OnTriggerEnter : " + other.gameObject.name);
         Subspace subspace = other.gameObject.GetComponent<Subspace>();
         m_ContactInteractables.Add(subspace);
         if (m_currentIndexSelected < 0)
@@ -176,7 +178,7 @@ public class MacroHand : MonoBehaviour
     {
         if (!other.gameObject.CompareTag("Subspace"))
             return;
-        print(Time.deltaTime + " " + "OnTriggerExit : " + other.gameObject.name);
+        if (printEvents) print(Time.deltaTime + " " + "OnTriggerExit : " + other.gameObject.name);
         Subspace subspace = other.gameObject.GetComponent<Subspace>();
         m_ContactInteractables.Remove(subspace);
         subspace.m_numControllersInner--;

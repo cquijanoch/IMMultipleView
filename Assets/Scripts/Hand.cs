@@ -37,7 +37,7 @@ public class Hand : MonoBehaviour
             ToogleModeHand();
         }
 
-        print(GetComponent<Valve.VR.InteractionSystem.Hand>().hoveringInteractable);
+        //print(GetComponent<Valve.VR.InteractionSystem.Hand>().hoveringInteractable);
     }
 
     public void ChangeModeTypeHand(int intHandMode)
