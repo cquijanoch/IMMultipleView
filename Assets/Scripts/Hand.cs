@@ -81,8 +81,9 @@ public class Hand : MonoBehaviour
                 m_currentMacroHand.SetEmptyColorCurrentSubspace();
             //if (m_currentMacroHand.GetCurrentSubspace())
             //    m_currentMacroHand.GetCurrentSubspace().m_HandsActivedInner.Remove(m_currentMacroHand);
-            m_currentMacroHand.enabled = false;
+            GetComponent<Collider>().enabled = false;
             modeTypeHand = Constants.INT_HAND_MODE_MICRO;
+            GetComponent<Valve.VR.InteractionSystem.Hand>().useFingerJointHover = true;
         }
         //Change MICRO TO MACRO
         else if (modeTypeHand == Constants.INT_HAND_MODE_MICRO)
@@ -90,12 +91,12 @@ public class Hand : MonoBehaviour
             GetComponent<Valve.VR.InteractionSystem.Hand>().ShowController(true);
             //if (m_currentMacroHand.GetCurrentSubspace())
             //    m_currentMacroHand.GetCurrentSubspace().m_HandsActivedInner.Add(m_currentMacroHand);
-            
-            m_currentMacroHand.enabled = true;
+            GetComponent<Collider>().enabled = true;
             modeTypeHand = Constants.INT_HAND_MODE_MACRO;
             m_currentMacroHand.SetAutoColorSubspaces();
+            GetComponent<Valve.VR.InteractionSystem.Hand>().useFingerJointHover = false;
         }
-        
+        ChangeModeTypeHand(modeTypeHand);
     }
 
     public void HideFisicHand()
@@ -166,5 +167,12 @@ public class Hand : MonoBehaviour
     public MacroHand GetOtherMacroHand()
     {
         return GetComponent<Valve.VR.InteractionSystem.Hand>().otherHand.GetComponent<MacroHand>();
+    }
+
+    public Data getDataFromIndex()
+    {
+        if (GetComponent<Valve.VR.InteractionSystem.Hand>().hoveringInteractable)
+            return GetComponent<Valve.VR.InteractionSystem.Hand>().hoveringInteractable.GetComponent<Data>();
+        return null;
     }
 }

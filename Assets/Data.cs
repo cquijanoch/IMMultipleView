@@ -1,5 +1,7 @@
 ﻿
-public class Data
+using UnityEngine;
+
+public class Data : MonoBehaviour
 {
     private string name_1;
     private string name_2;
