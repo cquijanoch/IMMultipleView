@@ -70,6 +70,7 @@ public class DataPlotter : MonoBehaviour
             dataPoint.GetComponent<Data>().Name_1 = x.ToString();
             dataPoint.GetComponent<Data>().Name_2 = y.ToString();
             dataPoint.GetComponent<Data>().Name_3 = z.ToString();
+            dataPoint.GetComponent<Data>().CustomColor = color;
         }
         subspace.localRotation = localrotation;
 

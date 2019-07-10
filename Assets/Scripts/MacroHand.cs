@@ -36,6 +36,8 @@ public class MacroHand : MonoBehaviour
 
     public bool printEvents = false;
 
+    private bool m_custonStatusFingerOtherHand = false;
+
     private void Awake()
     {
         m_Pose = GetComponent<SteamVR_Behaviour_Pose>();
@@ -430,6 +432,8 @@ public class MacroHand : MonoBehaviour
         m_myHand.HideHand();
         m_currentDialog = Instantiate(dialogCommon);
         m_currentDialog.transform.SetParent(transform);
+        m_custonStatusFingerOtherHand = m_otherHand.GetComponent<Hand>().getStatusFingerHand();
+        m_otherHand.GetComponent<Hand>().ActivateFingerHand();
     }
 
     /**
@@ -450,6 +454,8 @@ public class MacroHand : MonoBehaviour
         DetectTypeHand();
         Destroy(m_currentDialog);
         m_myHand.ShowHand();
+        if (!m_custonStatusFingerOtherHand)
+            m_otherHand.GetComponent<Hand>().DesactivateFingerHand();
 
     }
 
@@ -467,6 +473,8 @@ public class MacroHand : MonoBehaviour
         else
             dataToDelete.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
         dataToDelete = null;
+        if (!m_custonStatusFingerOtherHand)
+            m_otherHand.GetComponent<Hand>().DesactivateFingerHand();
     }
 
     /**

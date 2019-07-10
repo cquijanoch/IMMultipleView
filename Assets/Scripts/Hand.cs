@@ -81,8 +81,9 @@ public class Hand : MonoBehaviour
                 m_currentMacroHand.SetEmptyColorCurrentSubspace();
             //if (m_currentMacroHand.GetCurrentSubspace())
             //    m_currentMacroHand.GetCurrentSubspace().m_HandsActivedInner.Remove(m_currentMacroHand);
-            GetComponent<Collider>().enabled = false;
+            //GetComponent<Collider>().enabled = false;
             modeTypeHand = Constants.INT_HAND_MODE_MICRO;
+            ChangeModeTypeHand(modeTypeHand);
             GetComponent<Valve.VR.InteractionSystem.Hand>().useFingerJointHover = true;
         }
         //Change MICRO TO MACRO
@@ -91,12 +92,14 @@ public class Hand : MonoBehaviour
             GetComponent<Valve.VR.InteractionSystem.Hand>().ShowController(true);
             //if (m_currentMacroHand.GetCurrentSubspace())
             //    m_currentMacroHand.GetCurrentSubspace().m_HandsActivedInner.Add(m_currentMacroHand);
-            GetComponent<Collider>().enabled = true;
+            //GetComponent<Collider>().enabled = true;
             modeTypeHand = Constants.INT_HAND_MODE_MACRO;
+            ChangeModeTypeHand(modeTypeHand);
             m_currentMacroHand.SetAutoColorSubspaces();
             GetComponent<Valve.VR.InteractionSystem.Hand>().useFingerJointHover = false;
+            m_currentMicroHand.CleanDescriptionDialog();
         }
-        ChangeModeTypeHand(modeTypeHand);
+        
     }
 
     public void HideFisicHand()
@@ -174,5 +177,19 @@ public class Hand : MonoBehaviour
         if (GetComponent<Valve.VR.InteractionSystem.Hand>().hoveringInteractable)
             return GetComponent<Valve.VR.InteractionSystem.Hand>().hoveringInteractable.GetComponent<Data>();
         return null;
+    }
+
+    public bool getStatusFingerHand()
+    {
+        return GetComponent<Valve.VR.InteractionSystem.Hand>().useFingerJointHover;
+    }
+    public void ActivateFingerHand()
+    {
+        GetComponent<Valve.VR.InteractionSystem.Hand>().useFingerJointHover = true;
+    }
+
+    public void DesactivateFingerHand()
+    {
+        GetComponent<Valve.VR.InteractionSystem.Hand>().useFingerJointHover = false;
     }
 }

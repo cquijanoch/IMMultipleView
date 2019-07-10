@@ -8,6 +8,7 @@ public class Data : MonoBehaviour
     private string name_3;
     private string name_4;
     public bool is_selected = false;
+    private Color customColor;
 
     public string Name_1
     {
@@ -55,5 +56,32 @@ public class Data : MonoBehaviour
         {
             name_4 = value;
         }
+    }
+
+    public Color CustomColor
+    {
+        get
+        {
+            return customColor;
+        }
+        set
+        {
+            customColor = value;
+        }
+    }
+
+    public bool ToogleSelectData()
+    {
+        if (!is_selected)
+        {
+            GetComponent<Renderer>().material.color = Constants.COLOR_DATA_OBJECT_SELECTED;
+            is_selected = true;
+        }
+        else
+        {
+            GetComponent<Renderer>().material.color = customColor;
+            is_selected = false;
+        }
+        return is_selected;
     }
 }
