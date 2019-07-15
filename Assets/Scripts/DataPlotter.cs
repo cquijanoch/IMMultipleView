@@ -10,29 +10,40 @@ public class DataPlotter : MonoBehaviour
 
     private List<Dictionary<string, object>> pointList;
 
-    public int columnX = 0;
-    public int columnY = 1;
-    public int columnZ = 2;
+    public int columnID = 0;
+    public int columnX = 1;
+    public int columnY = 2;
+    public int columnZ = 3;
+    public int columnParents = 4;
 
+    public string idName;
     public string xName;
     public string yName;
     public string zName;
+    public string parentsName;
 
     public float plotScale = 1;
 
     public GameObject PointPrefab;
     public GameObject PointHolder;
+    public GameObject interactions;
 
     public Color color;
 
+    private Interaction m_interactionsCoordinated = null;
+
     void Start()
     {
+        if (interactions)
+            m_interactionsCoordinated = interactions.GetComponent<Interaction>();
         pointList = CSVReader.Read(inputfile);
         List<string> columnList = new List<string>(pointList[1].Keys);
 
+        idName = columnList[columnID];
         xName = columnList[columnX];
         yName = columnList[columnY];
         zName = columnList[columnZ];
+        parentsName = columnList[columnParents];
         
         float xMax = FindMaxValue(xName);
         float yMax = FindMaxValue(yName);
@@ -64,13 +75,27 @@ public class DataPlotter : MonoBehaviour
             GameObject dataPoint = Instantiate(PointPrefab, new Vector3(x, y, z) * plotScale, Quaternion.identity);
             dataPoint.transform.SetParent(PointHolder.transform);
             dataPoint.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
-            string dataPointName = pointList[i][xName] + " " + pointList[i][yName] + " " + pointList[i][zName];
+            string dataPointName = pointList[i][idName].ToString();
             dataPoint.transform.name = dataPointName;
             dataPoint.GetComponent<Renderer>().material.color = color;
+            dataPoint.GetComponent<Data>().Id = System.Convert.ToInt32(pointList[i][idName]);
             dataPoint.GetComponent<Data>().Name_1 = x.ToString();
             dataPoint.GetComponent<Data>().Name_2 = y.ToString();
             dataPoint.GetComponent<Data>().Name_3 = z.ToString();
             dataPoint.GetComponent<Data>().CustomColor = color;
+            dataPoint.GetComponent<Data>().m_currentSubpace = subspace.GetComponent<Subspace>();
+            if (m_interactionsCoordinated)
+            {
+                string parent_list = pointList[i][parentsName].ToString();
+                if (parent_list.Length > 0)
+                {
+                    foreach(string parent in parent_list.Split('-'))
+                    {
+                        m_interactionsCoordinated.InsertData(dataPointName, parent);
+                    }
+                }
+                
+            }
         }
         subspace.localRotation = localrotation;
 

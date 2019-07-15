@@ -3,12 +3,32 @@ using UnityEngine;
 
 public class Data : MonoBehaviour
 {
+    private int id;
     private string name_1;
     private string name_2;
     private string name_3;
     private string name_4;
     public bool is_selected = false;
-    private Color customColor;
+    public Color customColor;
+    public Subspace m_currentSubpace;
+    private Material m_material;
+
+    private void Start()
+    {
+        m_material = GetComponent<Renderer>().material;
+    }
+
+    public int Id
+    {
+        get
+        {
+            return id;
+        }
+        set
+        {
+            id = value;
+        }
+    }
 
     public string Name_1
     {
@@ -72,16 +92,43 @@ public class Data : MonoBehaviour
 
     public bool ToogleSelectData()
     {
+        Material newMaterial = new Material(m_material);
         if (!is_selected)
         {
-            GetComponent<Renderer>().material.color = Constants.COLOR_DATA_OBJECT_SELECTED;
+            newMaterial.color = Constants.COLOR_DATA_OBJECT_SELECTED;
+            gameObject.GetComponent<Renderer>().material = newMaterial;
             is_selected = true;
+            m_currentSubpace.selectedData.Add(this);
         }
         else
         {
-            GetComponent<Renderer>().material.color = customColor;
+            newMaterial.color = customColor;
+            gameObject.GetComponent<Renderer>().material = newMaterial;
             is_selected = false;
+            m_currentSubpace.selectedData.Remove(this);
         }
         return is_selected;
     }
+
+    public bool ChangeSelectData(bool state)
+    {
+        if (state == is_selected) return is_selected;
+        Material newMaterial = new Material(m_material);
+        if (state)
+        {
+            newMaterial.color = Constants.COLOR_DATA_OBJECT_SELECTED;
+            gameObject.GetComponent<Renderer>().material = newMaterial;
+            is_selected = true;
+            m_currentSubpace.selectedData.Add(this);
+        }
+        else
+        {
+            newMaterial.color = customColor;
+            gameObject.GetComponent<Renderer>().material = newMaterial;
+            is_selected = false;
+            m_currentSubpace.selectedData.Remove(this);
+        }
+        return is_selected;
+    }
+
 }

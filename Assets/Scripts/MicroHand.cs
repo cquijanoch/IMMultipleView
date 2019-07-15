@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 using Valve.VR;
 
@@ -7,7 +8,6 @@ public class MicroHand : MonoBehaviour
 {
     // Start is called before the first frame update
     private SteamVR_Behaviour_Pose m_Pose = null;
-    public List<Data> selectedData;
     private Data m_currentDataSelect = null;
     public bool printEvents = false;
     private Hand m_myHand;
@@ -16,6 +16,9 @@ public class MicroHand : MonoBehaviour
     public float m_numberPushDataObject = float.MaxValue;
     private bool m_FlagToPushDataObject = false;
     public Data m_previousData = null;
+    public bool m_stateSelect = true;
+    public GameObject interactions;
+    private Interaction m_interactionsCoordinated = null;
 
     //private bool m_IsInnerDataObject = false;
     //private bool m_changeDataObject = false;
@@ -27,6 +30,8 @@ public class MicroHand : MonoBehaviour
     void Start()
     {
         m_myHand = GetComponent<Hand>();
+        if (interactions)
+            m_interactionsCoordinated = interactions.GetComponent<Interaction>();
     }
 
     // Update is called once per frame
@@ -44,6 +49,9 @@ public class MicroHand : MonoBehaviour
                 m_currentDataSelect = m_myHand.getDataFromIndex();
                 m_currentDialog = Instantiate(descriptionDialog);
                 m_currentDialog.transform.SetParent(m_currentDataSelect.transform);
+                m_currentDialog.GetComponentsInChildren<Text>()[0].text = m_currentDataSelect.m_currentSubpace.name;
+                m_currentDialog.GetComponentsInChildren<Text>()[1].text = m_currentDataSelect.GetInstanceID().ToString();
+                m_currentDialog.GetComponentsInChildren<Text>()[2].text = m_currentDataSelect.GetComponent<Renderer>().GetInstanceID().ToString();
                 return;
             }
 
@@ -54,14 +62,18 @@ public class MicroHand : MonoBehaviour
                 m_currentDataSelect = m_myHand.getDataFromIndex();
                 m_currentDialog = Instantiate(descriptionDialog);
                 m_currentDialog.transform.SetParent(m_currentDataSelect.transform);
+                m_currentDialog.GetComponentsInChildren<Text>()[0].text = m_currentDataSelect.m_currentSubpace.name;
+                m_currentDialog.GetComponentsInChildren<Text>()[1].text = m_currentDataSelect.GetInstanceID().ToString() ;
+                m_currentDialog.GetComponentsInChildren<Text>()[2].text = m_currentDataSelect.GetComponent<Renderer>().GetInstanceID().ToString();
                 return;
             }
 
-            if (m_numberPushDataObject > Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER)
+            if (m_numberPushDataObject > Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER && m_stateSelect)
             {
                 if (printEvents) print(Time.deltaTime + " Single push Data Object");
                 m_numberPushDataObject = 0;
                 m_previousData = null;
+                m_stateSelect = false;
                 return;
             }
 
@@ -69,10 +81,8 @@ public class MicroHand : MonoBehaviour
             {
                 if (printEvents) print(Time.deltaTime + " Double push Data Object");
                 m_numberPushDataObject = float.MaxValue;
-                if (m_currentDataSelect.ToogleSelectData())
-                    selectedData.Add(m_currentDataSelect);
-                else
-                    selectedData.Remove(m_currentDataSelect);
+                m_interactionsCoordinated.ToogleDataParents(m_currentDataSelect);
+                m_stateSelect = false;
                 return;
             }
         }
@@ -82,8 +92,10 @@ public class MicroHand : MonoBehaviour
             {
                 m_previousData = m_currentDataSelect;
                 Destroy(m_currentDialog);
+                if (!m_stateSelect) m_stateSelect = true;
             }
             m_currentDataSelect = null;
+            
         }
 
     }
@@ -101,6 +113,8 @@ public class MicroHand : MonoBehaviour
             Destroy(m_currentDialog);
         m_currentDataSelect = null;
     }
+
+
 
    
 }
