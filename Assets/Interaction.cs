@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class Interaction : MonoBehaviour
 {
-    private Dictionary<string, List<string>> m_parents;
+    private Dictionary<string, List<string>> m_parents = new Dictionary<string, List<string>>();
     // Start is called before the first frame update
-    void Start()
-    {
-        m_parents = new Dictionary<string, List<string>>();
-    }
 
     public bool InsertData(string data, string parent)
     {
@@ -31,6 +27,7 @@ public class Interaction : MonoBehaviour
     public bool ToogleDataParents(Data data)
     {
         bool state = data.ToogleSelectData();
+        if (!enabled) return state; 
         if (m_parents.ContainsKey(data.Id.ToString()))
         { 
             foreach (string d in m_parents[data.Id.ToString()])
@@ -40,4 +37,5 @@ public class Interaction : MonoBehaviour
         }
         return state;
     }
+
 }

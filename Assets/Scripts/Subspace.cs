@@ -22,10 +22,10 @@ public class Subspace : MonoBehaviour
     public HashSet<MacroHand> m_HandsActivedInner = new HashSet<MacroHand>();
 
     public int m_numControllersInner = 0;
-
     public bool m_modePrepareToDelete = false;
 
     public List<Data> selectedData;
+    public List<string> subspacesChild;
 
     private void Start()
     {
@@ -38,6 +38,14 @@ public class Subspace : MonoBehaviour
     {
         if (m_modeScale)
             ChangeScale();
+
+        if (subspacesChild.Count > 0 && m_PrimaryHand)
+        {
+            foreach (string s in subspacesChild)
+            {
+                GameObject.Find(s).transform.rotation = transform.rotation;
+            }
+        }
     }
 
     public bool DetectSimimilarTransform(Subspace other)

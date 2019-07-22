@@ -9,11 +9,20 @@ public class BarPlotter : MonoBehaviour
 
     private List<Dictionary<string, object>> barList;
 
-    public int columnX = 0;
-    public int columnY = 1;
-
-    public string xName;
-    public string yName;
+    public int columID = 0;
+    public int columnX = 1;
+    public int columnY = 2;
+    public int colorR = 3;
+    public int colorG = 4;
+    public int colorB = 5;
+    public int columnParents = 6;
+    private string idName;
+    private string xName;
+    private string yName;
+    private string parentsName;
+    private string colorRName;
+    private string colorGName;
+    private string colorBName;
     public float plotScale = 1;
 
     public GameObject BarPrefab;
@@ -25,16 +34,27 @@ public class BarPlotter : MonoBehaviour
     public bool createAxisYLabel = false;
     public GameObject AxisYLabel;
     public GameObject AxisYLine;
-    public float characterAxisLabelSize = 6f;
+    public float characterAxisLabelSize = 4f;
+    public float characterYLabelSize = 0.8f;
     public int numLinesAxisY = 10;
+    public int factorLineY = 1;
+
+    public GameObject interactions;
+    private Interaction m_interactionsCoordinated = null;
 
     void Start()
     {
+        if (interactions)
+            m_interactionsCoordinated = interactions.GetComponent<Interaction>();
         barList = CSVReader.Read(inputfile);
         List<string> columnList = new List<string>(barList[1].Keys);
-
+        idName = columnList[columID];
         xName = columnList[columnX];
         yName = columnList[columnY];
+        parentsName = columnList[columnParents];
+        colorRName = columnList[colorR];
+        colorGName = columnList[colorG];
+        colorBName = columnList[colorB];
 
         float dataMax = FindMaxValue(yName);
         float dataMin = FindMinValue(yName);
@@ -43,8 +63,8 @@ public class BarPlotter : MonoBehaviour
         Quaternion localrotation = subspace.localRotation;
         subspace.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
         float characterSize = (1f / (float)characterAxisLabelSize/20f);
-        if (characterSize > 0.1f)
-            characterSize = 0.1f; 
+        if (characterSize > 0.8f)
+            characterSize = 0.8f; 
 
         for (var i = 0; i < barList.Count; i++)
         {
@@ -53,16 +73,36 @@ public class BarPlotter : MonoBehaviour
             bar.transform.SetParent(PointHolder.transform);
 
             float height = (Convert.ToSingle(barList[i][yName]) - dataMin) / (dataMax - dataMin);
-            float posX = 0.1f + subspace.localPosition.x - subspace.localScale.x /2f + i * 0.1f;
+            float posX = 0.05f + subspace.localPosition.x - subspace.localScale.x /2f + i * 0.05f;
             float relativeHeight = height * subspace.localScale.y;
 
             bar.transform.SetPositionAndRotation(new Vector3(posX, subspace.localPosition.y - (subspace.localScale.y - relativeHeight) /2f, subspace.localPosition.z), Quaternion.identity);
 
-            Vector3 barScale = new Vector3(0.05f, height, 0.05f);
+            Vector3 barScale = new Vector3(0.04f, height, 0.04f);
             bar.transform.localScale = barScale;
-            string dataPointName = barList[i][xName] + "";
+            string dataPointName = barList[i][idName] + "";
             bar.transform.name = dataPointName;
-            
+            float color_R = System.Convert.ToSingle(barList[i][colorRName]) / 255f;
+            float color_G = System.Convert.ToSingle(barList[i][colorGName]) / 255f;
+            float color_B = System.Convert.ToSingle(barList[i][colorBName]) / 255f;
+            bar.GetComponent<Renderer>().material.color = new Color(color_R, color_G, color_B);
+            bar.GetComponent<Data>().Id = System.Convert.ToInt32(barList[i][idName]);
+            bar.GetComponent<Data>().Name_1 = barList[i][xName].ToString();
+            bar.GetComponent<Data>().Name_2 = barList[i][yName].ToString();
+            bar.GetComponent<Data>().CustomColor = new Color(color_R, color_G, color_B);
+            bar.GetComponent<Data>().m_currentSubpace = subspace.GetComponent<Subspace>();
+            if (m_interactionsCoordinated)
+            {
+                string parent_list = barList[i][parentsName].ToString();
+                if (parent_list.Length > 0)
+                {
+                    foreach (string parent in parent_list.Split('-'))
+                    {
+                        m_interactionsCoordinated.InsertData(dataPointName, parent);
+                    }
+                }
+            }
+
             if (createAxisXLabel)
             {
                 GameObject newLabel = Instantiate(AxisXLabel, new Vector3(posX, subspace.localPosition.y - subspace.localScale.y / 2f, subspace.localPosition.z - 0.05f), Quaternion.Euler(0, 180, 0)) as GameObject;
@@ -88,9 +128,9 @@ public class BarPlotter : MonoBehaviour
                 
                 GameObject YLineLabel = Instantiate(AxisYLabel, new Vector3(subspace.localPosition.x - subspace.localScale.x / 2f, posInitY +  YLineSeparation * line, subspace.localPosition.z), Quaternion.Euler(0, -90, 0)) as GameObject;
                 
-                var YLabelValue = line;
+                var YLabelValue = line * factorLineY;
                 YLineLabel.GetComponent<TextMesh>().text = YLabelValue.ToString("0,0");
-                YLineLabel.GetComponent<TextMesh>().characterSize = characterSize;
+                YLineLabel.GetComponent<TextMesh>().characterSize = characterYLabelSize;
                 YLine.transform.SetParent(PointHolder.transform);
                 YLineLabel.transform.SetParent(PointHolder.transform);
             }

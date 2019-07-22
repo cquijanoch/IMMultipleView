@@ -696,6 +696,16 @@ PrefabInstance:
       propertyPath: interactions
       value: 
       objectReference: {fileID: 70404051}
+    - target: {fileID: 5336905546399389927, guid: bf823b218400c204bbfd60e205dd916e,
+        type: 3}
+      propertyPath: subspacesChild.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5336905546399389927, guid: bf823b218400c204bbfd60e205dd916e,
+        type: 3}
+      propertyPath: subspacesChild.Array.data[0]
+      value: CubeScaterplot3D (1)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf823b218400c204bbfd60e205dd916e, type: 3}
 --- !u!1001 &786743193
@@ -1270,7 +1280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2034341037, guid: e1de3f3bfe40ca341ab2e656a0837646, type: 3}
       propertyPath: m_Radius
-      value: 0.08
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 2034341037, guid: e1de3f3bfe40ca341ab2e656a0837646, type: 3}
       propertyPath: m_Center.x
@@ -1286,7 +1296,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2034357407, guid: e1de3f3bfe40ca341ab2e656a0837646, type: 3}
       propertyPath: m_Radius
-      value: 0.08
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 2034357407, guid: e1de3f3bfe40ca341ab2e656a0837646, type: 3}
       propertyPath: m_Center.x

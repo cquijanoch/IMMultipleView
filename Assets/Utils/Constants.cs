@@ -9,8 +9,8 @@ public class Constants
     public static int HAND_SECONDARY_USE = 2;
 
     /** Color for subspace  **/
-    public static Color SPACE_COLOR_WITH_CONTROLLER = new Color(0.6666527f, 0.6581524f, 0.1f, 0.15f);
-    public static Color SPACE_COLOR_WITHOUT_CONTROLLER = new Color(0.6666527f, 0.6581524f, 0.9622641f, 0.15f);
+    public static Color SPACE_COLOR_WITH_CONTROLLER = new Color(1f, 1f, 0.02f, 0.1f);
+    public static Color SPACE_COLOR_WITHOUT_CONTROLLER = new Color(1f, 1f, 1f, 0f);
     public static Color SPACE_COLOR_PREPARE_TO_DELETE = new Color(1f, 0.7019f, 0.7019f, 0.15f);
     public static int MINIMAL_NUM_POINTS_FOR_STEP_1 = 40;
 

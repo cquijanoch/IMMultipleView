@@ -102,9 +102,10 @@ public class MicroHand : MonoBehaviour
 
     private bool isDataObject()
     {
-        if (!m_myHand.getDataFromIndex() || !m_myHand.getDataFromIndex().gameObject.CompareTag("DataScatterplot"))
-            return false;
-        return true;
+        if (m_myHand.getDataFromIndex() && (m_myHand.getDataFromIndex().gameObject.CompareTag("DataScatterplot")
+            || m_myHand.getDataFromIndex().gameObject.CompareTag("DataBarchart")))
+            return true;
+        return false;
     }
 
     public void CleanDescriptionDialog()

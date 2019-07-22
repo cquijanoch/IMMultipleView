@@ -14,21 +14,25 @@ public class DataPlotter : MonoBehaviour
     public int columnX = 1;
     public int columnY = 2;
     public int columnZ = 3;
-    public int columnParents = 4;
+    public int colorR = 4;
+    public int colorG = 5;
+    public int colorB = 6;
+    public int columnParents = 7;
 
-    public string idName;
-    public string xName;
-    public string yName;
-    public string zName;
-    public string parentsName;
+    private string idName;
+    private string xName;
+    private string yName;
+    private string zName;
+    private string parentsName;
+    private string colorRName;
+    private string colorGName;
+    private string colorBName;
 
     public float plotScale = 1;
 
     public GameObject PointPrefab;
     public GameObject PointHolder;
     public GameObject interactions;
-
-    public Color color;
 
     private Interaction m_interactionsCoordinated = null;
 
@@ -44,7 +48,10 @@ public class DataPlotter : MonoBehaviour
         yName = columnList[columnY];
         zName = columnList[columnZ];
         parentsName = columnList[columnParents];
-        
+        colorRName = columnList[colorR];
+        colorGName = columnList[colorG];
+        colorBName = columnList[colorB];
+
         float xMax = FindMaxValue(xName);
         float yMax = FindMaxValue(yName);
         float zMax = FindMaxValue(zName);
@@ -77,12 +84,15 @@ public class DataPlotter : MonoBehaviour
             dataPoint.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
             string dataPointName = pointList[i][idName].ToString();
             dataPoint.transform.name = dataPointName;
-            dataPoint.GetComponent<Renderer>().material.color = color;
+            float color_R = System.Convert.ToSingle(pointList[i][colorRName]) / 255f;
+            float color_G = System.Convert.ToSingle(pointList[i][colorGName]) / 255f;
+            float color_B = System.Convert.ToSingle(pointList[i][colorBName]) / 255f;
+            dataPoint.GetComponent<Renderer>().material.color = new Color(color_R, color_G, color_B);
             dataPoint.GetComponent<Data>().Id = System.Convert.ToInt32(pointList[i][idName]);
             dataPoint.GetComponent<Data>().Name_1 = x.ToString();
             dataPoint.GetComponent<Data>().Name_2 = y.ToString();
             dataPoint.GetComponent<Data>().Name_3 = z.ToString();
-            dataPoint.GetComponent<Data>().CustomColor = color;
+            dataPoint.GetComponent<Data>().CustomColor = new Color(color_R, color_G, color_B);
             dataPoint.GetComponent<Data>().m_currentSubpace = subspace.GetComponent<Subspace>();
             if (m_interactionsCoordinated)
             {
