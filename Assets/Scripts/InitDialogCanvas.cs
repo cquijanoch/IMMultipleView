@@ -12,23 +12,13 @@ public class InitDialogCanvas : MonoBehaviour
         Head = GameObject.FindGameObjectWithTag("MainCamera");
         if (transform.parent)
             transform.position = transform.parent.position;
-
         Answer = false;
-
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         transform.rotation = Quaternion.LookRotation(transform.position - Head.transform.position);
     }
-
-    /**private void OnTriggerEnter(Collider other)
-    {
-        if (!other.gameObject.CompareTag("Controller"))
-            return;
-        print("entro");
-    }**/
 
     public void onClickYesButton()
     {
@@ -43,5 +33,4 @@ public class InitDialogCanvas : MonoBehaviour
         Answer = false;
         transform.parent.GetComponent<MacroHand>().Delete(Answer);
     }
-
 }

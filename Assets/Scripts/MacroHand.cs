@@ -56,6 +56,12 @@ public class MacroHand : MonoBehaviour
 
         if (m_FlagToTriggGrip && m_quantityTriggGripDown < float.MaxValue)
             m_quantityTriggGripDown += Time.deltaTime;
+        /**
+        if (m_CurrentTakedSubspace && m_TypeHand == Constants.HAND_SECONDARY_USE && m_isPressedSecundaryPickup)
+        {
+
+            return;
+        }**/
 
         if (m_GrabAction.GetStateDown(m_Pose.inputSource) && m_quantityTriggGrabDown > Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER)
         {
@@ -414,7 +420,8 @@ public class MacroHand : MonoBehaviour
         if (m_TypeHand != Constants.HAND_PRIMARY_USE || m_currentIndexSelected < 0 || !m_ContactInteractables[m_currentIndexSelected] ||
             m_CurrentTakedSubspace)
             return;
-        GameObject clone = Instantiate(m_ContactInteractables[m_currentIndexSelected].gameObject);
+        GameObject clone = Instantiate(m_ContactInteractables[m_currentIndexSelected].gameObject,
+            m_ContactInteractables[m_currentIndexSelected].transform.position + new Vector3(0.2f,0,0), m_ContactInteractables[m_currentIndexSelected].transform.rotation);
         clone.GetComponent<Subspace>().m_numControllersInner = 0;
         clone.GetComponent<Subspace>().m_modePrepareToDelete = false;
     }

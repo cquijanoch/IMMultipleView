@@ -48,7 +48,8 @@ public class MicroHand : MonoBehaviour
             {
                 m_currentDataSelect = m_myHand.getDataFromIndex();
                 m_currentDialog = Instantiate(descriptionDialog);
-                m_currentDialog.transform.SetParent(m_currentDataSelect.transform);
+                m_currentDialog.GetComponent<InitDescriptionCanvas>().SetGameObjectToFollow(m_currentDataSelect.transform);
+                //m_currentDialog.transform.SetParent(m_currentDataSelect.transform);
                 m_currentDialog.GetComponentsInChildren<Text>()[0].text = m_currentDataSelect.m_currentSubpace.name;
                 m_currentDialog.GetComponentsInChildren<Text>()[1].text = m_currentDataSelect.GetInstanceID().ToString();
                 m_currentDialog.GetComponentsInChildren<Text>()[2].text = m_currentDataSelect.GetComponent<Renderer>().GetInstanceID().ToString();
@@ -61,7 +62,8 @@ public class MicroHand : MonoBehaviour
                 m_previousData = m_currentDataSelect;
                 m_currentDataSelect = m_myHand.getDataFromIndex();
                 m_currentDialog = Instantiate(descriptionDialog);
-                m_currentDialog.transform.SetParent(m_currentDataSelect.transform);
+                //m_currentDialog.transform.SetParent(m_currentDataSelect.transform);
+                m_currentDialog.GetComponent<InitDescriptionCanvas>().SetGameObjectToFollow(m_currentDataSelect.transform);
                 m_currentDialog.GetComponentsInChildren<Text>()[0].text = m_currentDataSelect.m_currentSubpace.name;
                 m_currentDialog.GetComponentsInChildren<Text>()[1].text = m_currentDataSelect.GetInstanceID().ToString() ;
                 m_currentDialog.GetComponentsInChildren<Text>()[2].text = m_currentDataSelect.GetComponent<Renderer>().GetInstanceID().ToString();

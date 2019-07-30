@@ -44,13 +44,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputfile: iris
+  columnID: 0
   columnX: 0
   columnY: 1
   columnZ: 2
-  xName: 
-  yName: 
-  zName: 
+  colorR: 4
+  colorG: 5
+  colorB: 6
+  columnParents: 7
   plotScale: 1
   PointPrefab: {fileID: 7937718932825554916, guid: 19190738887c64449bcb82fbe6de8fcf,
     type: 3}
   PointHolder: {fileID: 0}
+  interactions: {fileID: 0}
+  material_data: {fileID: 2100000, guid: 52c7083f9c7382344affb14206fe0de0, type: 2}

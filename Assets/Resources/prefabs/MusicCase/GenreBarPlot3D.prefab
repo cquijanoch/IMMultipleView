@@ -289,6 +289,11 @@ PrefabInstance:
       propertyPath: AxisYLine
       value: 
       objectReference: {fileID: 131658, guid: e1947a58e38a77d4a91993f893cead2b, type: 3}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: material_data
+      value: 
+      objectReference: {fileID: 2100000, guid: 52c7083f9c7382344affb14206fe0de0, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f06276a1e141b743a144d5ffc59df00, type: 3}
 --- !u!4 &4818739091113085387 stripped

@@ -39,8 +39,12 @@ public class BarPlotter : MonoBehaviour
     public int numLinesAxisY = 10;
     public int factorLineY = 1;
 
+    public float factorWidthBar = 0.04f;
+
     public GameObject interactions;
     private Interaction m_interactionsCoordinated = null;
+
+    public Material material_data;
 
     void Start()
     {
@@ -57,7 +61,7 @@ public class BarPlotter : MonoBehaviour
         colorBName = columnList[colorB];
 
         float dataMax = FindMaxValue(yName);
-        float dataMin = FindMinValue(yName);
+        float dataMin = FindMinValue(yName) - 1;
 
         Transform subspace = transform.parent;
         Quaternion localrotation = subspace.localRotation;
@@ -78,18 +82,20 @@ public class BarPlotter : MonoBehaviour
 
             bar.transform.SetPositionAndRotation(new Vector3(posX, subspace.localPosition.y - (subspace.localScale.y - relativeHeight) /2f, subspace.localPosition.z), Quaternion.identity);
 
-            Vector3 barScale = new Vector3(0.04f, height, 0.04f);
+            Vector3 barScale = new Vector3(factorWidthBar, height, 0.04f);
             bar.transform.localScale = barScale;
             string dataPointName = barList[i][idName] + "";
             bar.transform.name = dataPointName;
             float color_R = System.Convert.ToSingle(barList[i][colorRName]) / 255f;
             float color_G = System.Convert.ToSingle(barList[i][colorGName]) / 255f;
             float color_B = System.Convert.ToSingle(barList[i][colorBName]) / 255f;
-            bar.GetComponent<Renderer>().material.color = new Color(color_R, color_G, color_B);
+            material_data.color = new Color(color_R, color_G, color_B, Constants.TRANSPARENCY_DATA);
+            bar.GetComponent<Renderer>().material = new Material(material_data);
             bar.GetComponent<Data>().Id = System.Convert.ToInt32(barList[i][idName]);
             bar.GetComponent<Data>().Name_1 = barList[i][xName].ToString();
             bar.GetComponent<Data>().Name_2 = barList[i][yName].ToString();
-            bar.GetComponent<Data>().CustomColor = new Color(color_R, color_G, color_B);
+            
+            bar.GetComponent<Data>().CustomColor = new Color(color_R, color_G, color_B, Constants.TRANSPARENCY_DATA);
             bar.GetComponent<Data>().m_currentSubpace = subspace.GetComponent<Subspace>();
             if (m_interactionsCoordinated)
             {

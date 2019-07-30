@@ -29,4 +29,6 @@ public class Constants
 
     /** Color DataObject    **/
     public static Color COLOR_DATA_OBJECT_SELECTED = Color.green;
+    public static float TRANSPARENCY_DATA = 0.9f;
+
 }

@@ -145,6 +145,8 @@ MonoBehaviour:
   m_SecondaryHand: {fileID: 0}
   m_numControllersInner: 0
   m_modePrepareToDelete: 0
+  selectedData: []
+  subspacesChild: []
 --- !u!1001 &3527514510899401124
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -298,6 +300,11 @@ PrefabInstance:
       propertyPath: PointHolder
       value: 
       objectReference: {fileID: 8005918705875786866}
+    - target: {fileID: 9153940334410059348, guid: b4b59560fc1eed449bae4c88ded1dba2,
+        type: 3}
+      propertyPath: material_data
+      value: 
+      objectReference: {fileID: 2100000, guid: 52c7083f9c7382344affb14206fe0de0, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4b59560fc1eed449bae4c88ded1dba2, type: 3}
 --- !u!4 &5763881837281235281 stripped

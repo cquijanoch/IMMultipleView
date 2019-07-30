@@ -34,6 +34,8 @@ public class DataPlotter : MonoBehaviour
     public GameObject PointHolder;
     public GameObject interactions;
 
+    public Material material_data;
+
     private Interaction m_interactionsCoordinated = null;
 
     void Start()
@@ -87,12 +89,13 @@ public class DataPlotter : MonoBehaviour
             float color_R = System.Convert.ToSingle(pointList[i][colorRName]) / 255f;
             float color_G = System.Convert.ToSingle(pointList[i][colorGName]) / 255f;
             float color_B = System.Convert.ToSingle(pointList[i][colorBName]) / 255f;
-            dataPoint.GetComponent<Renderer>().material.color = new Color(color_R, color_G, color_B);
+            material_data.color = new Color(color_R, color_G, color_B, Constants.TRANSPARENCY_DATA);
+            dataPoint.GetComponent<Renderer>().material = new Material(material_data);
             dataPoint.GetComponent<Data>().Id = System.Convert.ToInt32(pointList[i][idName]);
             dataPoint.GetComponent<Data>().Name_1 = x.ToString();
             dataPoint.GetComponent<Data>().Name_2 = y.ToString();
             dataPoint.GetComponent<Data>().Name_3 = z.ToString();
-            dataPoint.GetComponent<Data>().CustomColor = new Color(color_R, color_G, color_B);
+            dataPoint.GetComponent<Data>().CustomColor = new Color(color_R, color_G, color_B, Constants.TRANSPARENCY_DATA);
             dataPoint.GetComponent<Data>().m_currentSubpace = subspace.GetComponent<Subspace>();
             if (m_interactionsCoordinated)
             {
