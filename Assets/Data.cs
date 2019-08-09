@@ -3,10 +3,15 @@ using UnityEngine;
 
 public class Data : MonoBehaviour
 {
+    [SerializeField]
     private int id;
+    [SerializeField]
     private string name_1;
+    [SerializeField]
     private string name_2;
+    [SerializeField]
     private string name_3;
+    [SerializeField]
     private string name_4;
     public bool is_selected = false;
     public Color customColor;
@@ -95,7 +100,7 @@ public class Data : MonoBehaviour
         Material newMaterial = new Material(m_material);
         if (!is_selected)
         {
-            newMaterial.color = Constants.COLOR_DATA_OBJECT_SELECTED;
+            newMaterial.color = new Color(newMaterial.color.r, newMaterial.color.g, newMaterial.color.b, 1f);//Constants.COLOR_DATA_OBJECT_SELECTED;
             gameObject.GetComponent<Renderer>().material = newMaterial;
             is_selected = true;
             m_currentSubpace.selectedData.Add(this);
@@ -110,13 +115,13 @@ public class Data : MonoBehaviour
         return is_selected;
     }
 
-    public bool ChangeSelectData(bool state)
+    public bool ChangeSelectData(bool state, Color color)
     {
         if (state == is_selected) return is_selected;
         Material newMaterial = new Material(m_material);
         if (state)
         {
-            newMaterial.color = Constants.COLOR_DATA_OBJECT_SELECTED;
+            newMaterial.color = new Color(color.r, color.g, color.b, 1f);
             gameObject.GetComponent<Renderer>().material = newMaterial;
             is_selected = true;
             m_currentSubpace.selectedData.Add(this);

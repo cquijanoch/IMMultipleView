@@ -5,6 +5,7 @@ using UnityEngine;
 public class Interaction : MonoBehaviour
 {
     private Dictionary<string, List<string>> m_parents = new Dictionary<string, List<string>>();
+    public bool setEmptyColorWhenSelectData = true;
     // Start is called before the first frame update
 
     public bool InsertData(string data, string parent)
@@ -32,7 +33,7 @@ public class Interaction : MonoBehaviour
         { 
             foreach (string d in m_parents[data.Id.ToString()])
             {
-                GameObject.Find(d).GetComponent<Data>().ChangeSelectData(state);
+                GameObject.Find(d).GetComponent<Data>().ChangeSelectData(state, data.customColor);
             }
         }
         return state;

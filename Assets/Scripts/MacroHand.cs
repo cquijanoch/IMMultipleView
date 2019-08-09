@@ -37,6 +37,7 @@ public class MacroHand : MonoBehaviour
     public bool printEvents = false;
 
     private bool m_custonStatusFingerOtherHand = false;
+    public bool stoppingScaleOnTriggerExit = false;
 
     private void Awake()
     {
@@ -56,12 +57,17 @@ public class MacroHand : MonoBehaviour
 
         if (m_FlagToTriggGrip && m_quantityTriggGripDown < float.MaxValue)
             m_quantityTriggGripDown += Time.deltaTime;
-        /**
-        if (m_CurrentTakedSubspace && m_TypeHand == Constants.HAND_SECONDARY_USE && m_isPressedSecundaryPickup)
+        /** FIX BUG**/
+        
+        if (!m_isPressedPrimaryPickup && m_Joint.connectedBody)
         {
-
+            m_CurrentTakedSubspace = null;
+            Subspace joined = m_Joint.connectedBody.GetComponent<Subspace>();
+            joined.m_PrimaryHand = null;
+            joined.m_SecondaryHand = null;
+            m_Joint.connectedBody = null;
             return;
-        }**/
+        }
 
         if (m_GrabAction.GetStateDown(m_Pose.inputSource) && m_quantityTriggGrabDown > Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER)
         {
@@ -196,7 +202,15 @@ public class MacroHand : MonoBehaviour
         if (m_currentIndexSelected + 1 > m_ContactInteractables.Count)
             m_currentIndexSelected--;
         if (subspace.m_modeScale && subspace.m_PrimaryHand && subspace.m_SecondaryHand)
-            StopScaleAndAutoDetectHand(subspace);
+        {
+            stoppingScaleOnTriggerExit = true;
+            if (!m_otherHand.stoppingScaleOnTriggerExit)
+                StopScaleAndAutoDetectHand(subspace);
+            else
+                StopScaleBothHands(subspace);
+
+        }
+            
         if (m_ContactInteractables.Count > 0 && !m_CurrentTakedSubspace)
         {
             m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner.Add(this);
@@ -208,6 +222,7 @@ public class MacroHand : MonoBehaviour
             m_CurrentTakedSubspace = null;
 
         DetectTypeHand();
+        stoppingScaleOnTriggerExit = false;
     }
 
 
@@ -412,6 +427,21 @@ public class MacroHand : MonoBehaviour
 
     }
 
+    private void StopScaleBothHands(Subspace subspace)
+    {
+        subspace.ResetDistanceInitialForScale();
+        subspace.m_PrimaryHand = null;
+        subspace.m_SecondaryHand = null;
+        m_CurrentTakedSubspace = null;
+        m_isPressedPrimaryPickup = false;
+        m_isPressedSecundaryPickup = false;
+        Rigidbody targetBody = subspace.GetComponent<Rigidbody>();
+        targetBody.velocity = Vector3.zero;
+        targetBody.angularVelocity = Vector3.zero;
+        m_Joint.connectedBody = null;
+        m_otherHand.DetectTypeHand();
+    }
+
     /**
     * Clone Subspace that has contact 
     **/
@@ -424,6 +454,7 @@ public class MacroHand : MonoBehaviour
             m_ContactInteractables[m_currentIndexSelected].transform.position + new Vector3(0.2f,0,0), m_ContactInteractables[m_currentIndexSelected].transform.rotation);
         clone.GetComponent<Subspace>().m_numControllersInner = 0;
         clone.GetComponent<Subspace>().m_modePrepareToDelete = false;
+        clone.GetComponent<Subspace>().isOriginal = false;
     }
 
    /**
@@ -432,6 +463,8 @@ public class MacroHand : MonoBehaviour
     private void EnableToDelete()
     {
         if (m_currentIndexSelected < 0 && !m_ContactInteractables[m_currentIndexSelected])
+            return;
+        if (m_ContactInteractables[m_currentIndexSelected].isOriginal)
             return;
         dataToDelete = m_ContactInteractables[m_currentIndexSelected];
         dataToDelete.m_modePrepareToDelete = true;

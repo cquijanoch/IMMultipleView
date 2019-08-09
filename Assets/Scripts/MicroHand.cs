@@ -47,12 +47,14 @@ public class MicroHand : MonoBehaviour
             if (!m_currentDataSelect)
             {
                 m_currentDataSelect = m_myHand.getDataFromIndex();
-                m_currentDialog = Instantiate(descriptionDialog);
+                m_currentDialog = Instantiate(descriptionDialog, m_currentDataSelect.transform.position,
+                    Quaternion.LookRotation(transform.position - GameObject.FindGameObjectWithTag("MainCamera").transform.position));
                 m_currentDialog.GetComponent<InitDescriptionCanvas>().SetGameObjectToFollow(m_currentDataSelect.transform);
                 //m_currentDialog.transform.SetParent(m_currentDataSelect.transform);
-                m_currentDialog.GetComponentsInChildren<Text>()[0].text = m_currentDataSelect.m_currentSubpace.name;
-                m_currentDialog.GetComponentsInChildren<Text>()[1].text = m_currentDataSelect.GetInstanceID().ToString();
-                m_currentDialog.GetComponentsInChildren<Text>()[2].text = m_currentDataSelect.GetComponent<Renderer>().GetInstanceID().ToString();
+                m_currentDialog.GetComponentsInChildren<Text>()[0].text = m_currentDataSelect.Name_1;
+                m_currentDialog.GetComponentsInChildren<Text>()[1].text = m_currentDataSelect.Name_2;
+                m_currentDialog.GetComponentsInChildren<Text>()[2].text = m_currentDataSelect.Name_3;
+                m_currentDialog.GetComponentsInChildren<Text>()[3].text = m_currentDataSelect.Name_4;
                 return;
             }
 
@@ -61,12 +63,14 @@ public class MicroHand : MonoBehaviour
                 Destroy(m_currentDialog);
                 m_previousData = m_currentDataSelect;
                 m_currentDataSelect = m_myHand.getDataFromIndex();
-                m_currentDialog = Instantiate(descriptionDialog);
+                m_currentDialog = Instantiate(descriptionDialog, m_currentDataSelect.transform.position,
+                    Quaternion.LookRotation(transform.position - GameObject.FindGameObjectWithTag("MainCamera").transform.position));
                 //m_currentDialog.transform.SetParent(m_currentDataSelect.transform);
                 m_currentDialog.GetComponent<InitDescriptionCanvas>().SetGameObjectToFollow(m_currentDataSelect.transform);
-                m_currentDialog.GetComponentsInChildren<Text>()[0].text = m_currentDataSelect.m_currentSubpace.name;
-                m_currentDialog.GetComponentsInChildren<Text>()[1].text = m_currentDataSelect.GetInstanceID().ToString() ;
-                m_currentDialog.GetComponentsInChildren<Text>()[2].text = m_currentDataSelect.GetComponent<Renderer>().GetInstanceID().ToString();
+                m_currentDialog.GetComponentsInChildren<Text>()[0].text = m_currentDataSelect.Name_1;
+                m_currentDialog.GetComponentsInChildren<Text>()[1].text = m_currentDataSelect.Name_2;
+                m_currentDialog.GetComponentsInChildren<Text>()[2].text = m_currentDataSelect.Name_3;
+                m_currentDialog.GetComponentsInChildren<Text>()[3].text = m_currentDataSelect.Name_4;
                 return;
             }
 

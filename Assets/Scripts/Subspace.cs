@@ -27,6 +27,8 @@ public class Subspace : MonoBehaviour
     public List<Data> selectedData;
     public List<string> subspacesChild;
 
+    public bool isOriginal = false;
+
     private void Start()
     {
         Physics.IgnoreCollision(GameObject.FindGameObjectWithTag("Plane").GetComponent<Collider>(), GetComponent<Collider>());

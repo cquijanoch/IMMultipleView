@@ -141,11 +141,11 @@
             },
             {
                "inputs" : {
-                  "click" : {
-                     "output" : "/actions/default/in/teleport"
+                  "position" : {
+                     "output" : "/actions/default/in/jostickpad"
                   }
                },
-               "mode" : "button",
+               "mode" : "joystick",
                "path" : "/user/hand/left/input/joystick"
             },
             {
@@ -178,6 +178,60 @@
             },
             {
                "inputs" : {
+                  "pull" : {
+                     "output" : "/actions/default/in/squeeze"
+                  }
+               },
+               "mode" : "trigger",
+               "path" : "/user/hand/left/input/grip"
+            },
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/default/in/touchxbutton"
+                  }
+               },
+               "mode" : "button",
+               "path" : "/user/hand/left/input/x"
+            },
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/default/in/touchybutton"
+                  }
+               },
+               "mode" : "button",
+               "path" : "/user/hand/left/input/y"
+            },
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/default/in/grabgrip"
+                  }
+               },
+               "mode" : "button",
+               "path" : "/user/hand/right/input/grip"
+            },
+            {
+               "inputs" : {
+                  "pull" : {
+                     "output" : "/actions/default/in/squeeze"
+                  }
+               },
+               "mode" : "trigger",
+               "path" : "/user/hand/right/input/grip"
+            },
+            {
+               "inputs" : {
+                  "position" : {
+                     "output" : "/actions/default/in/jostickpad"
+                  }
+               },
+               "mode" : "joystick",
+               "path" : "/user/hand/right/input/joystick"
+            },
+            {
+               "inputs" : {
                   "click" : {
                      "output" : "/actions/default/in/interactui"
                   }
@@ -192,52 +246,43 @@
                   }
                },
                "mode" : "button",
-               "parameters" : {
-                  "click_activate_threshold" : "0.8",
-                  "click_deactivate_threshold" : "0.7"
-               },
                "path" : "/user/hand/right/input/trigger"
             },
             {
                "inputs" : {
                   "click" : {
-                     "output" : "/actions/default/in/teleport"
+                     "output" : "/actions/default/in/touchxbutton"
                   }
                },
                "mode" : "button",
-               "path" : "/user/hand/right/input/joystick"
+               "path" : "/user/hand/right/input/x"
             },
             {
                "inputs" : {
                   "click" : {
-                     "output" : "/actions/default/in/grabgrip"
+                     "output" : "/actions/default/in/touchybutton"
                   }
                },
                "mode" : "button",
-               "parameters" : {
-                  "click_activate_threshold" : "0.8",
-                  "click_deactivate_threshold" : "0.7",
-                  "force_input" : "force"
-               },
-               "path" : "/user/hand/right/input/grip"
+               "path" : "/user/hand/right/input/y"
             },
             {
                "inputs" : {
-                  "pull" : {
-                     "output" : "/actions/default/in/squeeze"
+                  "click" : {
+                     "output" : "/actions/default/in/touchxbutton"
                   }
                },
-               "mode" : "trigger",
-               "path" : "/user/hand/left/input/grip"
+               "mode" : "button",
+               "path" : "/user/hand/right/input/a"
             },
             {
                "inputs" : {
-                  "pull" : {
-                     "output" : "/actions/default/in/squeeze"
+                  "click" : {
+                     "output" : "/actions/default/in/touchybutton"
                   }
                },
-               "mode" : "trigger",
-               "path" : "/user/hand/right/input/grip"
+               "mode" : "button",
+               "path" : "/user/hand/right/input/b"
             }
          ]
       },
@@ -273,7 +318,7 @@
    "category" : "steamvr_input",
    "controller_type" : "oculus_touch",
    "description" : "",
-   "name" : "oculus_touch",
+   "name" : "Mi configuración de MultipleViews [Testing] para Oculus Touch",
    "options" : {},
    "simulated_actions" : []
 }

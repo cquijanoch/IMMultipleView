@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1197680396432038594}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.05, y: 3.314, z: -1.65}
+  m_LocalPosition: {x: -0.38, y: 2.5, z: 1.97}
   m_LocalScale: {x: 0.5, y: 0.36653644, z: 0.6054706}
   m_Children:
   - {fileID: 6759145954842379191}
@@ -226,16 +226,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
         type: 3}
-      propertyPath: createAxisYLabel
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: createAxisXLabel
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
       propertyPath: columnX
       value: 1
       objectReference: {fileID: 0}
@@ -246,8 +236,63 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
         type: 3}
+      propertyPath: name_1
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: name_2
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: name_3
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: subtitleName_1
+      value: 'Genre:'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: PointHolder
+      value: 
+      objectReference: {fileID: 6759145954842379192}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: createAxisXLabel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: AxisXLabel
+      value: 
+      objectReference: {fileID: 197276, guid: 622e58fcefdc85a4bbcd6bcef0d19a4d, type: 3}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: createAxisYLabel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: AxisYLabel
+      value: 
+      objectReference: {fileID: 114112, guid: c747a192234eab04eb156a1e59d9b43e, type: 3}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: AxisYLine
+      value: 
+      objectReference: {fileID: 131658, guid: e1947a58e38a77d4a91993f893cead2b, type: 3}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
       propertyPath: characterAxisLabelSize
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: characterYLabelSize
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
         type: 3}
@@ -259,36 +304,6 @@ PrefabInstance:
       propertyPath: factorLineY
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: characterYLabelSize
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: PointHolder
-      value: 
-      objectReference: {fileID: 6759145954842379192}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: AxisXLabel
-      value: 
-      objectReference: {fileID: 197276, guid: 622e58fcefdc85a4bbcd6bcef0d19a4d, type: 3}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: AxisYLabel
-      value: 
-      objectReference: {fileID: 114112, guid: c747a192234eab04eb156a1e59d9b43e, type: 3}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: AxisYLine
-      value: 
-      objectReference: {fileID: 131658, guid: e1947a58e38a77d4a91993f893cead2b, type: 3}
     - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
         type: 3}
       propertyPath: material_data
