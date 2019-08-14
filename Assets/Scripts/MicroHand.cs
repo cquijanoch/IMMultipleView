@@ -20,15 +20,20 @@ public class MicroHand : MonoBehaviour
     public GameObject interactions;
     private Interaction m_interactionsCoordinated = null;
 
+    public AudioClip SingleSelectAudio;
+    public AudioClip DoubleSelectAudio;
+    private AudioSource m_audioSource;
     //private bool m_IsInnerDataObject = false;
     //private bool m_changeDataObject = false;
 
     private void Awake()
     {
         m_Pose = GetComponent<SteamVR_Behaviour_Pose>();
+        m_audioSource = GetComponent<AudioSource>();
     }
     void Start()
     {
+        
         m_myHand = GetComponent<Hand>();
         if (interactions)
             m_interactionsCoordinated = interactions.GetComponent<Interaction>();
@@ -43,7 +48,6 @@ public class MicroHand : MonoBehaviour
         if (isDataObject())
         {
             if (printEvents) print(Time.deltaTime + "  Single pick");
-            
             if (!m_currentDataSelect)
             {
                 m_currentDataSelect = m_myHand.getDataFromIndex();
@@ -80,6 +84,7 @@ public class MicroHand : MonoBehaviour
                 m_numberPushDataObject = 0;
                 m_previousData = null;
                 m_stateSelect = false;
+                m_audioSource.PlayOneShot(SingleSelectAudio,1f);
                 return;
             }
 
@@ -89,6 +94,7 @@ public class MicroHand : MonoBehaviour
                 m_numberPushDataObject = float.MaxValue;
                 m_interactionsCoordinated.ToogleDataParents(m_currentDataSelect);
                 m_stateSelect = false;
+                m_audioSource.PlayOneShot(DoubleSelectAudio, 1f);
                 return;
             }
         }

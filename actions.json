@@ -54,6 +54,14 @@
       "type": "boolean"
     },
     {
+      "name": "/actions/default/in/TouchNoPressGrabPinch",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/TouchJostick",
+      "type": "boolean"
+    },
+    {
       "name": "/actions/default/out/Haptic",
       "type": "vibration"
     },
@@ -158,7 +166,9 @@
       "/actions/platformer/in/Jump": "Jump",
       "/actions/default/in/JostickPad": "JostickPad",
       "/actions/default/in/TouchXbutton": "TouchXbutton",
-      "/actions/default/in/TouchYbutton": "TouchYbutton"
+      "/actions/default/in/TouchYbutton": "TouchYbutton",
+      "/actions/default/in/TouchNoPressGrabPinch": "Touch No Press Grab Pinch",
+      "/actions/default/in/TouchJostick": "Touch Jostick"
     }
   ]
 }

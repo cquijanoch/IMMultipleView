@@ -62,6 +62,7 @@ public class InitMainMenu : MonoBehaviour
         m_taskNumber = -1;
         cleanColorButton();
         m_buttonTrain1.GetComponent<Image>().color = Constants.BUTTON_COLOR_ACTIVATE;
+        Destroy(GameObject.FindGameObjectWithTag("Player"));
         SceneManager.LoadScene(1);
         m_trainNumber = 1;
     }
@@ -71,6 +72,7 @@ public class InitMainMenu : MonoBehaviour
         m_taskNumber = - 1;
         cleanColorButton();
         m_buttonTrain2.GetComponent<Image>().color = Constants.BUTTON_COLOR_ACTIVATE;
+        Destroy(GameObject.FindGameObjectWithTag("Player"));
         SceneManager.LoadScene(2);
         m_trainNumber = 2;
     }
@@ -85,6 +87,7 @@ public class InitMainMenu : MonoBehaviour
         m_trainNumber = -1;
         cleanColorButton();
         m_buttonTask1.GetComponent<Image>().color = Constants.BUTTON_COLOR_ACTIVATE;
+        Destroy(GameObject.FindGameObjectWithTag("Player"));
         SceneManager.LoadScene(3);
         m_taskNumber = 1;
     }
@@ -117,5 +120,6 @@ public class InitMainMenu : MonoBehaviour
         m_totalTaskTime = 0f;
         m_textUserId.GetComponent<InputField>().text = "";
         cleanColorButton();
+        Destroy(GameObject.FindGameObjectWithTag("Player"));
     }
 }

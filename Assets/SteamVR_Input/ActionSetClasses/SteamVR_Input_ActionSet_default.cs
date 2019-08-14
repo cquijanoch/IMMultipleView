@@ -113,6 +113,22 @@ namespace Valve.VR
             }
         }
         
+        public virtual SteamVR_Action_Boolean TouchNoPressGrabPinch
+        {
+            get
+            {
+                return SteamVR_Actions.default_TouchNoPressGrabPinch;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean TouchJostick
+        {
+            get
+            {
+                return SteamVR_Actions.default_TouchJostick;
+            }
+        }
+        
         public virtual SteamVR_Action_Vibration Haptic
         {
             get

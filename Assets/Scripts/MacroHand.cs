@@ -58,7 +58,7 @@ public class MacroHand : MonoBehaviour
         if (m_FlagToTriggGrip && m_quantityTriggGripDown < float.MaxValue)
             m_quantityTriggGripDown += Time.deltaTime;
         /** FIX BUG**/
-        
+
         if (!m_isPressedPrimaryPickup && m_Joint.connectedBody)
         {
             m_CurrentTakedSubspace = null;
@@ -156,8 +156,8 @@ public class MacroHand : MonoBehaviour
         if (m_TypeHand == Constants.HAND_PRIMARY_USE)
         {
             m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner.Remove(this);
-            if (m_ContactInteractables[m_currentIndexSelected].GetNumberUsedHandsInner() == 0 
-                || m_otherHand.GetCurrentSubspace() != m_ContactInteractables[m_currentIndexSelected] )
+            if (m_ContactInteractables[m_currentIndexSelected].GetNumberUsedHandsInner() == 0
+                || m_otherHand.GetCurrentSubspace() != m_ContactInteractables[m_currentIndexSelected])
                 m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
             Drop();
             if (++m_currentIndexSelected == m_ContactInteractables.Count)
@@ -210,14 +210,14 @@ public class MacroHand : MonoBehaviour
                 StopScaleBothHands(subspace);
 
         }
-            
+
         if (m_ContactInteractables.Count > 0 && !m_CurrentTakedSubspace)
         {
             m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner.Add(this);
             if (enabled)
                 m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
         }
-        
+
         if (m_ContactInteractables.Count == 0)
             m_CurrentTakedSubspace = null;
 
@@ -238,7 +238,7 @@ public class MacroHand : MonoBehaviour
             m_isPressedPrimaryPickup = false;
             m_isPressedSecundaryPickup = false;
         }
-        
+
 
         if (m_CurrentTakedSubspace || m_currentIndexSelected < 0)
             return;
@@ -272,13 +272,13 @@ public class MacroHand : MonoBehaviour
             m_isPressedPrimaryPickup = false;
         if (m_TypeHand == Constants.HAND_SECONDARY_USE)
             m_isPressedSecundaryPickup = false;
-        
+
         if (m_TypeHand == Constants.HAND_NONE_USE)
         {
             m_isPressedPrimaryPickup = false;
             m_isPressedSecundaryPickup = false;
         }
-        
+
         if (m_currentIndexSelected < 0)
             return;
 
@@ -315,7 +315,7 @@ public class MacroHand : MonoBehaviour
             m_CurrentTakedSubspace.m_SecondaryHand = null;
             m_CurrentTakedSubspace = null;
             JoiningSubspace();
-            
+
         }
         DetectTypeHand();
     }
@@ -349,7 +349,7 @@ public class MacroHand : MonoBehaviour
     **/
     private MacroHand GetPrimaryHandPressedFromInner()
     {
-        foreach(MacroHand h in m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner)
+        foreach (MacroHand h in m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner)
         {
             if (h.m_TypeHand == Constants.HAND_PRIMARY_USE && h.m_isPressedPrimaryPickup && h.m_CurrentTakedSubspace)
                 return h;
@@ -418,10 +418,10 @@ public class MacroHand : MonoBehaviour
             m_isPressedSecundaryPickup = false;
             DetectTypeHand();
             m_otherHand.DetectTypeHand();
-            m_otherHand.JoiningSubspace();        
-            
+            m_otherHand.JoiningSubspace();
+
         }
-            
+
         if (subspace.GetNumberUsedHandsInner() == 0)
             subspace.m_PrimaryHand = null;
 
@@ -451,15 +451,15 @@ public class MacroHand : MonoBehaviour
             m_CurrentTakedSubspace)
             return;
         GameObject clone = Instantiate(m_ContactInteractables[m_currentIndexSelected].gameObject,
-            m_ContactInteractables[m_currentIndexSelected].transform.position + new Vector3(0.2f,0,0), m_ContactInteractables[m_currentIndexSelected].transform.rotation);
+            m_ContactInteractables[m_currentIndexSelected].transform.position + new Vector3(0.2f, 0, 0), m_ContactInteractables[m_currentIndexSelected].transform.rotation);
         clone.GetComponent<Subspace>().m_numControllersInner = 0;
         clone.GetComponent<Subspace>().m_modePrepareToDelete = false;
         clone.GetComponent<Subspace>().isOriginal = false;
     }
 
-   /**
-    * Prepare to Subspace to Delete coloring and displying confirmation dialog
-    **/
+    /**
+     * Prepare to Subspace to Delete coloring and displying confirmation dialog
+     **/
     private void EnableToDelete()
     {
         if (m_currentIndexSelected < 0 && !m_ContactInteractables[m_currentIndexSelected])

@@ -24,6 +24,8 @@ public class DataPlotter : MonoBehaviour
     public int name_3 = 9;
     public int name_4 = 10;
 
+    public int columnSelect = 13;
+
     public string subtitleName_1;
     public string subtitleName_2;
     public string subtitleName_3;
@@ -41,6 +43,7 @@ public class DataPlotter : MonoBehaviour
     private string nameSecond;
     private string nameThird;
     private string nameFourth;
+    private string dataSelected;
 
     public float plotScale = 1;
 
@@ -75,6 +78,8 @@ public class DataPlotter : MonoBehaviour
             nameThird = columnList[name_3];
         if (name_4 > 0)
             nameFourth = columnList[name_4];
+        if (columnSelect > 0)
+        dataSelected = columnList[columnSelect];
 
         float xMax = FindMaxValue(xName);
         float yMax = FindMaxValue(yName);
@@ -96,22 +101,32 @@ public class DataPlotter : MonoBehaviour
 
         for (var i = 0; i < pointList.Count; i++)
         {
+            /** Positions **/
             float x = (System.Convert.ToSingle(pointList[i][xName]) - xMin) * scaleSubspace * 2f/ (xMax - xMin);
-            x += subspace.localPosition.x - scaleSubspace; //- midX / (xMax - xMin);
+            x += subspace.localPosition.x - scaleSubspace;
             float y = (System.Convert.ToSingle(pointList[i][yName]) - yMin) * scaleSubspace * 2f / (yMax - yMin);
-            y += subspace.localPosition.y - scaleSubspace; //- midY / (yMax - yMin);
+            y += subspace.localPosition.y - scaleSubspace;
             float z = (System.Convert.ToSingle(pointList[i][zName]) - zMin)  * scaleSubspace * 2f / (zMax - zMin);
-            z += subspace.localPosition.z - scaleSubspace; //- midZ / (zMax - zMin);
+            z += subspace.localPosition.z - scaleSubspace; 
 
             GameObject dataPoint = Instantiate(PointPrefab, new Vector3(x, y, z) * plotScale, Quaternion.identity);
             dataPoint.transform.SetParent(PointHolder.transform);
             dataPoint.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
             string dataPointName = pointList[i][idName].ToString();
             dataPoint.transform.name = dataPointName;
+
+            /** Color**/
             float color_R = System.Convert.ToSingle(pointList[i][colorRName]) / 255f;
             float color_G = System.Convert.ToSingle(pointList[i][colorGName]) / 255f;
             float color_B = System.Convert.ToSingle(pointList[i][colorBName]) / 255f;
-            material_data.color = new Color(color_R, color_G, color_B, Constants.TRANSPARENCY_DATA);
+            if (columnSelect > 0 && pointList[i][dataSelected].ToString().Equals("1"))
+            {
+                material_data.color = new Color(color_R, color_G, color_B, 1f);
+                dataPoint.GetComponent<Data>().is_selected = true;
+            }
+                
+            else
+                material_data.color = new Color(color_R, color_G, color_B, Constants.TRANSPARENCY_DATA);
             dataPoint.GetComponent<Renderer>().material = new Material(material_data);
             dataPoint.GetComponent<Data>().Id = System.Convert.ToInt32(pointList[i][idName]);
             if (name_1 > 0)
@@ -122,7 +137,7 @@ public class DataPlotter : MonoBehaviour
                 dataPoint.GetComponent<Data>().Name_3 = subtitleName_3 + " " + pointList[i][nameThird].ToString();
             if (name_4 > 0)
                 dataPoint.GetComponent<Data>().Name_4 = subtitleName_4 + " " + pointList[i][nameFourth].ToString();
-            dataPoint.GetComponent<Data>().CustomColor = new Color(color_R, color_G, color_B, Constants.TRANSPARENCY_DATA);
+            dataPoint.GetComponent<Data>().CustomColor = new Color(color_R, color_G, color_B, material_data.color.a);
             dataPoint.GetComponent<Data>().m_currentSubpace = subspace.GetComponent<Subspace>();
             if (m_interactionsCoordinated)
             {
@@ -136,6 +151,7 @@ public class DataPlotter : MonoBehaviour
                 }
                 
             }
+            
         }
         subspace.localRotation = localrotation;
 

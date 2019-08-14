@@ -31,30 +31,30 @@ public class AxisXYZ : MonoBehaviour
         GL.Color(Color.red); //x
         GL.Vertex3(-0.5f, -0.5f, -0.5f);
         GL.Vertex3(0.5f, -0.5f, -0.5f);
-        GL.Vertex3(-0.5f, -0.5f, 0.5f);
-        GL.Vertex3(0.5f, -0.5f, 0.5f);
-        GL.Vertex3(-0.5f, 0.5f, -0.5f);
-        GL.Vertex3(0.5f, 0.5f, -0.5f);
-        GL.Vertex3(-0.5f, 0.5f, 0.5f);
-        GL.Vertex3(0.5f, 0.5f, 0.5f);
+        //GL.Vertex3(-0.5f, -0.5f, 0.5f);
+        //GL.Vertex3(0.5f, -0.5f, 0.5f);
+        //GL.Vertex3(-0.5f, 0.5f, -0.5f);
+        //GL.Vertex3(0.5f, 0.5f, -0.5f);
+        //GL.Vertex3(-0.5f, 0.5f, 0.5f);
+        //GL.Vertex3(0.5f, 0.5f, 0.5f);
         GL.Color(Color.green);//y
         GL.Vertex3(-0.5f, -0.5f, -0.5f);
         GL.Vertex3(-0.5f, 0.5f, -0.5f);
-        GL.Vertex3(-0.5f, -0.5f, 0.5f);
-        GL.Vertex3(-0.5f, 0.5f, 0.5f);
-        GL.Vertex3(0.5f, -0.5f, -0.5f);
-        GL.Vertex3(0.5f, 0.5f, -0.5f);
-        GL.Vertex3(0.5f, -0.5f, 0.5f);
-        GL.Vertex3(0.5f, 0.5f, 0.5f);
+        //GL.Vertex3(-0.5f, -0.5f, 0.5f);
+        //GL.Vertex3(-0.5f, 0.5f, 0.5f);
+        //GL.Vertex3(0.5f, -0.5f, -0.5f);
+        //GL.Vertex3(0.5f, 0.5f, -0.5f);
+        //GL.Vertex3(0.5f, -0.5f, 0.5f);
+        //GL.Vertex3(0.5f, 0.5f, 0.5f);
         GL.Color(Color.blue);//z
         GL.Vertex3(-0.5f, -0.5f, -0.5f);
         GL.Vertex3(-0.5f, -0.5f, 0.5f);
-        GL.Vertex3(-0.5f, 0.5f, -0.5f);
-        GL.Vertex3(-0.5f, 0.5f, 0.5f);
-        GL.Vertex3(0.5f, -0.5f, -0.5f);
-        GL.Vertex3(0.5f, -0.5f, 0.5f);
-        GL.Vertex3(0.5f, 0.5f, -0.5f);
-        GL.Vertex3(0.5f, 0.5f, 0.5f);
+        //GL.Vertex3(-0.5f, 0.5f, -0.5f);
+        //GL.Vertex3(-0.5f, 0.5f, 0.5f);
+        //GL.Vertex3(0.5f, -0.5f, -0.5f);
+        //GL.Vertex3(0.5f, -0.5f, 0.5f);
+        //GL.Vertex3(0.5f, 0.5f, -0.5f);
+        //GL.Vertex3(0.5f, 0.5f, 0.5f);
 
         GL.End();
         GL.PopMatrix();

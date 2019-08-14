@@ -68,11 +68,11 @@ public class Hand : MonoBehaviour
             Destroy(m_menuCanvas);
             showMenu = false;
         }
-        
+
     }
 
     private void ToogleModeHand()
-    {  
+    {
         // Change MACRO to MICRO
         if (modeTypeHand == Constants.INT_HAND_MODE_MACRO)
         {
@@ -99,7 +99,7 @@ public class Hand : MonoBehaviour
             GetComponent<Valve.VR.InteractionSystem.Hand>().useFingerJointHover = false;
             m_currentMicroHand.CleanDescriptionDialog();
         }
-        
+
     }
 
     public void HideFisicHand()

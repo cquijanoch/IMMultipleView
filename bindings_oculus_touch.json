@@ -141,6 +141,9 @@
             },
             {
                "inputs" : {
+                  "click" : {
+                     "output" : "/actions/default/in/touchjostick"
+                  },
                   "position" : {
                      "output" : "/actions/default/in/jostickpad"
                   }
@@ -166,6 +169,9 @@
                "inputs" : {
                   "click" : {
                      "output" : "/actions/default/in/grabpinch"
+                  },
+                  "touch" : {
+                     "output" : "/actions/default/in/touchnopressgrabpinch"
                   }
                },
                "mode" : "button",
@@ -223,6 +229,9 @@
             },
             {
                "inputs" : {
+                  "click" : {
+                     "output" : "/actions/default/in/touchjostick"
+                  },
                   "position" : {
                      "output" : "/actions/default/in/jostickpad"
                   }
@@ -243,6 +252,9 @@
                "inputs" : {
                   "click" : {
                      "output" : "/actions/default/in/grabpinch"
+                  },
+                  "touch" : {
+                     "output" : "/actions/default/in/touchnopressgrabpinch"
                   }
                },
                "mode" : "button",

@@ -196,6 +196,8 @@ MonoBehaviour:
   m_previousData: {fileID: 0}
   m_stateSelect: 1
   interactions: {fileID: 0}
+  SingleSelectAudio: {fileID: 0}
+  DoubleSelectAudio: {fileID: 0}
 --- !u!114 &2034341035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,6 +643,8 @@ MonoBehaviour:
   m_previousData: {fileID: 0}
   m_stateSelect: 1
   interactions: {fileID: 0}
+  SingleSelectAudio: {fileID: 0}
+  DoubleSelectAudio: {fileID: 0}
 --- !u!114 &2034357406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1359,7 +1363,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3020931974151467036}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5e1148ce6fc9fe408125e05bd08ae31, type: 3}
   m_Name: 
