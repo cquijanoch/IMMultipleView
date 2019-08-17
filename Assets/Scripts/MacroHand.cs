@@ -11,7 +11,7 @@ public class MacroHand : MonoBehaviour
     private SteamVR_Behaviour_Pose m_Pose = null;
     private FixedJoint m_Joint = null;
 
-    public Subspace m_CurrentTakedSubspace = null;
+    public Subspace m_CurrentTakedSubspace = null; // subspace when is pickup
 
     /** List of Subsoaces inner into MacroHand**/
     public List<Subspace> m_ContactInteractables = new List<Subspace>();
@@ -174,16 +174,39 @@ public class MacroHand : MonoBehaviour
             return;
         if (printEvents) print(Time.deltaTime + " " + "OnTriggerEnter : " + other.gameObject.name);
         Subspace subspace = other.gameObject.GetComponent<Subspace>();
+        
         m_ContactInteractables.Add(subspace);
         if (m_currentIndexSelected < 0)
+        {
             m_currentIndexSelected = 0;
-        subspace.m_numControllersInner++;
+            subspace.m_HandsActivedInner.Add(this);
+        }
+        /*
+        else if (!m_CurrentTakedSubspace)
+        {
+            float dist = Vector3.Distance(transform.position, subspace.transform.position);
+            float dist2 = Vector3.Distance(transform.position, m_ContactInteractables[m_currentIndexSelected].transform.position);
+            if (dist < dist2)
+            {
+                m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner.Remove(this);
+                m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
+                m_currentIndexSelected = m_ContactInteractables.IndexOf(subspace);
+                subspace.m_HandsActivedInner.Add(this);
+            }
+                
+        }
+        **/
+
+        if (!m_CurrentTakedSubspace)
+        {
+            m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner.Remove(this);
+            m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
+            m_currentIndexSelected = m_ContactInteractables.IndexOf(subspace);
+            subspace.m_HandsActivedInner.Add(this);
+        }
+            subspace.m_numControllersInner++;
         if (enabled && !subspace.m_modePrepareToDelete)
             m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
-        if (!m_CurrentTakedSubspace)
-            subspace.m_HandsActivedInner.Add(this);
-        //if (m_isPressedPrimaryPickup && m_isPressedSecundaryPickup)
-        //    m_isPressedSecundaryPickup = false;
         DetectTypeHand();
 
     }
