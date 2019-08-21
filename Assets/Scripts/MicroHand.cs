@@ -13,8 +13,8 @@ public class MicroHand : MonoBehaviour
     private Hand m_myHand;
     public GameObject descriptionDialog;
     private GameObject m_currentDialog;
-    public float m_numberPushDataObject = float.MaxValue;
-    private bool m_FlagToPushDataObject = false;
+    //public float m_numberPushDataObject = float.MaxValue;
+    //private bool m_FlagToPushDataObject = false;
     public Data m_previousData = null;
     public bool m_stateSelect = true;
     public GameObject interactions;
@@ -42,9 +42,10 @@ public class MicroHand : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if (m_numberPushDataObject < float.MaxValue)
             m_numberPushDataObject += Time.deltaTime;
-
+        **/
         if (isDataObject())
         {
             if (printEvents) print(Time.deltaTime + "  Single pick");
@@ -77,7 +78,7 @@ public class MicroHand : MonoBehaviour
                 m_currentDialog.GetComponentsInChildren<Text>()[3].text = m_currentDataSelect.Name_4;
                 return;
             }
-
+            /*
             if (m_numberPushDataObject > Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER && m_stateSelect)
             {
                 if (printEvents) print(Time.deltaTime + " Single push Data Object");
@@ -86,12 +87,11 @@ public class MicroHand : MonoBehaviour
                 m_stateSelect = false;
                 m_audioSource.PlayOneShot(SingleSelectAudio,1f);
                 return;
-            }
+            }**/
 
-            if (m_numberPushDataObject < Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER && m_previousData == m_currentDataSelect)
+            if (SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource)  && m_currentDataSelect)
             {
                 if (printEvents) print(Time.deltaTime + " Double push Data Object");
-                m_numberPushDataObject = float.MaxValue;
                 m_interactionsCoordinated.ToogleDataParents(m_currentDataSelect);
                 m_stateSelect = false;
                 m_audioSource.PlayOneShot(DoubleSelectAudio, 1f);

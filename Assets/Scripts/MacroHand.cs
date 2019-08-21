@@ -21,12 +21,12 @@ public class MacroHand : MonoBehaviour
     public bool m_isPressedSecundaryPickup = false;
     public int m_TypeHand = Constants.HAND_NONE_USE;
 
-    private float m_quantityTriggGrabDown = float.MaxValue;
+    /**private float m_quantityTriggGrabDown = float.MaxValue;
     private bool m_FlagToTriggGrab = false;
 
     private float m_quantityTriggGripDown = float.MaxValue;
     private bool m_FlagToTriggGrip = false;
-
+    **/
     public GameObject dialogCommon;
     private GameObject m_currentDialog;
     public Subspace dataToDelete;
@@ -52,11 +52,15 @@ public class MacroHand : MonoBehaviour
 
     void Update()
     {
+        /*
         if (m_FlagToTriggGrab && m_quantityTriggGrabDown < float.MaxValue)
             m_quantityTriggGrabDown += Time.deltaTime;
 
         if (m_FlagToTriggGrip && m_quantityTriggGripDown < float.MaxValue)
-            m_quantityTriggGripDown += Time.deltaTime;
+            m_quantityTriggGripDown += Time.deltaTime;**/
+        if (m_myHand.modeAnswer)
+            return;
+        
         /** FIX BUG**/
 
         if (!m_isPressedPrimaryPickup && m_Joint.connectedBody)
@@ -69,31 +73,27 @@ public class MacroHand : MonoBehaviour
             return;
         }
 
-        if (m_GrabAction.GetStateDown(m_Pose.inputSource) && m_quantityTriggGrabDown > Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER)
+        if (SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource))
         {
-            if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " Trigger Grab Down");
-            m_quantityTriggGrabDown = 0;
-            m_FlagToTriggGrab = true;
+            if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " Pickup");
             Pickup();
             return;
         }
 
-        if (m_GrabAction.GetStateDown(m_Pose.inputSource) && m_quantityTriggGrabDown < Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER)
+        if (SteamVR_Actions._default.TouchYbutton.GetStateDown(m_Pose.inputSource))
         {
-            if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " Double Trigger Grab Down");
-            m_FlagToTriggGrab = false;
-            m_quantityTriggGrabDown = float.MaxValue;
+            if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " Clone");
             Clone();
             return;
         }
 
-        if (m_GrabAction.GetStateUp(m_Pose.inputSource))
+        if (SteamVR_Actions._default.GrabGrip.GetStateUp(m_Pose.inputSource))
         {
-            if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + "Trigger Grab Up");
+            if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " Drop");
             Drop();
             return;
         }
-
+        /*
         if (m_ContactInteractables.Count < 2 && SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource) &&
             m_quantityTriggGripDown > Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER)
         {
@@ -101,16 +101,17 @@ public class MacroHand : MonoBehaviour
             m_quantityTriggGripDown = 0;
             m_FlagToTriggGrip = true;
             return;
-        }
+        }**/
 
-        if (m_ContactInteractables.Count > 1 && SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource) &&
+        if (m_ContactInteractables.Count > 1 && SteamVR_Actions._default.GrabPinch.GetStateDown(m_Pose.inputSource) &&
             !m_isPressedPrimaryPickup && !m_isPressedSecundaryPickup)
         {
-            if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " Inner Trigger Grip Down");
+            if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " ChangeCurrentSelectionSpace");
             ChangeCurrentSelectionSpace();
             return;
         }
 
+        /*
         if (m_ContactInteractables.Count == 0 && m_currentDialog && SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource) &&
             m_quantityTriggGripDown < Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER && !m_isPressedPrimaryPickup)
         {
@@ -119,21 +120,19 @@ public class MacroHand : MonoBehaviour
             m_quantityTriggGripDown = float.MaxValue;
             DisableToDelete();
             return;
-        }
+        }**/
 
-        if (m_ContactInteractables.Count == 1 && !m_currentDialog && SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource) &&
-            m_quantityTriggGripDown < Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER && !m_isPressedPrimaryPickup)
+        if (m_ContactInteractables.Count > 0 && !m_currentDialog && SteamVR_Actions._default.TouchJostick.GetStateDown(m_Pose.inputSource)
+            && !m_isPressedPrimaryPickup)
         {
-            if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " Double Trigger Grip Down");
-            m_FlagToTriggGrip = false;
-            m_quantityTriggGripDown = float.MaxValue;
+            if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " EnableToDelete");
             EnableToDelete();
             return;
         }
 
         if (m_CurrentTakedSubspace && SteamVR_Actions._default.TouchXbutton.GetStateDown(m_Pose.inputSource) && m_ContactInteractables.Count > 1)
         {
-            if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + "XButton Down");
+            if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + "SetTransformForSimilar");
             SetTransformForSimilar();
             return;
         }
@@ -478,6 +477,7 @@ public class MacroHand : MonoBehaviour
         clone.GetComponent<Subspace>().m_numControllersInner = 0;
         clone.GetComponent<Subspace>().m_modePrepareToDelete = false;
         clone.GetComponent<Subspace>().isOriginal = false;
+        clone.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
     }
 
     /**
@@ -497,6 +497,7 @@ public class MacroHand : MonoBehaviour
         m_currentDialog.transform.SetParent(transform);
         m_custonStatusFingerOtherHand = m_otherHand.GetComponent<Hand>().getStatusFingerHand();
         m_otherHand.GetComponent<Hand>().ActivateFingerHand();
+        m_otherHand.GetComponent<Hand>().modeAnswer = true;
     }
 
     /**
@@ -509,23 +510,32 @@ public class MacroHand : MonoBehaviour
             DisableToDelete();
             return;
         }
-        GetComponent<Valve.VR.InteractionSystem.Hand>().otherHand.GetComponent<MacroHand>().OnTriggerExit(dataToDelete.GetComponent<Collider>());
+
+        if (m_otherHand.m_ContactInteractables.Contains(dataToDelete))
+        {
+            m_otherHand.OnTriggerExit(dataToDelete.GetComponent<Collider>());
+        }
+
         m_ContactInteractables.Remove(dataToDelete);
         m_CurrentTakedSubspace = null;
         Destroy(dataToDelete.gameObject);
-        m_currentIndexSelected--;
-        DetectTypeHand();
         Destroy(m_currentDialog);
+        if (m_currentIndexSelected > m_ContactInteractables.Count - 1)
+        {
+            m_currentIndexSelected = m_ContactInteractables.Count - 1;
+        }
+        DetectTypeHand();
         m_myHand.ShowHand();
         if (!m_custonStatusFingerOtherHand)
             m_otherHand.GetComponent<Hand>().DesactivateFingerHand();
+        m_otherHand.GetComponent<Hand>().modeAnswer = false;
 
     }
 
     /**
      * Disable the Subspace to delete and close the confirmation dialog
      * 
-     **/
+     **/   
     private void DisableToDelete()
     {
         Destroy(m_currentDialog);
@@ -538,6 +548,7 @@ public class MacroHand : MonoBehaviour
         dataToDelete = null;
         if (!m_custonStatusFingerOtherHand)
             m_otherHand.GetComponent<Hand>().DesactivateFingerHand();
+        m_otherHand.GetComponent<Hand>().modeAnswer = false;
     }
 
     /**
@@ -582,5 +593,23 @@ public class MacroHand : MonoBehaviour
             return null;
         return m_ContactInteractables[m_currentIndexSelected];
     }
+    /*
+    private void UpdateCurrentIndexSelected()
+    {
+        foreach (Subspace subspace in m_ContactInteractables)
+        {
+
+        }
+        float dist = Vector3.Distance(transform.position, subspace.transform.position);
+        float dist2 = Vector3.Distance(transform.position, m_ContactInteractables[m_currentIndexSelected].transform.position);
+        if (dist < dist2)
+        {
+            m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner.Remove(this);
+            m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
+            m_currentIndexSelected = m_ContactInteractables.IndexOf(subspace);
+            subspace.m_HandsActivedInner.Add(this);
+        }
+
+    }**/
 
 }
