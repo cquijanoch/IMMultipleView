@@ -6,15 +6,12 @@ using Valve.VR;
 
 public class MicroHand : MonoBehaviour
 {
-    // Start is called before the first frame update
     private SteamVR_Behaviour_Pose m_Pose = null;
     private Data m_currentDataSelect = null;
     public bool printEvents = false;
     private Hand m_myHand;
     public GameObject descriptionDialog;
     private GameObject m_currentDialog;
-    //public float m_numberPushDataObject = float.MaxValue;
-    //private bool m_FlagToPushDataObject = false;
     public Data m_previousData = null;
     public bool m_stateSelect = true;
     public GameObject interactions;
@@ -23,8 +20,6 @@ public class MicroHand : MonoBehaviour
     public AudioClip SingleSelectAudio;
     public AudioClip DoubleSelectAudio;
     private AudioSource m_audioSource;
-    //private bool m_IsInnerDataObject = false;
-    //private bool m_changeDataObject = false;
 
     private void Awake()
     {
@@ -39,13 +34,9 @@ public class MicroHand : MonoBehaviour
             m_interactionsCoordinated = interactions.GetComponent<Interaction>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        /*
-        if (m_numberPushDataObject < float.MaxValue)
-            m_numberPushDataObject += Time.deltaTime;
-        **/
+
         if (isDataObject())
         {
             if (printEvents) print(Time.deltaTime + "  Single pick");
@@ -78,16 +69,6 @@ public class MicroHand : MonoBehaviour
                 m_currentDialog.GetComponentsInChildren<Text>()[3].text = m_currentDataSelect.Name_4;
                 return;
             }
-            /*
-            if (m_numberPushDataObject > Constants.MINIMAL_TIME_PER_DOUBLE_TRIGGER && m_stateSelect)
-            {
-                if (printEvents) print(Time.deltaTime + " Single push Data Object");
-                m_numberPushDataObject = 0;
-                m_previousData = null;
-                m_stateSelect = false;
-                m_audioSource.PlayOneShot(SingleSelectAudio,1f);
-                return;
-            }**/
 
             if (SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource)  && m_currentDataSelect)
             {
@@ -126,8 +107,5 @@ public class MicroHand : MonoBehaviour
             Destroy(m_currentDialog);
         m_currentDataSelect = null;
     }
-
-
-
    
 }

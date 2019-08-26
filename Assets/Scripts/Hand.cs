@@ -40,7 +40,7 @@ public class Hand : MonoBehaviour
             || !SteamVR_Actions._default.GrabGrip.GetState(m_Pose.inputSource))
             )
         {
-            print(m_Pose.inputSource + " MacroToMicro");
+            //print(m_Pose.inputSource + " MacroToMicro");
             //ToogleModeHand();
             MacroToMicro();
             return;
@@ -49,7 +49,7 @@ public class Hand : MonoBehaviour
         if (!m_currentMacroHand.m_CurrentTakedSubspace && !m_currentMacroHand.dataToDelete
             && SteamVR_Actions._default.TouchNoPressGrabPinch.GetStateDown(m_Pose.inputSource))
         {
-            print(m_Pose.inputSource + " MicroToMacro");
+            //print(m_Pose.inputSource + " MicroToMacro");
             //ToogleModeHand();
             MicroToMacro();
             return;
