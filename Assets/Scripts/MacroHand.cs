@@ -312,9 +312,9 @@ public class MacroHand : MonoBehaviour
         MacroHand hp = GetPrimaryHandPressedFromInner();
         if (!hp)
             return;
-        if (!hp.m_ContactInteractables[m_currentIndexSelected])
+        if (!hp.m_ContactInteractables[hp.m_currentIndexSelected])
             return;
-        Rigidbody targetBody = hp.m_ContactInteractables[m_currentIndexSelected].GetComponent<Rigidbody>();
+        Rigidbody targetBody = hp.m_ContactInteractables[hp.m_currentIndexSelected].GetComponent<Rigidbody>();
         hp.m_Joint.connectedBody = targetBody;
     }
 

@@ -145,7 +145,7 @@ public class Data : MonoBehaviour
         }
         else
         {
-            m_colorList.Remove(m_currentColor);
+            m_colorList.Remove(new Color(color.r, color.g, color.b, 1f));
             if (m_colorList.Count > 0)
             {
                 m_currentColor = m_colorList[m_colorList.Count - 1];
