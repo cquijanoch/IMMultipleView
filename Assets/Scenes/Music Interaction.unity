@@ -533,6 +533,11 @@ PrefabInstance:
       propertyPath: inputfile
       value: music_dataset_tsne
       objectReference: {fileID: 0}
+    - target: {fileID: 4513049175021770021, guid: 5a8470c1b47bda546879d839b8d194cf,
+        type: 3}
+      propertyPath: Interactions
+      value: 
+      objectReference: {fileID: 70404051}
     - target: {fileID: 4731249575883220321, guid: 5a8470c1b47bda546879d839b8d194cf,
         type: 3}
       propertyPath: isOriginal
@@ -610,6 +615,11 @@ PrefabInstance:
     - target: {fileID: 1969407439880273499, guid: 0a92ca922566470488133e687ed81cfb,
         type: 3}
       propertyPath: interactions
+      value: 
+      objectReference: {fileID: 70404051}
+    - target: {fileID: 1969407439880273499, guid: 0a92ca922566470488133e687ed81cfb,
+        type: 3}
+      propertyPath: Interactions
       value: 
       objectReference: {fileID: 70404051}
     - target: {fileID: 6604783964324245128, guid: 0a92ca922566470488133e687ed81cfb,
@@ -780,6 +790,11 @@ PrefabInstance:
       propertyPath: interactions
       value: 
       objectReference: {fileID: 70404051}
+    - target: {fileID: 4818739091113085386, guid: 9baefa07b7c2a5b45a22adf5f5a2e0cc,
+        type: 3}
+      propertyPath: Interactions
+      value: 
+      objectReference: {fileID: 70404051}
     - target: {fileID: 154191148816570649, guid: 9baefa07b7c2a5b45a22adf5f5a2e0cc,
         type: 3}
       propertyPath: isOriginal
@@ -857,6 +872,11 @@ PrefabInstance:
     - target: {fileID: 4667513497230288207, guid: d4a16be415c8d9542bbe7868387ea481,
         type: 3}
       propertyPath: interactions
+      value: 
+      objectReference: {fileID: 70404051}
+    - target: {fileID: 4667513497230288207, guid: d4a16be415c8d9542bbe7868387ea481,
+        type: 3}
+      propertyPath: Interactions
       value: 
       objectReference: {fileID: 70404051}
     - target: {fileID: 16329326365357468, guid: d4a16be415c8d9542bbe7868387ea481,
@@ -1031,7 +1051,7 @@ PrefabInstance:
     - target: {fileID: 6214511349131428793, guid: ef2dedf9fb1962d4786b9ea1517b2d19,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6214511349131428774, guid: ef2dedf9fb1962d4786b9ea1517b2d19,
         type: 3}
@@ -1088,5 +1108,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4290798948028117030, guid: ef2dedf9fb1962d4786b9ea1517b2d19,
+        type: 3}
+      propertyPath: Interactions
+      value: 
+      objectReference: {fileID: 70404051}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef2dedf9fb1962d4786b9ea1517b2d19, type: 3}

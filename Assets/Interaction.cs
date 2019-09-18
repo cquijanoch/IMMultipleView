@@ -10,11 +10,6 @@ public class Interaction : MonoBehaviour
     public Dictionary<string, List<string>> m_filter = new Dictionary<string, List<string>>();
     public bool setEmptyColorWhenSelectData = true;
 
-    private void Start()
-    {
-        print("init");
-    }
-
     // Start is called before the first frame update
 
     public bool InsertData(string data, string parent, bool state)
@@ -64,7 +59,7 @@ public class Interaction : MonoBehaviour
 
         List<string> filterComparer = new List<string>();
         int i = 0;
-        foreach (List<string> filterer in m_filter.Values)
+        foreach (List<string> filterer in new List<List<string>>(m_filter.Values))
         {
             if (i == 0)
                 filterComparer = new List<string>(filterer);
@@ -76,7 +71,7 @@ public class Interaction : MonoBehaviour
         foreach (string d in filterComparer)
         {
             m_totalData[d] = state;
-            GameObject.Find(d).GetComponent<Data>().ChangeSelectData(state, Constants.COLOR_DATA_OBJECT_SELECTED);
+            GameObject.Find(d).GetComponent<Data>().ChangeSelectData(true, Constants.COLOR_DATA_OBJECT_SELECTED);
         }
 
         return state;
@@ -84,7 +79,7 @@ public class Interaction : MonoBehaviour
 
     private void ClearSelectData()
     {
-        foreach (string d in m_totalData.Keys)
+        foreach (string d in new List<string>(m_totalData.Keys))
         {
             m_totalData[d] = false;
             GameObject.Find(d).GetComponent<Data>().ChangeSelectData(false, Constants.COLOR_DATA_OBJECT_SELECTED);
