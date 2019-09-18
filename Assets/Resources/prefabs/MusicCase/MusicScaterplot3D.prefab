@@ -147,6 +147,7 @@ MonoBehaviour:
   m_modePrepareToDelete: 0
   selectedData: []
   subspacesChild: []
+  isOriginal: 0
 --- !u!1001 &4731249576428625037
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -360,6 +361,18 @@ PrefabInstance:
       propertyPath: PointHolder
       value: 
       objectReference: {fileID: 2181506984882114907}
+    - target: {fileID: 9153940334410059348, guid: b4b59560fc1eed449bae4c88ded1dba2,
+        type: 3}
+      propertyPath: Interactions
+      value: 
+      objectReference: {fileID: 8954751151237846796, guid: fb123e559703fc840b21bea7947379da,
+        type: 3}
+    - target: {fileID: 9153940334410059348, guid: b4b59560fc1eed449bae4c88ded1dba2,
+        type: 3}
+      propertyPath: DataManager
+      value: 
+      objectReference: {fileID: 2228049738797126824, guid: 1644a3e2c5cdd774bbfa1eb8903f9212,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4b59560fc1eed449bae4c88ded1dba2, type: 3}
 --- !u!4 &4513049175021770020 stripped

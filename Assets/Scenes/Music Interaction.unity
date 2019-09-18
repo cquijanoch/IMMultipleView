@@ -345,6 +345,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 345255143843240675, guid: 7f618ffbc5016f2488091116bfc0a965,
+        type: 3}
+      propertyPath: dataManager
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f618ffbc5016f2488091116bfc0a965, type: 3}
 --- !u!1001 &725792930084781017
@@ -1023,6 +1028,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArtistScaterplot3D
       objectReference: {fileID: 0}
+    - target: {fileID: 6214511349131428793, guid: ef2dedf9fb1962d4786b9ea1517b2d19,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6214511349131428774, guid: ef2dedf9fb1962d4786b9ea1517b2d19,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1077,21 +1087,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4290798948028117030, guid: ef2dedf9fb1962d4786b9ea1517b2d19,
-        type: 3}
-      propertyPath: interactions
-      value: 
-      objectReference: {fileID: 70404051}
-    - target: {fileID: 4290798948028117030, guid: ef2dedf9fb1962d4786b9ea1517b2d19,
-        type: 3}
-      propertyPath: columnSelect
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4936700369572167778, guid: ef2dedf9fb1962d4786b9ea1517b2d19,
-        type: 3}
-      propertyPath: isOriginal
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef2dedf9fb1962d4786b9ea1517b2d19, type: 3}

@@ -53,15 +53,16 @@ public class BarPlotter : MonoBehaviour
     public float factorWidthBar = 0.04f;
     public float factorPositionXBar = 0.05f;
 
-    public GameObject interactions;
+    public GameObject Interactions;
+
     private Interaction m_interactionsCoordinated = null;
 
     public Material material_data;
 
     void Start()
     {
-        if (interactions)
-            m_interactionsCoordinated = interactions.GetComponent<Interaction>();
+        if (Interactions)
+            m_interactionsCoordinated = Interactions.GetComponent<Interaction>();
         barList = CSVReader.Read(inputfile);
         List<string> columnList = new List<string>(barList[1].Keys);
         idName = columnList[columID];
@@ -125,9 +126,7 @@ public class BarPlotter : MonoBehaviour
                 if (parent_list.Length > 0)
                 {
                     foreach (string parent in parent_list.Split('-'))
-                    {
-                        m_interactionsCoordinated.InsertData(dataPointName, parent);
-                    }
+                        m_interactionsCoordinated.InsertData(dataPointName, parent, bar.GetComponent<Data>().is_selected);
                 }
             }
 

@@ -49,7 +49,7 @@ public class DataPlotter : MonoBehaviour
 
     public GameObject PointPrefab;
     public GameObject PointHolder;
-    public GameObject interactions;
+    public GameObject Interactions;
 
     public Material material_data;
 
@@ -57,8 +57,9 @@ public class DataPlotter : MonoBehaviour
 
     void Start()
     {
-        if (interactions)
-            m_interactionsCoordinated = interactions.GetComponent<Interaction>();
+        if (Interactions)
+            m_interactionsCoordinated = Interactions.GetComponent<Interaction>();
+
         pointList = CSVReader.Read(inputfile);
         List<string> columnList = new List<string>(pointList[1].Keys);
 
@@ -146,7 +147,7 @@ public class DataPlotter : MonoBehaviour
                 {
                     foreach(string parent in parent_list.Split('-'))
                     {
-                        m_interactionsCoordinated.InsertData(dataPointName, parent);
+                        m_interactionsCoordinated.InsertData(dataPointName, parent, dataPoint.GetComponent<Data>().is_selected);
                     }
                 }
                 

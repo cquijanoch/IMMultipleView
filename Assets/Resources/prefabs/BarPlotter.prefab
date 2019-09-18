@@ -44,10 +44,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputfile: barTest
+  columID: 0
   columnX: 0
   columnY: 1
-  xName: 
-  yName: 
+  colorR: 3
+  colorG: 4
+  colorB: 5
+  columnParents: 6
+  name_1: 7
+  name_2: 8
+  name_3: 9
+  subtitleName_1: 
+  subtitleName_2: 
+  subtitleName_3: 
   plotScale: 1
   BarPrefab: {fileID: 6224929412240574976, guid: cb69ea9f97d202c43b41c6065e12cc7a,
     type: 3}
@@ -58,4 +67,13 @@ MonoBehaviour:
   AxisYLabel: {fileID: 0}
   AxisYLine: {fileID: 0}
   characterAxisLabelSize: 6
+  characterYLabelSize: 0.8
   numLinesAxisY: 10
+  factorLineY: 1
+  factorWidthBar: 0.04
+  factorPositionXBar: 0.05
+  Interactions: {fileID: 8954751151237846796, guid: fb123e559703fc840b21bea7947379da,
+    type: 3}
+  DataManager: {fileID: 2228049738797126824, guid: 1644a3e2c5cdd774bbfa1eb8903f9212,
+    type: 3}
+  material_data: {fileID: 0}

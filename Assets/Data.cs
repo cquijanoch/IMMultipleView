@@ -130,6 +130,11 @@ public class Data : MonoBehaviour
         return is_selected;
     }
 
+    /**
+     * Change the select state and the color,
+     * @param state is the state which will be changed
+     * @param color is the color which will be setted
+     */
     public bool ChangeSelectData(bool state, Color color)
     {
         if (state == is_selected && m_currentColor.Equals(color)) return is_selected;

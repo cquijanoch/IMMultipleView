@@ -52,9 +52,21 @@ MonoBehaviour:
   colorG: 5
   colorB: 6
   columnParents: 7
+  name_1: 7
+  name_2: 8
+  name_3: 9
+  name_4: 10
+  columnSelect: 13
+  subtitleName_1: 
+  subtitleName_2: 
+  subtitleName_3: 
+  subtitleName_4: 
   plotScale: 1
   PointPrefab: {fileID: 7937718932825554916, guid: 19190738887c64449bcb82fbe6de8fcf,
     type: 3}
   PointHolder: {fileID: 0}
-  interactions: {fileID: 0}
+  Interactions: {fileID: 6183301515550043207, guid: 9c48867e10e396b4d842890dad62532a,
+    type: 3}
+  DataManager: {fileID: 2228049738797126824, guid: 1644a3e2c5cdd774bbfa1eb8903f9212,
+    type: 3}
   material_data: {fileID: 2100000, guid: 52c7083f9c7382344affb14206fe0de0, type: 2}
