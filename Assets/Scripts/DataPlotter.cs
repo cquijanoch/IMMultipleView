@@ -143,13 +143,14 @@ public class DataPlotter : MonoBehaviour
             if (m_interactionsCoordinated)
             {
                 string parent_list = pointList[i][parentsName].ToString();
-                if (parent_list.Length > 0)
+                m_interactionsCoordinated.InsertData(dataPointName, parent_list.Split('-'), dataPoint.GetComponent<Data>().is_selected, subspace.GetInstanceID().ToString());
+                /**if (parent_list.Length > 0)
                 {
-                    foreach(string parent in parent_list.Split('-'))
+                    foreach (string parent in parent_list.Split('-'))
                     {
-                        m_interactionsCoordinated.InsertData(dataPointName, parent, dataPoint.GetComponent<Data>().is_selected);
+                        m_interactionsCoordinated.InsertData(dataPointName, parent, dataPoint.GetComponent<Data>().is_selected, subspace.GetInstanceID().ToString());
                     }
-                }
+                }**/
                 
             }
             

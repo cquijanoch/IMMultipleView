@@ -123,11 +123,14 @@ public class BarPlotter : MonoBehaviour
             if (m_interactionsCoordinated)
             {
                 string parent_list = barList[i][parentsName].ToString();
+                m_interactionsCoordinated.InsertData(dataPointName, parent_list.Split('-'), bar.GetComponent<Data>().is_selected, subspace.GetInstanceID().ToString());
+
+                /**
                 if (parent_list.Length > 0)
                 {
                     foreach (string parent in parent_list.Split('-'))
-                        m_interactionsCoordinated.InsertData(dataPointName, parent, bar.GetComponent<Data>().is_selected);
-                }
+                        m_interactionsCoordinated.InsertData(dataPointName, parent, bar.GetComponent<Data>().is_selected, subspace.GetInstanceID().ToString());
+                }**/
             }
 
             if (createAxisXLabel)

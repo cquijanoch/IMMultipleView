@@ -74,7 +74,7 @@ public class MicroHand : MonoBehaviour
             {
                 if (printEvents) print(Time.deltaTime + " Double push Data Object");
                 //m_interactionsCoordinated.ToogleDataParents(m_currentDataSelect);
-                m_interactionsCoordinated.FilterData(m_currentDataSelect);
+                m_interactionsCoordinated.FilterData(m_currentDataSelect, m_currentDataSelect.m_currentSubpace.GetInstanceID().ToString());
                 m_stateSelect = false;
                 m_audioSource.PlayOneShot(DoubleSelectAudio, 1f);
                 return;
