@@ -5,32 +5,25 @@ using Valve.VR;
 
 public class MacroHand : MonoBehaviour
 {
-    public SteamVR_Action_Boolean m_GrabAction = null;
-    public SteamVR_Action_Boolean m_GripAction = null;
-
     private SteamVR_Behaviour_Pose m_Pose = null;
     private FixedJoint m_Joint = null;
-
-    public Subspace m_CurrentTakedSubspace = null; // subspace when is pickup
-
-    /** List of Subsoaces inner into MacroHand**/
-    public List<Subspace> m_ContactInteractables = new List<Subspace>();
-    public int m_currentIndexSelected = -1;
-
-    public bool m_isPressedPrimaryPickup = false;
-    public bool m_isPressedSecundaryPickup = false;
-    public int m_TypeHand = Constants.HAND_NONE_USE;
-
-    public GameObject dialogCommon;
     private GameObject m_currentDialog;
-    public Subspace dataToDelete;
-
     private Hand m_myHand;
     private MacroHand m_otherHand;
-
-    public bool printEvents = false;
-
     private bool m_custonStatusFingerOtherHand = false;
+    private SteamVR_Action_Boolean m_GrabAction = null;
+    private SteamVR_Action_Boolean m_GripAction = null;
+    private List<Subspace> m_ContactInteractables = new List<Subspace>(); //List of Subspaces inner into MacroHand
+    private int m_currentIndexSelected = -1;
+    private bool m_isPressedPrimaryPickup = false;
+    private bool m_isPressedSecundaryPickup = false;
+    private int m_TypeHand = Constants.HAND_NONE_USE;
+
+    [HideInInspector]
+    public Subspace m_CurrentTakedSubspace = null; // subspace when is pickup
+    public GameObject dialogCommon;
+    public Subspace dataToDelete;
+    public bool printEvents = false;
     public bool stoppingScaleOnTriggerExit = false;
 
     private void Awake()
@@ -182,7 +175,6 @@ public class MacroHand : MonoBehaviour
                 StopScaleAndAutoDetectHand(subspace);
             else
                 StopScaleBothHands(subspace);
-
         }
 
         if (m_ContactInteractables.Count > 0 && !m_CurrentTakedSubspace)
@@ -206,19 +198,14 @@ public class MacroHand : MonoBehaviour
             m_isPressedPrimaryPickup = true;
         if (m_TypeHand == Constants.HAND_SECONDARY_USE)
             m_isPressedSecundaryPickup = true;
-
         if (m_TypeHand == Constants.HAND_NONE_USE)
         {
             m_isPressedPrimaryPickup = false;
             m_isPressedSecundaryPickup = false;
         }
-
-
         if (m_CurrentTakedSubspace || m_currentIndexSelected < 0)
             return;
-
         m_CurrentTakedSubspace = m_ContactInteractables[m_currentIndexSelected];
-
         if (!m_CurrentTakedSubspace)
             return;
         DetectTypeHand();
@@ -229,7 +216,6 @@ public class MacroHand : MonoBehaviour
             m_CurrentTakedSubspace.m_PrimaryHand = this;
             m_CurrentTakedSubspace.m_SecondaryHand = null;
         }
-
         if (m_TypeHand == Constants.HAND_SECONDARY_USE)
         {
             m_CurrentTakedSubspace.m_SecondaryHand = this;
@@ -269,7 +255,6 @@ public class MacroHand : MonoBehaviour
                 m_CurrentTakedSubspace.m_PrimaryHand = null;
                 m_CurrentTakedSubspace = null;
             }
-
             else if (m_CurrentTakedSubspace.m_PrimaryHand && m_CurrentTakedSubspace.m_SecondaryHand)
             {
                 m_CurrentTakedSubspace.ResetDistanceInitialForScale();
@@ -289,7 +274,6 @@ public class MacroHand : MonoBehaviour
             m_CurrentTakedSubspace.m_SecondaryHand = null;
             m_CurrentTakedSubspace = null;
             JoiningSubspace();
-
         }
         DetectTypeHand();
     }
@@ -360,9 +344,7 @@ public class MacroHand : MonoBehaviour
                 h.m_TypeHand = Constants.HAND_PRIMARY_USE;
             else
                 h.m_TypeHand = Constants.HAND_SECONDARY_USE;
-
         }
-
     }
 
     /**
@@ -395,10 +377,8 @@ public class MacroHand : MonoBehaviour
             m_otherHand.JoiningSubspace();
 
         }
-
         if (subspace.GetNumberUsedHandsInner() == 0)
             subspace.m_PrimaryHand = null;
-
     }
 
     private void StopScaleBothHands(Subspace subspace)
@@ -481,7 +461,6 @@ public class MacroHand : MonoBehaviour
         if (!m_custonStatusFingerOtherHand)
             m_otherHand.GetComponent<Hand>().DesactivateFingerHand();
         m_otherHand.GetComponent<Hand>().modeAnswer = false;
-
     }
 
     /**
@@ -509,9 +488,7 @@ public class MacroHand : MonoBehaviour
     public void SetEmptyColorSubspaces()
     {
         foreach (Subspace sub in m_ContactInteractables)
-        {
             sub.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
-        }
     }
 
     /**
@@ -530,9 +507,7 @@ public class MacroHand : MonoBehaviour
     public void SetAutoColorSubspaces()
     {
         foreach (Subspace sub in m_ContactInteractables)
-        {
             sub.SetAutoColor();
-        }
     }
 
     /**

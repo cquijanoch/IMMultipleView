@@ -5,20 +5,15 @@ using Valve.VR;
 public class Hand : MonoBehaviour
 {
     private SteamVR_Behaviour_Pose m_Pose = null;
+    private int modeTypeHand = Constants.INT_HAND_MODE_MICRO;
+    private GameObject m_menuCanvas;
+    private MacroHand m_currentMacroHand;
+    private MicroHand m_currentMicroHand;
+    private bool m_lastEnableMacroHand;
 
     public bool showMenu = false;
     public bool modeAnswer = false;
-    private int modeTypeHand = Constants.INT_HAND_MODE_MICRO;
-
     public GameObject menuCanvas;
-
-    private GameObject m_menuCanvas;
-    // private MacroHand m_typeMacroHand;
-    private MacroHand m_currentMacroHand;
-    //private MicroHand m_typeMicroHand;
-    private MicroHand m_currentMicroHand;
-
-    private bool lastEnableMacroHand;
 
     void Start()
     {
@@ -40,8 +35,6 @@ public class Hand : MonoBehaviour
             || !SteamVR_Actions._default.GrabGrip.GetState(m_Pose.inputSource))
             )
         {
-            //print(m_Pose.inputSource + " MacroToMicro");
-            //ToogleModeHand();
             MacroToMicro();
             return;
         }
@@ -49,13 +42,9 @@ public class Hand : MonoBehaviour
         if (!m_currentMacroHand.m_CurrentTakedSubspace && !m_currentMacroHand.dataToDelete
             && SteamVR_Actions._default.TouchNoPressGrabPinch.GetStateDown(m_Pose.inputSource))
         {
-            //print(m_Pose.inputSource + " MicroToMacro");
-            //ToogleModeHand();
             MicroToMacro();
             return;
         }
-
-        //print(GetComponent<Valve.VR.InteractionSystem.Hand>().hoveringInteractable);
     }
 
     public void ChangeModeTypeHand(int intHandMode)
@@ -86,22 +75,14 @@ public class Hand : MonoBehaviour
             Destroy(m_menuCanvas);
             showMenu = false;
         }
-
     }
 
     private void ToogleModeHand()
     {
-        // Change MACRO to MICRO
-        if (modeTypeHand == Constants.INT_HAND_MODE_MACRO)
-        {
+        if (modeTypeHand == Constants.INT_HAND_MODE_MACRO) // Change MACRO to MICRO
             MacroToMicro();
-        }
-        //Change MICRO TO MACRO
-        else if (modeTypeHand == Constants.INT_HAND_MODE_MICRO)
-        {
+        else if (modeTypeHand == Constants.INT_HAND_MODE_MICRO)  //Change MICRO TO MACRO
             MicroToMacro();
-        }
-
     }
 
     private void MicroToMacro()
@@ -159,9 +140,8 @@ public class Hand : MonoBehaviour
         GetComponent<Valve.VR.InteractionSystem.Hand>().HideController();
         GetComponent<Valve.VR.InteractionSystem.Hand>().HideSkeleton();
         GetComponent<Valve.VR.InteractionSystem.Hand>().enabled = false;
-        lastEnableMacroHand = m_currentMacroHand.enabled;
+        m_lastEnableMacroHand = m_currentMacroHand.enabled;
         m_currentMacroHand.enabled = false;
-        //DisableBothMacroHand();
     }
 
     public void ShowHand()
@@ -169,8 +149,7 @@ public class Hand : MonoBehaviour
         GetComponent<Valve.VR.InteractionSystem.Hand>().enabled = true;
         GetComponent<Valve.VR.InteractionSystem.Hand>().ShowController();
         GetComponent<Valve.VR.InteractionSystem.Hand>().ShowSkeleton();
-        m_currentMacroHand.enabled = lastEnableMacroHand;
-        //EnableBothMacroHand();
+        m_currentMacroHand.enabled = m_lastEnableMacroHand;
     }
 
     public void DisableBothMacroHand()

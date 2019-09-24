@@ -1,15 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
 
 public class DataPlotter : MonoBehaviour
 {
+    private List<Dictionary<string, object>> m_pointList;
+    private string m_idName;
+    private string m_xName;
+    private string m_yName;
+    private string m_zName;
+    private string m_parentsName;
+    private string m_colorRName;
+    private string m_colorGName;
+    private string m_colorBName;
+    private string m_nameFirst;
+    private string m_nameSecond;
+    private string m_nameThird;
+    private string m_nameFourth;
+    private string m_dataSelected;
+    private Interaction m_interactionsCoordinated = null;
 
     public string inputfile;
-
-    private List<Dictionary<string, object>> pointList;
-
     public int columnID = 0;
     public int columnX = 1;
     public int columnY = 2;
@@ -18,77 +29,50 @@ public class DataPlotter : MonoBehaviour
     public int colorG = 5;
     public int colorB = 6;
     public int columnParents = 7;
-
     public int name_1 = 7;
     public int name_2 = 8;
     public int name_3 = 9;
     public int name_4 = 10;
-
     public int columnSelect = 13;
-
     public string subtitleName_1;
     public string subtitleName_2;
     public string subtitleName_3;
     public string subtitleName_4;
-
-    private string idName;
-    private string xName;
-    private string yName;
-    private string zName;
-    private string parentsName;
-    private string colorRName;
-    private string colorGName;
-    private string colorBName;
-    private string nameFirst;
-    private string nameSecond;
-    private string nameThird;
-    private string nameFourth;
-    private string dataSelected;
-
     public float plotScale = 1;
-
-    public GameObject PointPrefab;
-    public GameObject PointHolder;
-    public GameObject Interactions;
-
+    public GameObject pointPrefab;
+    public GameObject pointHolder;
+    public GameObject interactions;
     public Material material_data;
-
-    private Interaction m_interactionsCoordinated = null;
 
     void Start()
     {
-        if (Interactions)
-            m_interactionsCoordinated = Interactions.GetComponent<Interaction>();
+        if (interactions)
+            m_interactionsCoordinated = interactions.GetComponent<Interaction>();
+        m_pointList = CSVReader.Read(inputfile);
+        List<string> columnList = new List<string>(m_pointList[1].Keys);
 
-        pointList = CSVReader.Read(inputfile);
-        List<string> columnList = new List<string>(pointList[1].Keys);
+        m_idName = columnList[columnID];
+        m_xName = columnList[columnX];
+        m_yName = columnList[columnY];
+        m_zName = columnList[columnZ];
+        m_parentsName = columnList[columnParents];
+        m_colorRName = columnList[colorR];
+        m_colorGName = columnList[colorG];
+        m_colorBName = columnList[colorB];
 
-        idName = columnList[columnID];
-        xName = columnList[columnX];
-        yName = columnList[columnY];
-        zName = columnList[columnZ];
-        parentsName = columnList[columnParents];
-        colorRName = columnList[colorR];
-        colorGName = columnList[colorG];
-        colorBName = columnList[colorB];
-        if (name_1 > 0)
-            nameFirst = columnList[name_1];
-        if (name_2 > 0)
-            nameSecond = columnList[name_2];
-        if (name_3 > 0)
-            nameThird = columnList[name_3];
-        if (name_4 > 0)
-            nameFourth = columnList[name_4];
-        if (columnSelect > 0)
-        dataSelected = columnList[columnSelect];
+        if (name_1 > 0) m_nameFirst = columnList[name_1];
+        if (name_2 > 0) m_nameSecond = columnList[name_2];
+        if (name_3 > 0) m_nameThird = columnList[name_3];
+        if (name_4 > 0) m_nameFourth = columnList[name_4];
+        if (columnSelect > 0) m_dataSelected = columnList[columnSelect];
 
-        float xMax = FindMaxValue(xName);
-        float yMax = FindMaxValue(yName);
-        float zMax = FindMaxValue(zName);
+        float xMax = FindMaxValue(m_xName);
+        float yMax = FindMaxValue(m_yName);
+        float zMax = FindMaxValue(m_zName);
         
-        float xMin = FindMinValue(xName);
-        float yMin = FindMinValue(yName);
-        float zMin = FindMinValue(zName);
+        float xMin = FindMinValue(m_xName);
+        float yMin = FindMinValue(m_yName);
+        float zMin = FindMinValue(m_zName);
 
         float midX = (xMax - xMin) / 2;
         float midY = (yMax - yMin) / 2;
@@ -99,89 +83,75 @@ public class DataPlotter : MonoBehaviour
         subspace.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
         float scaleSubspace = subspace.localScale.x /2f;
 
-
-        for (var i = 0; i < pointList.Count; i++)
+        for (var i = 0; i < m_pointList.Count; i++)
         {
             /** Positions **/
-            float x = (System.Convert.ToSingle(pointList[i][xName]) - xMin) * scaleSubspace * 2f/ (xMax - xMin);
+            float x = (System.Convert.ToSingle(m_pointList[i][m_xName]) - xMin) * scaleSubspace * 2f/ (xMax - xMin);
             x += subspace.localPosition.x - scaleSubspace;
-            float y = (System.Convert.ToSingle(pointList[i][yName]) - yMin) * scaleSubspace * 2f / (yMax - yMin);
+            float y = (System.Convert.ToSingle(m_pointList[i][m_yName]) - yMin) * scaleSubspace * 2f / (yMax - yMin);
             y += subspace.localPosition.y - scaleSubspace;
-            float z = (System.Convert.ToSingle(pointList[i][zName]) - zMin)  * scaleSubspace * 2f / (zMax - zMin);
+            float z = (System.Convert.ToSingle(m_pointList[i][m_zName]) - zMin)  * scaleSubspace * 2f / (zMax - zMin);
             z += subspace.localPosition.z - scaleSubspace; 
 
-            GameObject dataPoint = Instantiate(PointPrefab, new Vector3(x, y, z) * plotScale, Quaternion.identity);
-            dataPoint.transform.SetParent(PointHolder.transform);
+            GameObject dataPoint = Instantiate(pointPrefab, new Vector3(x, y, z) * plotScale, Quaternion.identity);
+            dataPoint.transform.SetParent(pointHolder.transform);
             dataPoint.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
-            string dataPointName = pointList[i][idName].ToString();
+            string dataPointName = m_pointList[i][m_idName].ToString();
             dataPoint.transform.name = dataPointName;
 
             /** Color**/
-            float color_R = System.Convert.ToSingle(pointList[i][colorRName]) / 255f;
-            float color_G = System.Convert.ToSingle(pointList[i][colorGName]) / 255f;
-            float color_B = System.Convert.ToSingle(pointList[i][colorBName]) / 255f;
-            if (columnSelect > 0 && pointList[i][dataSelected].ToString().Equals("1"))
+            float color_R = System.Convert.ToSingle(m_pointList[i][m_colorRName]) / 255f;
+            float color_G = System.Convert.ToSingle(m_pointList[i][m_colorGName]) / 255f;
+            float color_B = System.Convert.ToSingle(m_pointList[i][m_colorBName]) / 255f;
+            if (columnSelect > 0 && m_pointList[i][m_dataSelected].ToString().Equals(Constants.CSV_DATA_SELECTED))
             {
                 material_data.color = new Color(color_R, color_G, color_B, 1f);
                 dataPoint.GetComponent<Data>().is_selected = true;
-            }
-                
+            }   
             else
                 material_data.color = new Color(color_R, color_G, color_B, Constants.TRANSPARENCY_DATA);
             dataPoint.GetComponent<Renderer>().material = new Material(material_data);
-            dataPoint.GetComponent<Data>().Id = System.Convert.ToInt32(pointList[i][idName]);
-            if (name_1 > 0)
-                dataPoint.GetComponent<Data>().Name_1 = subtitleName_1 + " " + pointList[i][nameFirst].ToString();
-            if (name_2 > 0)
-                dataPoint.GetComponent<Data>().Name_2 = subtitleName_2 + " " + pointList[i][nameSecond].ToString();
-            if (name_3 > 0)
-                dataPoint.GetComponent<Data>().Name_3 = subtitleName_3 + " " + pointList[i][nameThird].ToString();
-            if (name_4 > 0)
-                dataPoint.GetComponent<Data>().Name_4 = subtitleName_4 + " " + pointList[i][nameFourth].ToString();
+            dataPoint.GetComponent<Data>().Id = System.Convert.ToInt32(m_pointList[i][m_idName]);
+
+            if (name_1 > 0) dataPoint.GetComponent<Data>().Name_1 = subtitleName_1 + " " + m_pointList[i][m_nameFirst].ToString();
+            if (name_2 > 0) dataPoint.GetComponent<Data>().Name_2 = subtitleName_2 + " " + m_pointList[i][m_nameSecond].ToString();
+            if (name_3 > 0) dataPoint.GetComponent<Data>().Name_3 = subtitleName_3 + " " + m_pointList[i][m_nameThird].ToString();
+            if (name_4 > 0) dataPoint.GetComponent<Data>().Name_4 = subtitleName_4 + " " + m_pointList[i][m_nameFourth].ToString();
+
             dataPoint.GetComponent<Data>().CustomColor = new Color(color_R, color_G, color_B, material_data.color.a);
             dataPoint.GetComponent<Data>().m_currentSubpace = subspace.GetComponent<Subspace>();
             if (m_interactionsCoordinated)
             {
-                string parent_list = pointList[i][parentsName].ToString();
-                m_interactionsCoordinated.InsertData(dataPointName, parent_list.Split('-'), dataPoint.GetComponent<Data>().is_selected, subspace.GetInstanceID().ToString());
-                /**if (parent_list.Length > 0)
-                {
-                    foreach (string parent in parent_list.Split('-'))
-                    {
-                        m_interactionsCoordinated.InsertData(dataPointName, parent, dataPoint.GetComponent<Data>().is_selected, subspace.GetInstanceID().ToString());
-                    }
-                }**/
-                
+                string parent_list = m_pointList[i][m_parentsName].ToString();
+                m_interactionsCoordinated.InsertData(dataPointName,
+                    parent_list.Split('-'),
+                    dataPoint.GetComponent<Data>().is_selected,
+                    subspace.GetInstanceID().ToString());
             }
-            
         }
         subspace.localRotation = localrotation;
-
         this.enabled = false;
     }
 
     private float FindMaxValue(string columnName)
     {
-        float maxValue = Convert.ToSingle(pointList[0][columnName]);
-        for (var i = 0; i < pointList.Count; i++)
+        float maxValue = Convert.ToSingle(m_pointList[0][columnName]);
+        for (var i = 0; i < m_pointList.Count; i++)
         {
-            if (maxValue < Convert.ToSingle(pointList[i][columnName]))
-                maxValue = Convert.ToSingle(pointList[i][columnName]);
+            if (maxValue < Convert.ToSingle(m_pointList[i][columnName]))
+                maxValue = Convert.ToSingle(m_pointList[i][columnName]);
         }
-
         return maxValue;
     }
 
     private float FindMinValue(string columnName)
     {
-
-        float minValue = Convert.ToSingle(pointList[0][columnName]);
-        for (var i = 0; i < pointList.Count; i++)
+        float minValue = Convert.ToSingle(m_pointList[0][columnName]);
+        for (var i = 0; i < m_pointList.Count; i++)
         {
-            if (Convert.ToSingle(pointList[i][columnName]) < minValue)
-                minValue = Convert.ToSingle(pointList[i][columnName]);
+            if (Convert.ToSingle(m_pointList[i][columnName]) < minValue)
+                minValue = Convert.ToSingle(m_pointList[i][columnName]);
         }
-
         return minValue;
     }
 

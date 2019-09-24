@@ -14,13 +14,13 @@ public class Data : MonoBehaviour
     private string name_3;
     [SerializeField]
     private string name_4;
-    public bool is_selected = false;
-    public Color customColor;
     private Color m_currentColor;
-    public Subspace m_currentSubpace;
     private Material m_material;
     private List<Color> m_colorList = new List<Color>();
 
+    public Subspace m_currentSubpace;
+    public Color customColor;
+    public bool is_selected = false;
     private void Start()
     {
         m_material = GetComponent<Renderer>().material;
@@ -115,9 +115,7 @@ public class Data : MonoBehaviour
         {
             m_colorList.Remove(m_currentColor);
             if (m_colorList.Count > 0)
-            {
                 m_currentColor = m_colorList[m_colorList.Count - 1];
-            }
             else
             {
                 m_currentColor = customColor;
@@ -152,9 +150,7 @@ public class Data : MonoBehaviour
         {
             m_colorList.Remove(new Color(color.r, color.g, color.b, 1f));
             if (m_colorList.Count > 0)
-            {
                 m_currentColor = m_colorList[m_colorList.Count - 1];
-            }
             else
             {
                 m_currentColor = customColor;

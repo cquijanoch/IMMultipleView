@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Subspace : MonoBehaviour
@@ -9,25 +7,22 @@ public class Subspace : MonoBehaviour
     public float m_minPositionDistance = 0.5f;
     public float m_minRotationDistance = 300f;
     public float m_minDiffAngleRotation = 15f;
-
-    public bool m_modeScale = false;
-
     public float m_distanceInitialForScale = 0f;
-
+    public bool m_modeScale = false;
+    public List<Data> selectedData;
+    public List<string> subspacesChild;
+    public bool isOriginal = false;
     public MacroHand m_PrimaryHand = null;
-
     public MacroHand m_SecondaryHand = null;
 
     /** HashSet of MacroHands inner into subspace**/
+    [HideInInspector]
     public HashSet<MacroHand> m_HandsActivedInner = new HashSet<MacroHand>();
-
+    [HideInInspector]
     public int m_numControllersInner = 0;
+    [HideInInspector]
     public bool m_modePrepareToDelete = false;
-
-    public List<Data> selectedData;
-    public List<string> subspacesChild;
-
-    public bool isOriginal = false;
+    [HideInInspector]
 
     private void Start()
     {
@@ -42,17 +37,13 @@ public class Subspace : MonoBehaviour
             ChangeScale();
 
         if (subspacesChild.Count > 0 && m_PrimaryHand)
-        {
             foreach (string s in subspacesChild)
-            {
                 GameObject.Find(s).transform.rotation = transform.rotation;
-            }
-        }
     }
 
     public bool DetectSimimilarTransform(Subspace other)
     {
-        if (Vector3.Distance(transform.position, other.gameObject.transform.position) <= m_minPositionDistance) //&&                                                                                                 // Vector3.Distance(transform.rotation.eulerAngles, other.gameObject.transform.rotation.eulerAngles) < m_minRotationDistance)
+        if (Vector3.Distance(transform.position, other.gameObject.transform.position) <= m_minPositionDistance)                                                                                                 // Vector3.Distance(transform.rotation.eulerAngles, other.gameObject.transform.rotation.eulerAngles) < m_minRotationDistance)
             return true;
         return false;
     }
@@ -130,14 +121,9 @@ public class Subspace : MonoBehaviour
     public void SetAutoColor()
     {
         if (m_numControllersInner == 0 || GetNumberUsedHandsInner(true) == 0)
-        {
             GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
-        }
         else
-        {
             GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
-        }
-
     }
 
     public int GetNumberUsedHandsInner(bool isUsing = true)
@@ -150,5 +136,4 @@ public class Subspace : MonoBehaviour
         }
         return isUsing ? n : m_HandsActivedInner.Count - n;
     }
-
 }

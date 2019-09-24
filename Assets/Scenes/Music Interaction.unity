@@ -118,6 +118,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 626875578449648117}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &147325296 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2181506984882114907, guid: 5a8470c1b47bda546879d839b8d194cf,
+    type: 3}
+  m_PrefabInstance: {fileID: 844628603255292447}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,6 +193,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &412774499 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1976004587428099160, guid: ef2dedf9fb1962d4786b9ea1517b2d19,
+    type: 3}
+  m_PrefabInstance: {fileID: 7446612220627645897}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &879185584
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,6 +550,17 @@ PrefabInstance:
       propertyPath: Interactions
       value: 
       objectReference: {fileID: 70404051}
+    - target: {fileID: 4513049175021770021, guid: 5a8470c1b47bda546879d839b8d194cf,
+        type: 3}
+      propertyPath: pointHolder
+      value: 
+      objectReference: {fileID: 147325296}
+    - target: {fileID: 4513049175021770021, guid: 5a8470c1b47bda546879d839b8d194cf,
+        type: 3}
+      propertyPath: pointPrefab
+      value: 
+      objectReference: {fileID: 7937718932825554916, guid: 19190738887c64449bcb82fbe6de8fcf,
+        type: 3}
     - target: {fileID: 4731249575883220321, guid: 5a8470c1b47bda546879d839b8d194cf,
         type: 3}
       propertyPath: isOriginal
@@ -1111,6 +1134,22 @@ PrefabInstance:
     - target: {fileID: 4290798948028117030, guid: ef2dedf9fb1962d4786b9ea1517b2d19,
         type: 3}
       propertyPath: Interactions
+      value: 
+      objectReference: {fileID: 70404051}
+    - target: {fileID: 4290798948028117030, guid: ef2dedf9fb1962d4786b9ea1517b2d19,
+        type: 3}
+      propertyPath: pointHolder
+      value: 
+      objectReference: {fileID: 412774499}
+    - target: {fileID: 4290798948028117030, guid: ef2dedf9fb1962d4786b9ea1517b2d19,
+        type: 3}
+      propertyPath: pointPrefab
+      value: 
+      objectReference: {fileID: 4920441736578095170, guid: 78e47a3f3d5fee94ab2ddf59b6e326b8,
+        type: 3}
+    - target: {fileID: 4290798948028117030, guid: ef2dedf9fb1962d4786b9ea1517b2d19,
+        type: 3}
+      propertyPath: interactions
       value: 
       objectReference: {fileID: 70404051}
     m_RemovedComponents: []

@@ -34,4 +34,6 @@ public class Constants
     public static Color BUTTON_COLOR_ACTIVATE = Color.green;
     public static Color BUTTON_COLOR_DESACTIVATE = Color.white;
 
+    public static string CSV_DATA_SELECTED = "1"; 
+
 }
