@@ -8,7 +8,6 @@ public class AxisXYZ : MonoBehaviour
     {
         if (!lineMaterial)
         {
-            
             Shader shader = Shader.Find("Hidden/Internal-Colored");
             lineMaterial = new Material(shader);
             lineMaterial.hideFlags = HideFlags.HideAndDontSave;

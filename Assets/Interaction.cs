@@ -7,10 +7,9 @@ using UnityEngine;
 public class Interaction : MonoBehaviour
 {
     private Dictionary<string, DataObj> m_parents = new Dictionary<string, DataObj>();
-    public Dictionary<string, List<string>> m_filter = new Dictionary<string, List<string>>();
-    public bool setEmptyColorWhenSelectData = true;
+    private Dictionary<string, List<string>> m_filter = new Dictionary<string, List<string>>();
 
-    // Start is called before the first frame update
+    public bool setEmptyColorWhenSelectData = true;
 
     public bool InsertData(string data, string parent, bool state, string idParent)
     {
@@ -52,13 +51,9 @@ public class Interaction : MonoBehaviour
     {
         bool state = data.ToogleSelectData();
         if (!enabled) return state; 
-        if (m_parents.ContainsKey(data.Id.ToString()))
-        { 
+        if (m_parents.ContainsKey(data.Id.ToString()) || data.m_currentSubpace.m_letFilter)
             foreach (string d in m_parents[data.Id.ToString()].Parents)
-            {
                 GameObject.Find(d).GetComponent<Data>().ChangeSelectData(state, data.customColor);
-            }
-        }
         return state;
     }
 
@@ -67,7 +62,7 @@ public class Interaction : MonoBehaviour
         bool state = data.ToogleSelectData();
         if (!enabled) return state;
         string id = data.Id.ToString();
-        if (!m_parents.ContainsKey(id))
+        if (!m_parents.ContainsKey(id) || !data.m_currentSubpace.m_letFilter)
             return false;
 
         if (!state)
@@ -87,7 +82,6 @@ public class Interaction : MonoBehaviour
             else
                 m_filter.Add(filterType, new List<string>(m_parents[id].Parents));
         }
-            
 
         List<string> filterComparer = new List<string>();
         int i = 0;
@@ -105,7 +99,6 @@ public class Interaction : MonoBehaviour
            m_parents[d].State = state;
             GameObject.Find(d).GetComponent<Data>().ChangeSelectData(true, Constants.COLOR_DATA_OBJECT_SELECTED);
         }
-
         return state;
     }
 
@@ -121,10 +114,8 @@ public class Interaction : MonoBehaviour
     private void RemoveListfromList(ref List<string> list, List<string> list2)
     {
         foreach(string element in list2)
-        {
             if (list.Contains(element))
                 list.Remove(element);
-        }
     }
 
 }

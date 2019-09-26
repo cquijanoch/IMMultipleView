@@ -409,6 +409,8 @@ public class MacroHand : MonoBehaviour
         clone.GetComponent<Subspace>().m_numControllersInner = 0;
         clone.GetComponent<Subspace>().m_modePrepareToDelete = false;
         clone.GetComponent<Subspace>().isOriginal = false;
+        clone.GetComponent<Subspace>().m_letFilter = false;
+        clone.GetComponent<Subspace>().m_letRotate = false;
         clone.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
     }
 

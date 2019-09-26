@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Subspace : MonoBehaviour
@@ -14,6 +15,7 @@ public class Subspace : MonoBehaviour
     public bool isOriginal = false;
     public MacroHand m_PrimaryHand = null;
     public MacroHand m_SecondaryHand = null;
+    public GameObject titleSubspace = null;
 
     /** HashSet of MacroHands inner into subspace**/
     [HideInInspector]
@@ -22,13 +24,26 @@ public class Subspace : MonoBehaviour
     public int m_numControllersInner = 0;
     [HideInInspector]
     public bool m_modePrepareToDelete = false;
-    [HideInInspector]
+    //[HideInInspector]
+    public bool m_letFilter = true;
+    //[HideInInspector]
+    public bool m_letRotate = true;
+
+    private Renderer rend;
 
     private void Start()
     {
         Physics.IgnoreCollision(GameObject.FindGameObjectWithTag("Plane").GetComponent<Collider>(), GetComponent<Collider>());
+        if (titleSubspace)
+        {
+            titleSubspace = Instantiate(titleSubspace);
+            titleSubspace.GetComponentInChildren<Text>().text = gameObject.name;
+        }
+        rend = GetComponent<Renderer>();
         /**foreach (GameObject gm in GameObject.FindGameObjectsWithTag("Subspace"))
             Physics.IgnoreCollision(gm.GetComponent<Collider>(), GetComponent<Collider>());**/
+        print(gameObject.name + " " + rend.bounds.max);
+
     }
 
     private void Update()
@@ -36,9 +51,12 @@ public class Subspace : MonoBehaviour
         if (m_modeScale)
             ChangeScale();
 
-        if (subspacesChild.Count > 0 && m_PrimaryHand)
+        if (subspacesChild.Count > 0 && m_PrimaryHand && m_letRotate)
             foreach (string s in subspacesChild)
                 GameObject.Find(s).transform.rotation = transform.rotation;
+
+        if (titleSubspace)
+            titleSubspace.transform.position = rend.bounds.max;
     }
 
     public bool DetectSimimilarTransform(Subspace other)
@@ -110,7 +128,7 @@ public class Subspace : MonoBehaviour
     public int CountHandsActivedInner()
     {
         int q = 0;
-        foreach(MacroHand mc in m_HandsActivedInner)
+        foreach (MacroHand mc in m_HandsActivedInner)
         {
             if (mc.enabled)
                 q++;
@@ -135,5 +153,14 @@ public class Subspace : MonoBehaviour
                 n++;
         }
         return isUsing ? n : m_HandsActivedInner.Count - n;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Vector3 center = rend.bounds.center;
+        float radius = rend.bounds.extents.magnitude;
+
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(center, radius);
     }
 }
