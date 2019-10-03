@@ -16,6 +16,8 @@ public class Subspace : MonoBehaviour
     public MacroHand m_PrimaryHand = null;
     public MacroHand m_SecondaryHand = null;
     public GameObject titleSubspace = null;
+    public bool showTitle = false;
+    public string name;
 
     /** HashSet of MacroHands inner into subspace**/
     [HideInInspector]
@@ -24,25 +26,24 @@ public class Subspace : MonoBehaviour
     public int m_numControllersInner = 0;
     [HideInInspector]
     public bool m_modePrepareToDelete = false;
-    //[HideInInspector]
-    public bool m_letFilter = true;
-    //[HideInInspector]
-    public bool m_letRotate = true;
 
-    private Renderer rend;
+    public bool m_letFilter = true;
+    [HideInInspector]
+    public bool m_letRotate = true;
+    [HideInInspector]
+    public int version = 0;
+
+    //private Renderer rend;
 
     private void Start()
     {
         Physics.IgnoreCollision(GameObject.FindGameObjectWithTag("Plane").GetComponent<Collider>(), GetComponent<Collider>());
-        if (titleSubspace)
-        {
-            titleSubspace = Instantiate(titleSubspace);
-            titleSubspace.GetComponentInChildren<Text>().text = gameObject.name;
-        }
-        rend = GetComponent<Renderer>();
+        if (showTitle)
+            ShowTitle();
+
+        //rend = GetComponent<Renderer>();
         /**foreach (GameObject gm in GameObject.FindGameObjectsWithTag("Subspace"))
             Physics.IgnoreCollision(gm.GetComponent<Collider>(), GetComponent<Collider>());**/
-        print(gameObject.name + " " + rend.bounds.max);
 
     }
 
@@ -55,8 +56,14 @@ public class Subspace : MonoBehaviour
             foreach (string s in subspacesChild)
                 GameObject.Find(s).transform.rotation = transform.rotation;
 
+        //if (titleSubspace)
+        //    titleSubspace.transform.position = rend.bounds.max;
+    }
+
+    private void OnDestroy()
+    {
         if (titleSubspace)
-            titleSubspace.transform.position = rend.bounds.max;
+            Destroy(titleSubspace);
     }
 
     public bool DetectSimimilarTransform(Subspace other)
@@ -155,12 +162,16 @@ public class Subspace : MonoBehaviour
         return isUsing ? n : m_HandsActivedInner.Count - n;
     }
 
-    void OnDrawGizmosSelected()
+    public void ShowTitle()
     {
-        Vector3 center = rend.bounds.center;
-        float radius = rend.bounds.extents.magnitude;
-
-        Gizmos.color = Color.white;
-        Gizmos.DrawWireSphere(center, radius);
+        if (titleSubspace)
+        {
+            titleSubspace = Instantiate(titleSubspace);
+            if (version > 0)
+                titleSubspace.GetComponentInChildren<Text>().text = name + " " + version;
+            else
+                titleSubspace.GetComponentInChildren<Text>().text = name;
+            titleSubspace.GetComponent<InitTitleCanvas>().objectToFollow = gameObject;
+        }
     }
 }

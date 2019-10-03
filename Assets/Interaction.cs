@@ -6,12 +6,14 @@ using UnityEngine;
 
 public class Interaction : MonoBehaviour
 {
-    private Dictionary<string, DataObj> m_parents = new Dictionary<string, DataObj>();
-    private Dictionary<string, List<string>> m_filter = new Dictionary<string, List<string>>();
+    private Dictionary<string, DataObj> m_parents = new Dictionary<string, DataObj>();//<name of Data, DataObj>
+    private Dictionary<string, List<string>> m_filter = new Dictionary<string, List<string>>();//<Id of subspace, parents>
+    private List<string> m_filterHistory = new List<string>();
 
+    public Dictionary<string, int> versionSubspace = new Dictionary<string, int>();
     public bool setEmptyColorWhenSelectData = true;
 
-    public bool InsertData(string data, string parent, bool state, string idParent)
+    public bool InsertData(string data, string parent, string brother, bool state, string idContainer)
     {
         if (!m_parents.ContainsKey(data))
         {
@@ -19,14 +21,16 @@ public class Interaction : MonoBehaviour
             dataObj.Id = data;
             dataObj.State = state;
             dataObj.Parents = new List<string>();
-            dataObj.IdParent = idParent;
+            dataObj.Brothers = new List<string>();
+            dataObj.IdContainer = idContainer;
             m_parents.Add(data, dataObj);
         }
         m_parents[data].Parents.Add(parent);
+        m_parents[data].Brothers.Add(brother);
         return true;
     }
 
-    public bool InsertData(string data, string[] parents, bool state, string idParent)
+    public bool InsertData(string data, string[] parents, string[] brothers, bool state, string idContainer)
     {
         if (!m_parents.ContainsKey(data))
         {
@@ -34,7 +38,8 @@ public class Interaction : MonoBehaviour
             dataObj.Id = data;
             dataObj.State = state;
             dataObj.Parents = new List<string>(parents);
-            dataObj.IdParent = idParent;
+            dataObj.Brothers = new List<string>(brothers);
+            dataObj.IdContainer = idContainer;
             m_parents.Add(data, dataObj);
         }
         return true;
@@ -57,32 +62,89 @@ public class Interaction : MonoBehaviour
         return state;
     }
 
-    public bool FilterData(Data data, string filterType)
-    {
+    public bool FilterData(Data data)
+    {      
         bool state = data.ToogleSelectData();
-        if (!enabled) return state;
+        if (!enabled)
+            return state;
+
         string id = data.Id.ToString();
         if (!m_parents.ContainsKey(id) || !data.m_currentSubpace.m_letFilter)
             return false;
 
-        if (!state)
+        UpdateFilterHistory(id, state);
+        foreach (string idBrother in m_parents[id].Brothers)
         {
-            if (!m_filter.ContainsKey(filterType))
-                return false;
-            foreach (string element in m_parents[id].Parents)
-                if (m_filter[filterType].Contains(element))
-                        m_filter[filterType].Remove(element);
-            if (m_filter[filterType].Count == 0)
-                m_filter.Remove(filterType);
-        } 
-        else
-        {
-            if (m_filter.ContainsKey(filterType))
-                m_filter[filterType].AddRange(new List<string>(m_parents[id].Parents));
-            else
-                m_filter.Add(filterType, new List<string>(m_parents[id].Parents));
+            GameObject dataGameObj = GameObject.Find(idBrother);
+            if (dataGameObj)
+            {
+                bool stateBrother = dataGameObj.GetComponent<Data>().ToogleSelectData();
+                UpdateFilterHistory(idBrother, stateBrother);
+                SetFilterParameters(idBrother, stateBrother, m_parents[idBrother].IdContainer);
+            }
+                
         }
 
+        SetFilterParameters(id, state, m_parents[id].IdContainer);
+        
+        ClearSelectData();
+        
+        foreach (string d in GetIntersectFilter())
+        {
+            if (m_parents.ContainsKey(d))
+            {
+                m_parents[d].State = state;
+                GameObject dataGameObj = GameObject.Find(d);
+                Data dataObj = null;
+                if (dataGameObj)
+                    dataObj = dataGameObj.GetComponent<Data>();
+                if (dataObj)
+                {
+                    if (dataObj.m_currentSubpace.m_letFilter)
+                        dataObj.ChangeSelectData(true, dataObj.customColor);
+                    else
+                        dataObj.ChangeSelectData(true, Constants.COLOR_DATA_OBJECT_SELECTED);
+                }
+            } 
+        }
+        return state;
+    }
+
+    private void UpdateFilterHistory(string idData, bool state)
+    {
+        if (m_parents[idData].Parents.Count > 0)
+        {
+            if (state)
+                m_filterHistory.Add(idData);
+            else
+                m_filterHistory.Remove(idData);
+        }
+    }
+
+    private bool SetFilterParameters(string idData, bool state, string filterContainer)
+    {
+        if (!state)
+        {
+            if (!m_filter.ContainsKey(filterContainer))
+                return false;
+            foreach (string element in m_parents[idData].Parents)
+                if (m_filter[filterContainer].Contains(element))
+                    m_filter[filterContainer].Remove(element);
+            if (m_filter[filterContainer].Count == 0)
+                m_filter.Remove(filterContainer);
+        }
+        else
+        {
+            if (m_filter.ContainsKey(filterContainer))
+                m_filter[filterContainer].AddRange(new List<string>(m_parents[idData].Parents));
+            else
+                m_filter.Add(filterContainer, new List<string>(m_parents[idData].Parents));
+        }
+        return true;
+    }
+
+    private List<string> GetIntersectFilter()
+    {
         List<string> filterComparer = new List<string>();
         int i = 0;
         foreach (List<string> filterer in new List<List<string>>(m_filter.Values))
@@ -93,21 +155,31 @@ public class Interaction : MonoBehaviour
                 filterComparer = new List<string>(filterComparer.Intersect(filterer));
             i++;
         }
-        ClearSelectData();
-        foreach (string d in filterComparer)
-        {
-           m_parents[d].State = state;
-            GameObject.Find(d).GetComponent<Data>().ChangeSelectData(true, Constants.COLOR_DATA_OBJECT_SELECTED);
-        }
-        return state;
+        return filterComparer;
+    }
+
+    private List<string> GetParentsWithParents(string id)
+    {
+        List<string> dataWithParents = new List<string>();
+        foreach (string parent in m_parents[id].Parents)
+            if (m_parents[parent].Parents.Count > 0)
+                dataWithParents.Add(parent);
+        return dataWithParents;
     }
 
     private void ClearSelectData()
     {
         foreach (string d in new List<string>(m_parents.Keys))
         {
-            m_parents[d].State = false;
-            GameObject.Find(d).GetComponent<Data>().ChangeSelectData(false, Constants.COLOR_DATA_OBJECT_SELECTED);
+            if (!m_filterHistory.Contains(d))
+            {
+                m_parents[d].State = false;
+                Data dataObj = GameObject.Find(d).GetComponent<Data>();
+                if (dataObj.m_currentSubpace.m_letFilter)
+                    dataObj.ChangeSelectData(false, dataObj.customColor);
+                else
+                    dataObj.ChangeSelectData(false, Constants.COLOR_DATA_OBJECT_SELECTED);
+            }    
         }
     }
 

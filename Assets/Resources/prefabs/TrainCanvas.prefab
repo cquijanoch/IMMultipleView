@@ -396,8 +396,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bcd2b325647bba4384c33460584c8d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Head: {fileID: 0}
   Answer: 0
+  m_title: {fileID: 0}
+  tittle: Training
+  m_currentIndexScene: 0
+  current_player: {fileID: 0}
 --- !u!1 &349740142055867420
 GameObject:
   m_ObjectHideFlags: 0

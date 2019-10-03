@@ -71,7 +71,7 @@ public class MicroHand : MonoBehaviour
             if (SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource)  && m_currentDataSelect)
             {
                 if (printEvents) print(Time.deltaTime + " Double push Data Object");
-                m_interactionsCoordinated.FilterData(m_currentDataSelect, m_currentDataSelect.m_currentSubpace.GetInstanceID().ToString());
+                m_interactionsCoordinated.FilterData(m_currentDataSelect);
                 m_stateSelect = false;
                 m_audioSource.PlayOneShot(DoubleSelectAudio, 1f);
                 return;

@@ -5,7 +5,8 @@ public class DataObj
 {
     private string id;
     private bool state;
-    private string idParent;
+    private List<string> brothers;
+    private string idContainer;
     private List<string> parents;
 
     public DataObj() { }
@@ -33,15 +34,15 @@ public class DataObj
         }
     }
 
-    public string IdParent
+    public List<string> Brothers
     {
         get
         {
-            return idParent;
+            return brothers;
         }
         set
         {
-            idParent = value;
+            brothers = new List<string>(value);
         }
     }
 
@@ -54,6 +55,18 @@ public class DataObj
         set
         {
             parents = new List<string>(value);
+        }
+    }
+
+    public string IdContainer
+    {
+        get
+        {
+            return idContainer;
+        }
+        set
+        {
+            idContainer = value;
         }
     }
 

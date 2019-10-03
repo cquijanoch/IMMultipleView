@@ -10,6 +10,7 @@ public class BarPlotter : MonoBehaviour
     private string m_xName;
     private string m_yName;
     private string m_parentsName;
+    private string m_brotherssName;
     private string m_colorRName;
     private string m_colorGName;
     private string m_colorBName;
@@ -29,6 +30,7 @@ public class BarPlotter : MonoBehaviour
     public int name_1 = 7;
     public int name_2 = 8;
     public int name_3 = 9;
+    public int columnBrothers = 10;
     public string subtitleName_1;
     public string subtitleName_2;
     public string subtitleName_3;
@@ -59,7 +61,6 @@ public class BarPlotter : MonoBehaviour
         m_idName = columnList[columID];
         m_xName = columnList[columnX];
         m_yName = columnList[columnY];
-        m_parentsName = columnList[columnParents];
         m_colorRName = columnList[colorR];
         m_colorGName = columnList[colorG];
         m_colorBName = columnList[colorB];
@@ -67,6 +68,8 @@ public class BarPlotter : MonoBehaviour
         if (name_1 > 0) m_nameFirst = columnList[name_1];
         if (name_2 > 0) m_nameSecond = columnList[name_2];
         if (name_3 > 0) m_nameThird = columnList[name_3];
+        if (columnParents > 0) m_parentsName = columnList[columnParents];
+        if (columnBrothers > 0) m_brotherssName = columnList[columnBrothers];
 
         float dataMax = FindMaxValue(m_yName);
         float dataMin = FindMinValue(m_yName) - 1;
@@ -113,9 +116,15 @@ public class BarPlotter : MonoBehaviour
             bar.GetComponent<Data>().m_currentSubpace = subspace.GetComponent<Subspace>();
             if (m_interactionsCoordinated)
             {
-                string parent_list = m_barList[i][m_parentsName].ToString();
+                string parent_list = "";
+                string brother_list = "";
+                if (columnParents > 0)
+                    parent_list = m_barList[i][m_parentsName].ToString();
+                if (columnBrothers > 0)
+                    brother_list = m_barList[i][m_brotherssName].ToString();
                 m_interactionsCoordinated.InsertData(dataPointName,
-                    parent_list.Split('-'),
+                    parent_list.Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries),
+                    brother_list.Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries),
                     bar.GetComponent<Data>().is_selected,
                     subspace.GetInstanceID().ToString());
             }

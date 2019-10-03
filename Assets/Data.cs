@@ -148,7 +148,8 @@ public class Data : MonoBehaviour
         }
         else
         {
-            m_colorList.Remove(new Color(color.r, color.g, color.b, 1f));
+            //m_currentColor.a = 1f;
+            m_colorList.Remove(m_currentColor);
             if (m_colorList.Count > 0)
                 m_currentColor = m_colorList[m_colorList.Count - 1];
             else
@@ -156,6 +157,7 @@ public class Data : MonoBehaviour
                 m_currentColor = customColor;
                 is_selected = false;
             }
+            
             newMaterial.color = m_currentColor;
             gameObject.GetComponent<Renderer>().material = newMaterial;
             m_currentSubpace.selectedData.Remove(this);

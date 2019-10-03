@@ -101,7 +101,7 @@ public class Hand : MonoBehaviour
     private void MacroToMicro()
     {
         GetComponent<Valve.VR.InteractionSystem.Hand>().HideController(true);
-        if (m_currentMacroHand.GetCurrentSubspace() && m_currentMacroHand.GetCurrentSubspace().GetNumberUsedHandsInner() == 1)//if isnt other macrohand inner
+        if (m_currentMacroHand.GetCurrentSubspace() && m_currentMacroHand.GetCurrentSubspace().GetNumberUsedHandsInner() == 0)//if isnt other macrohand inner
             m_currentMacroHand.SetEmptyColorCurrentSubspace();
         //if (m_currentMacroHand.GetCurrentSubspace())
         //    m_currentMacroHand.GetCurrentSubspace().m_HandsActivedInner.Remove(m_currentMacroHand);

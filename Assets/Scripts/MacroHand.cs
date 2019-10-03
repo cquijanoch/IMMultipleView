@@ -18,6 +18,7 @@ public class MacroHand : MonoBehaviour
     private bool m_isPressedPrimaryPickup = false;
     private bool m_isPressedSecundaryPickup = false;
     private int m_TypeHand = Constants.HAND_NONE_USE;
+    private Interaction m_interactionsCoordinated = null;
 
     [HideInInspector]
     public Subspace m_CurrentTakedSubspace = null; // subspace when is pickup
@@ -25,6 +26,7 @@ public class MacroHand : MonoBehaviour
     public Subspace dataToDelete;
     public bool printEvents = false;
     public bool stoppingScaleOnTriggerExit = false;
+    public GameObject interactions;
 
     private void Awake()
     {
@@ -35,6 +37,8 @@ public class MacroHand : MonoBehaviour
     {
         m_myHand = GetComponent<Hand>();
         m_otherHand = m_myHand.GetOtherMacroHand();
+        if (interactions)
+            m_interactionsCoordinated = interactions.GetComponent<Interaction>();
     }
 
     void Update()
@@ -404,6 +408,10 @@ public class MacroHand : MonoBehaviour
         if (m_TypeHand != Constants.HAND_PRIMARY_USE || m_currentIndexSelected < 0 || !m_ContactInteractables[m_currentIndexSelected] ||
             m_CurrentTakedSubspace)
             return;
+        if (m_interactionsCoordinated.versionSubspace.ContainsKey(m_ContactInteractables[m_currentIndexSelected].name))
+            m_interactionsCoordinated.versionSubspace[m_ContactInteractables[m_currentIndexSelected].name]++;
+        else
+            m_interactionsCoordinated.versionSubspace.Add(m_ContactInteractables[m_currentIndexSelected].name, 1);
         GameObject clone = Instantiate(m_ContactInteractables[m_currentIndexSelected].gameObject,
             m_ContactInteractables[m_currentIndexSelected].transform.position + new Vector3(0.2f, 0, 0), m_ContactInteractables[m_currentIndexSelected].transform.rotation);
         clone.GetComponent<Subspace>().m_numControllersInner = 0;
@@ -411,6 +419,7 @@ public class MacroHand : MonoBehaviour
         clone.GetComponent<Subspace>().isOriginal = false;
         clone.GetComponent<Subspace>().m_letFilter = false;
         clone.GetComponent<Subspace>().m_letRotate = false;
+        clone.GetComponent<Subspace>().version = m_interactionsCoordinated.versionSubspace[m_ContactInteractables[m_currentIndexSelected].name];
         clone.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
     }
 
