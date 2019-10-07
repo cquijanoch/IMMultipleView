@@ -19,6 +19,7 @@ public class MacroHand : MonoBehaviour
     private bool m_isPressedSecundaryPickup = false;
     private int m_TypeHand = Constants.HAND_NONE_USE;
     private Interaction m_interactionsCoordinated = null;
+    private Console m_console = null;
 
     [HideInInspector]
     public Subspace m_CurrentTakedSubspace = null; // subspace when is pickup
@@ -27,6 +28,7 @@ public class MacroHand : MonoBehaviour
     public bool printEvents = false;
     public bool stoppingScaleOnTriggerExit = false;
     public GameObject interactions;
+    public GameObject console;
 
     private void Awake()
     {
@@ -39,6 +41,11 @@ public class MacroHand : MonoBehaviour
         m_otherHand = m_myHand.GetOtherMacroHand();
         if (interactions)
             m_interactionsCoordinated = interactions.GetComponent<Interaction>();
+        if (console)
+        {
+            m_console = console.GetComponent<Console>();
+            m_console.AddText("MACRO HAND NAME: " + transform.name);
+        }   
     }
 
     void Update()
@@ -54,19 +61,23 @@ public class MacroHand : MonoBehaviour
             joined.m_PrimaryHand = null;
             joined.m_SecondaryHand = null;
             m_Joint.connectedBody = null;
+            if (m_console) m_console.AddText("FIX BUG");
             return;
         }
 
         if (SteamVR_Actions._default.GrabGrip.GetStateDown(m_Pose.inputSource))
         {
             if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " Pickup");
+            if (m_console) m_console.AddText("PICKUP()");
             Pickup();
+            if (m_console) m_console.AddText("m_currentIndexSelected: " + m_currentIndexSelected);
             return;
         }
 
         if (SteamVR_Actions._default.TouchYbutton.GetStateDown(m_Pose.inputSource))
         {
             if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " Clone");
+            if (m_console) m_console.AddText("CLONE()");
             Clone();
             return;
         }
@@ -74,7 +85,9 @@ public class MacroHand : MonoBehaviour
         if (SteamVR_Actions._default.GrabGrip.GetStateUp(m_Pose.inputSource))
         {
             if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " Drop");
+            if (m_console) m_console.AddText("DROP()");
             Drop();
+            if (m_console) m_console.AddText("m_currentIndexSelected: " + m_currentIndexSelected);
             return;
         }
 
@@ -82,6 +95,7 @@ public class MacroHand : MonoBehaviour
             !m_isPressedPrimaryPickup && !m_isPressedSecundaryPickup)
         {
             if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " ChangeCurrentSelectionSpace");
+            if (m_console) m_console.AddText("CHANGECURRENTSELECTIONSPACE()");
             ChangeCurrentSelectionSpace();
             return;
         }
@@ -90,6 +104,7 @@ public class MacroHand : MonoBehaviour
             && !m_isPressedPrimaryPickup)
         {
             if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " EnableToDelete");
+            if (m_console) m_console.AddText("ENABLETODELETE()");
             EnableToDelete();
             return;
         }
@@ -97,6 +112,7 @@ public class MacroHand : MonoBehaviour
         if (m_CurrentTakedSubspace && SteamVR_Actions._default.TouchXbutton.GetStateDown(m_Pose.inputSource) && m_ContactInteractables.Count > 1)
         {
             if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + "SetTransformForSimilar");
+            if (m_console) m_console.AddText("SETTRANSFORMFORSIMILAR()");
             SetTransformForSimilar();
             return;
         }
@@ -134,6 +150,7 @@ public class MacroHand : MonoBehaviour
         if (!other.gameObject.CompareTag("Subspace"))
             return;
         if (printEvents) print(Time.deltaTime + " " + "OnTriggerEnter : " + other.gameObject.name);
+        if (m_console) m_console.AddText("ONTRIGGERENTERIN: " + other.gameObject.name);
         Subspace subspace = other.gameObject.GetComponent<Subspace>();
         
         m_ContactInteractables.Add(subspace);
@@ -142,19 +159,24 @@ public class MacroHand : MonoBehaviour
             m_currentIndexSelected = 0;
             subspace.m_HandsActivedInner.Add(this);
         }
-
+        
         if (!m_CurrentTakedSubspace)
         {
             m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner.Remove(this);
-            m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
+            if (m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner.Count == 0)
+                m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
             m_currentIndexSelected = m_ContactInteractables.IndexOf(subspace);
             subspace.m_HandsActivedInner.Add(this);
         }
-            subspace.m_numControllersInner++;
+        subspace.m_numControllersInner++;
         if (enabled && !subspace.m_modePrepareToDelete)
             m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
         DetectTypeHand();
-
+        if (m_console) m_console.AddText("ONTRIGGERENTEROUT: " + other.gameObject.name
+            + " , m_ContactInteractables.Count: " + m_ContactInteractables.Count
+            + " , m_currentIndexSelected: " + m_currentIndexSelected
+            + " , subspace.m_numControllersInner: " + subspace.m_numControllersInner
+            + " , typeHand: " + m_TypeHand);
     }
 
     public void OnTriggerExit(Collider other)
@@ -162,16 +184,19 @@ public class MacroHand : MonoBehaviour
         if (!other.gameObject.CompareTag("Subspace"))
             return;
         if (printEvents) print(Time.deltaTime + " " + "OnTriggerExit : " + other.gameObject.name);
+        if (m_console) m_console.AddText("ONTRIGGEREXITIN: " + other.gameObject.name);
         Subspace subspace = other.gameObject.GetComponent<Subspace>();
+
         m_ContactInteractables.Remove(subspace);
         subspace.m_numControllersInner--;
         subspace.m_HandsActivedInner.Remove(this);
+
         if (enabled && !subspace.m_modePrepareToDelete && (subspace.GetNumberUsedHandsInner(true) == 0))
             other.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
+            
         if (m_currentIndexSelected > m_ContactInteractables.Count - 1)
-        {
             m_currentIndexSelected = m_ContactInteractables.Count - 1;
-        }
+
         if (subspace.m_modeScale && subspace.m_PrimaryHand && subspace.m_SecondaryHand)
         {
             stoppingScaleOnTriggerExit = true;
@@ -185,7 +210,7 @@ public class MacroHand : MonoBehaviour
         {
             m_ContactInteractables[m_currentIndexSelected].m_HandsActivedInner.Add(this);
             if (enabled)
-                m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
+                m_ContactInteractables[m_currentIndexSelected].GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;  
         }
 
         if (m_ContactInteractables.Count == 0)
@@ -193,6 +218,11 @@ public class MacroHand : MonoBehaviour
 
         DetectTypeHand();
         stoppingScaleOnTriggerExit = false;
+        if (m_console) m_console.AddText("ONTRIGGEREXITIUT: " + other.gameObject.name
+            + " , m_ContactInteractables.Count: " + m_ContactInteractables.Count
+            + " , m_currentIndexSelected: " + m_currentIndexSelected
+            + " , subspace.m_numControllersInner: " + subspace.m_numControllersInner
+            + " , typeHand: " + m_TypeHand);
     }
 
 
@@ -207,6 +237,7 @@ public class MacroHand : MonoBehaviour
             m_isPressedPrimaryPickup = false;
             m_isPressedSecundaryPickup = false;
         }
+        
         if (m_CurrentTakedSubspace || m_currentIndexSelected < 0)
             return;
         m_CurrentTakedSubspace = m_ContactInteractables[m_currentIndexSelected];
@@ -408,10 +439,7 @@ public class MacroHand : MonoBehaviour
         if (m_TypeHand != Constants.HAND_PRIMARY_USE || m_currentIndexSelected < 0 || !m_ContactInteractables[m_currentIndexSelected] ||
             m_CurrentTakedSubspace)
             return;
-        if (m_interactionsCoordinated.versionSubspace.ContainsKey(m_ContactInteractables[m_currentIndexSelected].name))
-            m_interactionsCoordinated.versionSubspace[m_ContactInteractables[m_currentIndexSelected].name]++;
-        else
-            m_interactionsCoordinated.versionSubspace.Add(m_ContactInteractables[m_currentIndexSelected].name, 1);
+        
         GameObject clone = Instantiate(m_ContactInteractables[m_currentIndexSelected].gameObject,
             m_ContactInteractables[m_currentIndexSelected].transform.position + new Vector3(0.2f, 0, 0), m_ContactInteractables[m_currentIndexSelected].transform.rotation);
         clone.GetComponent<Subspace>().m_numControllersInner = 0;
@@ -419,8 +447,16 @@ public class MacroHand : MonoBehaviour
         clone.GetComponent<Subspace>().isOriginal = false;
         clone.GetComponent<Subspace>().m_letFilter = false;
         clone.GetComponent<Subspace>().m_letRotate = false;
-        clone.GetComponent<Subspace>().version = m_interactionsCoordinated.versionSubspace[m_ContactInteractables[m_currentIndexSelected].name];
         clone.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
+
+        if (m_interactionsCoordinated)
+        {
+            if (m_interactionsCoordinated.versionSubspace.ContainsKey(m_ContactInteractables[m_currentIndexSelected].name))
+                m_interactionsCoordinated.versionSubspace[m_ContactInteractables[m_currentIndexSelected].name]++;
+            else
+                m_interactionsCoordinated.versionSubspace.Add(m_ContactInteractables[m_currentIndexSelected].name, 1);
+            clone.GetComponent<Subspace>().version = m_interactionsCoordinated.versionSubspace[m_ContactInteractables[m_currentIndexSelected].name];
+        }
     }
 
     /**

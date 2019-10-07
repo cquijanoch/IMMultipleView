@@ -112,6 +112,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &69029617 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4437429507820396703, guid: 8ac69f34b21e94049a52d8a8eca6a6b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2581318685994074135}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1360935399
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -349,6 +355,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1967906507 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4757615151513612410, guid: a48ce1b58c686d6479aa479420e20e8d,
+    type: 3}
+  m_PrefabInstance: {fileID: 6443063879293624820}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &167024821329913652
 RectTransform:
   m_ObjectHideFlags: 0
@@ -691,11 +703,48 @@ PrefabInstance:
       propertyPath: interactions
       value: 
       objectReference: {fileID: 626875577872244584}
+    - target: {fileID: 2122107999120844001, guid: 8ac69f34b21e94049a52d8a8eca6a6b0,
+        type: 3}
+      propertyPath: pointPrefab
+      value: 
+      objectReference: {fileID: 7937718932825554916, guid: 19190738887c64449bcb82fbe6de8fcf,
+        type: 3}
+    - target: {fileID: 2122107999120844001, guid: 8ac69f34b21e94049a52d8a8eca6a6b0,
+        type: 3}
+      propertyPath: pointHolder
+      value: 
+      objectReference: {fileID: 69029617}
+    - target: {fileID: 2122107999120844001, guid: 8ac69f34b21e94049a52d8a8eca6a6b0,
+        type: 3}
+      propertyPath: columnBrothers
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 7096100466826319013, guid: 8ac69f34b21e94049a52d8a8eca6a6b0,
         type: 3}
       propertyPath: isOriginal
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7096100466826319013, guid: 8ac69f34b21e94049a52d8a8eca6a6b0,
+        type: 3}
+      propertyPath: m_letFilter
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7096100466826319013, guid: 8ac69f34b21e94049a52d8a8eca6a6b0,
+        type: 3}
+      propertyPath: name
+      value: Music Scatterplot
+      objectReference: {fileID: 0}
+    - target: {fileID: 7096100466826319013, guid: 8ac69f34b21e94049a52d8a8eca6a6b0,
+        type: 3}
+      propertyPath: showTitle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7096100466826319013, guid: 8ac69f34b21e94049a52d8a8eca6a6b0,
+        type: 3}
+      propertyPath: titleSubspace
+      value: 
+      objectReference: {fileID: 8109580788735623056, guid: 9bedf3ffe75872c43b4de08cff783aa8,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ac69f34b21e94049a52d8a8eca6a6b0, type: 3}
 --- !u!1 &3692852593425557483 stripped
@@ -955,11 +1004,53 @@ PrefabInstance:
       propertyPath: interactions
       value: 
       objectReference: {fileID: 626875577872244584}
+    - target: {fileID: 7125159286570251268, guid: a48ce1b58c686d6479aa479420e20e8d,
+        type: 3}
+      propertyPath: pointPrefab
+      value: 
+      objectReference: {fileID: 4920441736578095170, guid: 78e47a3f3d5fee94ab2ddf59b6e326b8,
+        type: 3}
+    - target: {fileID: 7125159286570251268, guid: a48ce1b58c686d6479aa479420e20e8d,
+        type: 3}
+      propertyPath: pointHolder
+      value: 
+      objectReference: {fileID: 1967906507}
+    - target: {fileID: 7125159286570251268, guid: a48ce1b58c686d6479aa479420e20e8d,
+        type: 3}
+      propertyPath: columnBrothers
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7125159286570251268, guid: a48ce1b58c686d6479aa479420e20e8d,
+        type: 3}
+      propertyPath: columnSelect
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 2155239201932444736, guid: a48ce1b58c686d6479aa479420e20e8d,
         type: 3}
       propertyPath: isOriginal
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2155239201932444736, guid: a48ce1b58c686d6479aa479420e20e8d,
+        type: 3}
+      propertyPath: m_letFilter
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2155239201932444736, guid: a48ce1b58c686d6479aa479420e20e8d,
+        type: 3}
+      propertyPath: name
+      value: Artist Scatterplot
+      objectReference: {fileID: 0}
+    - target: {fileID: 2155239201932444736, guid: a48ce1b58c686d6479aa479420e20e8d,
+        type: 3}
+      propertyPath: showTitle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2155239201932444736, guid: a48ce1b58c686d6479aa479420e20e8d,
+        type: 3}
+      propertyPath: titleSubspace
+      value: 
+      objectReference: {fileID: 8109580788735623056, guid: 9bedf3ffe75872c43b4de08cff783aa8,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a48ce1b58c686d6479aa479420e20e8d, type: 3}
 --- !u!1001 &6736369040317477679
@@ -1028,6 +1119,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6464622917948811394, guid: 9c48867e10e396b4d842890dad62532a,
+        type: 3}
+      propertyPath: setEmptyColorWhenSelectData
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c48867e10e396b4d842890dad62532a, type: 3}
@@ -1778,11 +1874,42 @@ PrefabInstance:
       propertyPath: interactions
       value: 
       objectReference: {fileID: 626875577872244584}
+    - target: {fileID: 3369677709433541224, guid: 84216daa86693e24f946f535a64af021,
+        type: 3}
+      propertyPath: columnBrothers
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3369677709433541224, guid: 84216daa86693e24f946f535a64af021,
+        type: 3}
+      propertyPath: Interactions
+      value: 
+      objectReference: {fileID: 626875577872244584}
     - target: {fileID: 7944303158358672059, guid: 84216daa86693e24f946f535a64af021,
         type: 3}
       propertyPath: isOriginal
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7944303158358672059, guid: 84216daa86693e24f946f535a64af021,
+        type: 3}
+      propertyPath: m_letFilter
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7944303158358672059, guid: 84216daa86693e24f946f535a64af021,
+        type: 3}
+      propertyPath: name
+      value: Genre Bar
+      objectReference: {fileID: 0}
+    - target: {fileID: 7944303158358672059, guid: 84216daa86693e24f946f535a64af021,
+        type: 3}
+      propertyPath: showTitle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7944303158358672059, guid: 84216daa86693e24f946f535a64af021,
+        type: 3}
+      propertyPath: titleSubspace
+      value: 
+      objectReference: {fileID: 8109580788735623056, guid: 9bedf3ffe75872c43b4de08cff783aa8,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84216daa86693e24f946f535a64af021, type: 3}
 --- !u!1001 &7913704044333392431

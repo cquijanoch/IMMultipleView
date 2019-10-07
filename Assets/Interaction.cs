@@ -72,6 +72,8 @@ public class Interaction : MonoBehaviour
         if (!m_parents.ContainsKey(id) || !data.m_currentSubpace.m_letFilter)
             return false;
 
+        if (m_parents[id].Parents.Count == 0)
+            return state;
         UpdateFilterHistory(id, state);
         foreach (string idBrother in m_parents[id].Brothers)
         {
