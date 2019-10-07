@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 6709287205191337925}
   - component: {fileID: 6709287205191337926}
   m_Layer: 0
-  m_Name: Player
+  m_Name: PlayerVR
   m_TagString: Player
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -1085,23 +1085,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95daa48eab0bba3429c93617d19507ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_GrabAction:
-    actionPath: /actions/default/in/GrabPinch
-    needsReinit: 0
-  m_GripAction:
-    actionPath: 
-    needsReinit: 0
   m_CurrentTakedSubspace: {fileID: 0}
-  m_ContactInteractables: []
-  m_currentIndexSelected: -1
-  m_isPressedPrimaryPickup: 0
-  m_isPressedSecundaryPickup: 0
-  m_TypeHand: 0
   dialogCommon: {fileID: 6917367031368038115, guid: 0cf22f0f8a28e30499bdab8118172044,
     type: 3}
   dataToDelete: {fileID: 0}
   printEvents: 0
   stoppingScaleOnTriggerExit: 0
+  interactions: {fileID: 0}
+  console: {fileID: 0}
 --- !u!114 &8426424799567184317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1117,7 +1108,6 @@ MonoBehaviour:
   printEvents: 0
   descriptionDialog: {fileID: 8109580788735623056, guid: f4f41b155bfbb6642aca29b7062b4754,
     type: 3}
-  m_numberPushDataObject: 3.4028235e+38
   m_previousData: {fileID: 0}
   m_stateSelect: 1
   interactions: {fileID: 0}
@@ -1136,6 +1126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   showMenu: 0
+  modeAnswer: 0
   menuCanvas: {fileID: 7475678743971749618, guid: 7b4a89e9b196d5f4cb709851117755bc,
     type: 3}
 --- !u!82 &8259835276347005955
@@ -1427,7 +1418,6 @@ MonoBehaviour:
   printEvents: 0
   descriptionDialog: {fileID: 8109580788735623056, guid: f4f41b155bfbb6642aca29b7062b4754,
     type: 3}
-  m_numberPushDataObject: 3.4028235e+38
   m_previousData: {fileID: 0}
   m_stateSelect: 1
   interactions: {fileID: 0}
@@ -1445,23 +1435,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95daa48eab0bba3429c93617d19507ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_GrabAction:
-    actionPath: /actions/default/in/GrabPinch
-    needsReinit: 0
-  m_GripAction:
-    actionPath: 
-    needsReinit: 0
   m_CurrentTakedSubspace: {fileID: 0}
-  m_ContactInteractables: []
-  m_currentIndexSelected: -1
-  m_isPressedPrimaryPickup: 0
-  m_isPressedSecundaryPickup: 0
-  m_TypeHand: 0
   dialogCommon: {fileID: 6917367031368038115, guid: 0cf22f0f8a28e30499bdab8118172044,
     type: 3}
   dataToDelete: {fileID: 0}
   printEvents: 0
   stoppingScaleOnTriggerExit: 0
+  interactions: {fileID: 0}
+  console: {fileID: 0}
 --- !u!114 &8426424799567200652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1475,6 +1456,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   showMenu: 0
+  modeAnswer: 0
   menuCanvas: {fileID: 7475678743971749618, guid: 7b4a89e9b196d5f4cb709851117755bc,
     type: 3}
 --- !u!82 &5184421356722352850

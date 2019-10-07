@@ -41,10 +41,6 @@ public class Subspace : MonoBehaviour
         if (showTitle)
             ShowTitle();
 
-        //rend = GetComponent<Renderer>();
-        /**foreach (GameObject gm in GameObject.FindGameObjectsWithTag("Subspace"))
-            Physics.IgnoreCollision(gm.GetComponent<Collider>(), GetComponent<Collider>());**/
-
     }
 
     private void Update()

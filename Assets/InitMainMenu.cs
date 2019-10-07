@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
 public class InitMainMenu : MonoBehaviour
 {
     public int m_trainNumber = -1;
@@ -24,11 +25,22 @@ public class InitMainMenu : MonoBehaviour
     public GameObject m_textTotalTime;
     public GameObject m_textTrainTime;
     public GameObject m_textTaskTime;
+
+    public GameObject m_toogle;
+
+    public GameObject m_StartPosition;
+    public GameObject m_PlayerVR;
+    public GameObject m_PlayerFPS;
+
+
+    public bool VR;
     //private int m_currentIndexScene = 0;
 
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        
+        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(m_StartPosition);
     }
     void Start()
     {
@@ -63,16 +75,20 @@ public class InitMainMenu : MonoBehaviour
         cleanColorButton();
         m_buttonTrain1.GetComponent<Image>().color = Constants.BUTTON_COLOR_ACTIVATE;
         Destroy(GameObject.FindGameObjectWithTag("Player"));
+        CreatePlayer();
         SceneManager.LoadScene(1);
         m_trainNumber = 1;
     }
 
     public void Train_2()
     {
+       
         m_taskNumber = - 1;
         cleanColorButton();
         m_buttonTrain2.GetComponent<Image>().color = Constants.BUTTON_COLOR_ACTIVATE;
         Destroy(GameObject.FindGameObjectWithTag("Player"));
+        CreatePlayer();
+        Instantiate(m_PlayerVR, m_StartPosition.transform.position, m_StartPosition.transform.rotation);
         SceneManager.LoadScene(2);
         m_trainNumber = 2;
     }
@@ -88,6 +104,7 @@ public class InitMainMenu : MonoBehaviour
         cleanColorButton();
         m_buttonTask1.GetComponent<Image>().color = Constants.BUTTON_COLOR_ACTIVATE;
         Destroy(GameObject.FindGameObjectWithTag("Player"));
+        CreatePlayer();
         SceneManager.LoadScene(3);
         m_taskNumber = 1;
     }
@@ -121,5 +138,14 @@ public class InitMainMenu : MonoBehaviour
         m_textUserId.GetComponent<InputField>().text = "";
         cleanColorButton();
         Destroy(GameObject.FindGameObjectWithTag("Player"));
+    }
+
+    public void CreatePlayer()
+    {
+        VR = m_toogle.GetComponent<Toggle>().isOn;
+        if (VR)
+            Instantiate(m_PlayerVR, m_StartPosition.transform.position, m_StartPosition.transform.rotation);
+        else
+            Instantiate(m_PlayerFPS, m_StartPosition.transform.position, m_StartPosition.transform.rotation);
     }
 }

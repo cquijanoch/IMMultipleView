@@ -921,6 +921,21 @@ PrefabInstance:
       propertyPath: interactions
       value: 
       objectReference: {fileID: 626875577872244584}
+    - target: {fileID: 8334910715280935982, guid: 7a92ac8628a6fad4c95e7d617903f494,
+        type: 3}
+      propertyPath: fly
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6505182193115236948, guid: 7a92ac8628a6fad4c95e7d617903f494,
+        type: 3}
+      propertyPath: interactions
+      value: 
+      objectReference: {fileID: 626875577872244584}
+    - target: {fileID: 6505182193115253347, guid: 7a92ac8628a6fad4c95e7d617903f494,
+        type: 3}
+      propertyPath: interactions
+      value: 
+      objectReference: {fileID: 626875577872244584}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a92ac8628a6fad4c95e7d617903f494, type: 3}
 --- !u!222 &6144458536210491638

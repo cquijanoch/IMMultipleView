@@ -209,23 +209,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95daa48eab0bba3429c93617d19507ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_GrabAction:
-    actionPath: /actions/default/in/GrabPinch
-    needsReinit: 0
-  m_GripAction:
-    actionPath: 
-    needsReinit: 0
   m_CurrentTakedSubspace: {fileID: 0}
-  m_ContactInteractables: []
-  m_currentIndexSelected: -1
-  m_isPressedPrimaryPickup: 0
-  m_isPressedSecundaryPickup: 0
-  m_TypeHand: 0
   dialogCommon: {fileID: 6917367031368038115, guid: 0cf22f0f8a28e30499bdab8118172044,
     type: 3}
   dataToDelete: {fileID: 0}
   printEvents: 0
   stoppingScaleOnTriggerExit: 0
+  interactions: {fileID: 0}
+  console: {fileID: 0}
 --- !u!114 &2034341036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -607,23 +598,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95daa48eab0bba3429c93617d19507ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_GrabAction:
-    actionPath: /actions/default/in/GrabPinch
-    needsReinit: 0
-  m_GripAction:
-    actionPath: 
-    needsReinit: 0
   m_CurrentTakedSubspace: {fileID: 0}
-  m_ContactInteractables: []
-  m_currentIndexSelected: -1
-  m_isPressedPrimaryPickup: 0
-  m_isPressedSecundaryPickup: 0
-  m_TypeHand: 0
   dialogCommon: {fileID: 6917367031368038115, guid: 0cf22f0f8a28e30499bdab8118172044,
     type: 3}
   dataToDelete: {fileID: 0}
   printEvents: 0
   stoppingScaleOnTriggerExit: 0
+  interactions: {fileID: 0}
+  console: {fileID: 0}
 --- !u!114 &2034357405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1286,8 +1268,8 @@ GameObject:
   - component: {fileID: 3020931973188129509}
   - component: {fileID: 3020931973188129510}
   m_Layer: 0
-  m_Name: Player
-  m_TagString: Untagged
+  m_Name: PlayerVR
+  m_TagString: Player
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1339,7 +1321,7 @@ MonoBehaviour:
   headsetOnHead:
     actionPath: /actions/default/in/HeadsetOnHead
     needsReinit: 1
-  allowToggleTo2D: 1
+  allowToggleTo2D: 0
 --- !u!54 &3020931973188129509
 Rigidbody:
   m_ObjectHideFlags: 0

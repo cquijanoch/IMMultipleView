@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR;
 
-public class Movement : MonoBehaviour
+public class MovementVR : MonoBehaviour
 {
     private Vector2 trackpad;
     private float Direction;
