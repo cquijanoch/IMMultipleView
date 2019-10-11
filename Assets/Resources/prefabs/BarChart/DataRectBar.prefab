@@ -156,6 +156,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3010883bcc69ab244b86b6ca21778148, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  is_selected: 0
-  customColor: {r: 0, g: 0, b: 0, a: 0}
+  id: 0
+  name_1: 
+  name_2: 
+  name_3: 
+  name_4: 
   m_currentSubpace: {fileID: 0}
+  customColor: {r: 0, g: 0, b: 0, a: 0}
+  is_selected: 0

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1153534486}
   - component: {fileID: 1153534485}
   - component: {fileID: 1153534487}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -111,7 +111,8 @@ GameObject:
   - component: {fileID: 4748432460299766217}
   - component: {fileID: 1790789079}
   - component: {fileID: 1790789078}
-  m_Layer: 10
+  - component: {fileID: 1640560218}
+  m_Layer: 11
   m_Name: PlayerFPS
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -221,3 +222,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
+--- !u!114 &1640560218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4748432460299766218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46d4a650755235c49a6bb7be9e4a5bcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitObject: {fileID: 0}
+  currentHit: 0

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Subspace : MonoBehaviour
@@ -28,7 +29,7 @@ public class Subspace : MonoBehaviour
     public bool m_modePrepareToDelete = false;
 
     public bool m_letFilter = true;
-    [HideInInspector]
+    
     public bool m_letRotate = true;
     [HideInInspector]
     public int version = 0;
@@ -48,7 +49,7 @@ public class Subspace : MonoBehaviour
         if (m_modeScale)
             ChangeScale();
 
-        if (subspacesChild.Count > 0 && m_PrimaryHand && m_letRotate)
+        if (subspacesChild.Count > 0 && (m_PrimaryHand || !XRSettings.enabled) && m_letRotate)
             foreach (string s in subspacesChild)
                 GameObject.Find(s).transform.rotation = transform.rotation;
 
@@ -120,6 +121,11 @@ public class Subspace : MonoBehaviour
         float dist = Vector3.Distance(pos1, pos2);
         transform.localScale += new Vector3(dist - m_distanceInitialForScale, dist - m_distanceInitialForScale, dist - m_distanceInitialForScale) * 1f;
         m_distanceInitialForScale = dist;
+    }
+
+    public void ChangeScaleScroll(float scale)
+    {
+        transform.localScale += new Vector3(scale, scale, scale);
     }
 
     public void ResetDistanceInitialForScale()
