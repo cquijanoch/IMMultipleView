@@ -10,6 +10,8 @@ public class CamMouseLook : MonoBehaviour
     public float smoothing = 2f;
 
     GameObject character;
+
+    public bool mouselooked = false;
     void Start()
     {
         character = transform.parent.gameObject;
@@ -18,6 +20,7 @@ public class CamMouseLook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (mouselooked) return;
         var md = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
         md = Vector2.Scale(md, new Vector2(sensivity * smoothing, sensivity * smoothing));
         smoothly.x = Mathf.Lerp(smoothly.x, md.x, 1f / smoothing);

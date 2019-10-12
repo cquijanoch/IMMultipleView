@@ -6,6 +6,8 @@ using UnityEngine.XR;
 [RequireComponent(typeof(Rigidbody))]
 public class Subspace : MonoBehaviour
 {
+    private GameObject m_currentTitle;
+
     public float m_minPositionDistance = 0.5f;
     public float m_minRotationDistance = 300f;
     public float m_minDiffAngleRotation = 15f;
@@ -59,8 +61,8 @@ public class Subspace : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (titleSubspace)
-            Destroy(titleSubspace);
+        if (m_currentTitle)
+            Destroy(m_currentTitle);
     }
 
     public bool DetectSimimilarTransform(Subspace other)
@@ -168,12 +170,12 @@ public class Subspace : MonoBehaviour
     {
         if (titleSubspace)
         {
-            titleSubspace = Instantiate(titleSubspace);
+            m_currentTitle = Instantiate(titleSubspace) as GameObject;
             if (version > 0)
-                titleSubspace.GetComponentInChildren<Text>().text = name + " " + version;
+                m_currentTitle.GetComponentInChildren<Text>().text = name + " " + version;
             else
-                titleSubspace.GetComponentInChildren<Text>().text = name;
-            titleSubspace.GetComponent<InitTitleCanvas>().objectToFollow = gameObject;
+                m_currentTitle.GetComponentInChildren<Text>().text = name;
+            m_currentTitle.GetComponent<InitTitleCanvas>().objectToFollow = gameObject;
         }
     }
 }

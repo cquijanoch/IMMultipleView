@@ -6,6 +6,7 @@ using UnityEngine.XR;
 public class MovementFPS : MonoBehaviour
 {
     public float speed = 0.1f;
+    public bool stopMovement = false;
 
     private void Awake()
     {
@@ -19,6 +20,8 @@ public class MovementFPS : MonoBehaviour
 
     private void Update()
     {
+        if (stopMovement)
+            return;
         float translation = Input.GetAxis("Vertical") * speed;
         float straffe = Input.GetAxis("Horizontal") * speed;
         translation *= Time.deltaTime;
