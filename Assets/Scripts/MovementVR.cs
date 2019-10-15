@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR;
+using UnityEngine.XR;
 
 public class MovementVR : MonoBehaviour
 {
@@ -15,10 +16,14 @@ public class MovementVR : MonoBehaviour
     public GameObject Head;
     //public CapsuleCollider Collider;
     public float Deadzone;//the Deadzone of the trackpad. used to prevent unwanted walking.
+    public bool walk = false;
     public bool fly = false;
 
     private void Awake()
     {
+        XRSettings.enabled = true;
+        if (Display.displays.Length > 1)
+            Display.displays[1].Activate();
         //m_Pose = GetComponent<SteamVR_Behaviour_Pose>();
         if (!Head)
             Head = GameObject.FindGameObjectWithTag("MainCamera");
@@ -26,7 +31,8 @@ public class MovementVR : MonoBehaviour
 
     void Update()
     {
-        
+        if (!walk)
+            return;
         //Collider.height = Head.transform.localPosition.y;
         //Collider.center = new Vector3(Head.transform.localPosition.x, Head.transform.localPosition.y / 2, Head.transform.localPosition.z);
         

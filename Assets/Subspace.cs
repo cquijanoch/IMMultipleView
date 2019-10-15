@@ -22,6 +22,8 @@ public class Subspace : MonoBehaviour
     public bool showTitle = false;
     public string name;
 
+    public bool m_letFilter = true;
+    public bool m_letRotate = true;
     /** HashSet of MacroHands inner into subspace**/
     [HideInInspector]
     public HashSet<MacroHand> m_HandsActivedInner = new HashSet<MacroHand>();
@@ -29,18 +31,13 @@ public class Subspace : MonoBehaviour
     public int m_numControllersInner = 0;
     [HideInInspector]
     public bool m_modePrepareToDelete = false;
-
-    public bool m_letFilter = true;
-    
-    public bool m_letRotate = true;
     [HideInInspector]
     public int version = 0;
 
-    //private Renderer rend;
-
     private void Start()
     {
-        Physics.IgnoreCollision(GameObject.FindGameObjectWithTag("Plane").GetComponent<Collider>(), GetComponent<Collider>());
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Scenario"))
+            Physics.IgnoreCollision(obj.GetComponent<Collider>(), GetComponent<Collider>());
         if (showTitle)
             ShowTitle();
 
@@ -51,12 +48,9 @@ public class Subspace : MonoBehaviour
         if (m_modeScale)
             ChangeScale();
 
-        if (subspacesChild.Count > 0 && (m_PrimaryHand || !XRSettings.enabled) && m_letRotate)
+        if ((subspacesChild.Count > 0 && m_PrimaryHand) || (!XRSettings.enabled && m_letRotate))
             foreach (string s in subspacesChild)
                 GameObject.Find(s).transform.rotation = transform.rotation;
-
-        //if (titleSubspace)
-        //    titleSubspace.transform.position = rend.bounds.max;
     }
 
     private void OnDestroy()

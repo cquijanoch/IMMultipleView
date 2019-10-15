@@ -11,11 +11,13 @@ public class MovementFPS : MonoBehaviour
     private void Awake()
     {
         XRSettings.enabled = false;
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
-        //Cursor.lockState = CursorLockMode.Locked;
+        if (Display.displays.Length > 1)
+            Display.displays[1].Activate();
     }
 
     private void Update()
@@ -26,7 +28,6 @@ public class MovementFPS : MonoBehaviour
         float straffe = Input.GetAxis("Horizontal") * speed;
         translation *= Time.deltaTime;
         straffe *= Time.deltaTime;
-
         transform.Translate(straffe, 0, translation);
         if (Input.GetKeyDown("escape"))
             Cursor.lockState = CursorLockMode.None;

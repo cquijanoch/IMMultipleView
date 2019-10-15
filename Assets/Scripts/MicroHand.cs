@@ -31,6 +31,18 @@ public class MicroHand : MonoBehaviour
         m_myHand = GetComponent<Hand>();
         if (interactions)
             m_interactionsCoordinated = interactions.GetComponent<Interaction>();
+        StartCoroutine(InitCoroutine());
+    }
+
+    IEnumerator InitCoroutine()
+    {
+        yield return new WaitForSeconds(2);
+        if (!interactions)
+        {
+            GameObject coordenation = GameObject.Find("Coordination");
+            if (coordenation)
+                m_interactionsCoordinated = coordenation.GetComponent<Interaction>();
+        }
     }
 
     void Update()

@@ -45,7 +45,19 @@ public class MacroHand : MonoBehaviour
         {
             m_console = console.GetComponent<Console>();
             m_console.AddText("MACRO HAND NAME: " + transform.name);
-        }   
+        }
+        StartCoroutine(InitCoroutine());
+    }
+
+    IEnumerator InitCoroutine()
+    {
+        yield return new WaitForSeconds(2);
+        if (!interactions)
+        {
+            GameObject coordenation = GameObject.Find("Coordination");
+            if (coordenation)
+                m_interactionsCoordinated = coordenation.GetComponent<Interaction>();
+        }
     }
 
     void Update()

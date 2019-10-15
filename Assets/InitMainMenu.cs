@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class InitMainMenu : MonoBehaviour
 {
+    private int m_currentScene = 0;
     public int m_trainNumber = -1;
     public int m_taskNumber = -1;
     public float m_totalTime = 0f;
@@ -31,23 +32,23 @@ public class InitMainMenu : MonoBehaviour
     public GameObject m_StartPosition;
     public GameObject m_PlayerVR;
     public GameObject m_PlayerFPS;
+    private GameObject m_Player;
 
 
     public bool VR;
-    //private int m_currentIndexScene = 0;
 
     private void Awake()
-    {
-        
+    {  
         DontDestroyOnLoad(gameObject);
         DontDestroyOnLoad(m_StartPosition);
+        
     }
     void Start()
     {
-        
+        if (Display.displays.Length > 1)
+            Display.displays[1].Activate();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (m_trainNumber > 0 || m_taskNumber > 0)
@@ -72,24 +73,24 @@ public class InitMainMenu : MonoBehaviour
     public void Train_1()
     {
         m_taskNumber = -1;
-        cleanColorButton();
+        CleanColorButton();
         m_buttonTrain1.GetComponent<Image>().color = Constants.BUTTON_COLOR_ACTIVATE;
         Destroy(GameObject.FindGameObjectWithTag("Player"));
+        m_currentScene = 1;
+        SceneManager.LoadScene(m_currentScene);
         CreatePlayer();
-        SceneManager.LoadScene(1);
         m_trainNumber = 1;
     }
 
     public void Train_2()
     {
-       
         m_taskNumber = - 1;
-        cleanColorButton();
+        CleanColorButton();
         m_buttonTrain2.GetComponent<Image>().color = Constants.BUTTON_COLOR_ACTIVATE;
         Destroy(GameObject.FindGameObjectWithTag("Player"));
+        m_currentScene = 2;
+        SceneManager.LoadScene(m_currentScene);
         CreatePlayer();
-        Instantiate(m_PlayerVR, m_StartPosition.transform.position, m_StartPosition.transform.rotation);
-        SceneManager.LoadScene(2);
         m_trainNumber = 2;
     }
 
@@ -101,15 +102,16 @@ public class InitMainMenu : MonoBehaviour
     public void Task_1()
     {
         m_trainNumber = -1;
-        cleanColorButton();
+        CleanColorButton();
         m_buttonTask1.GetComponent<Image>().color = Constants.BUTTON_COLOR_ACTIVATE;
         Destroy(GameObject.FindGameObjectWithTag("Player"));
+        m_currentScene = 3;
+        SceneManager.LoadScene(m_currentScene);
         CreatePlayer();
-        SceneManager.LoadScene(3);
         m_taskNumber = 1;
     }
 
-    private void cleanColorButton()
+    private void CleanColorButton()
     {
         m_buttonTrain1.GetComponent<Image>().color = Constants.BUTTON_COLOR_DESACTIVATE;
         m_buttonTrain2.GetComponent<Image>().color = Constants.BUTTON_COLOR_DESACTIVATE;
@@ -130,22 +132,25 @@ public class InitMainMenu : MonoBehaviour
 
     public void ResetValues()
     {
+        Destroy(GameObject.FindGameObjectWithTag("Player"));
+        m_currentScene = 0;
+        SceneManager.LoadScene(0);
         m_trainNumber = -1;
         m_taskNumber = -1;
         m_totalTime = 0f;
         m_totalTrainTime = 0f;
         m_totalTaskTime = 0f;
         m_textUserId.GetComponent<InputField>().text = "";
-        cleanColorButton();
-        Destroy(GameObject.FindGameObjectWithTag("Player"));
+        CleanColorButton();
+
     }
 
     public void CreatePlayer()
     {
         VR = m_toogle.GetComponent<Toggle>().isOn;
         if (VR)
-            Instantiate(m_PlayerVR, m_StartPosition.transform.position, m_StartPosition.transform.rotation);
+            m_Player = Instantiate(m_PlayerVR, m_StartPosition.transform.position, m_StartPosition.transform.rotation);
         else
-            Instantiate(m_PlayerFPS, m_StartPosition.transform.position, m_StartPosition.transform.rotation);
+            m_Player =Instantiate(m_PlayerFPS, m_StartPosition.transform.position, m_StartPosition.transform.rotation);
     }
 }

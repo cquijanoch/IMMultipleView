@@ -191,5 +191,4 @@ public class Interaction : MonoBehaviour
             if (list.Contains(element))
                 list.Remove(element);
     }
-
 }

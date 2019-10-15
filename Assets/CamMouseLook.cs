@@ -17,7 +17,6 @@ public class CamMouseLook : MonoBehaviour
         character = transform.parent.gameObject;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (mouselooked) return;
@@ -27,7 +26,6 @@ public class CamMouseLook : MonoBehaviour
         smoothly.y = Mathf.Lerp(smoothly.y, md.y, 1f / smoothing);
         mouseLook += smoothly;
         mouseLook.y = Mathf.Clamp(mouseLook.y, -90f, 90f);
-
         transform.localRotation = Quaternion.AngleAxis(-mouseLook.y, Vector3.right);
         character.transform.localRotation = Quaternion.AngleAxis(mouseLook.x, character.transform.up);
     }

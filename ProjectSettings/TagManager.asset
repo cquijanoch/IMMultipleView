@@ -12,6 +12,7 @@ TagManager:
   - Subspace
   - DataScatterplot
   - DataBarchart
+  - Scenario
   layers:
   - Default
   - TransparentFX
