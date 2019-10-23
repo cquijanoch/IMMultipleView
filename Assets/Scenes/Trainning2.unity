@@ -624,36 +624,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1919351615145780899, guid: bd811086fdbb9b54981064d1f0f24123,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1919351615145780899, guid: bd811086fdbb9b54981064d1f0f24123,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1919351615145780899, guid: bd811086fdbb9b54981064d1f0f24123,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1919351615145780899, guid: bd811086fdbb9b54981064d1f0f24123,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1919351615145780899, guid: bd811086fdbb9b54981064d1f0f24123,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ConfirmationDeleteYes
-      objectReference: {fileID: 0}
-    - target: {fileID: 1919351615145780899, guid: bd811086fdbb9b54981064d1f0f24123,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 1919351614715043553, guid: bd811086fdbb9b54981064d1f0f24123,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -680,6 +650,36 @@ PrefabInstance:
       value: ConfirmationDeleteNo
       objectReference: {fileID: 0}
     - target: {fileID: 1919351614715043553, guid: bd811086fdbb9b54981064d1f0f24123,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1919351615145780899, guid: bd811086fdbb9b54981064d1f0f24123,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1919351615145780899, guid: bd811086fdbb9b54981064d1f0f24123,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1919351615145780899, guid: bd811086fdbb9b54981064d1f0f24123,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1919351615145780899, guid: bd811086fdbb9b54981064d1f0f24123,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1919351615145780899, guid: bd811086fdbb9b54981064d1f0f24123,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ConfirmationDeleteYes
+      objectReference: {fileID: 0}
+    - target: {fileID: 1919351615145780899, guid: bd811086fdbb9b54981064d1f0f24123,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
@@ -899,6 +899,21 @@ PrefabInstance:
         type: 3}
       propertyPath: columnSelect
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7125159286570251268, guid: a48ce1b58c686d6479aa479420e20e8d,
+        type: 3}
+      propertyPath: columnX
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7125159286570251268, guid: a48ce1b58c686d6479aa479420e20e8d,
+        type: 3}
+      propertyPath: columnY
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7125159286570251268, guid: a48ce1b58c686d6479aa479420e20e8d,
+        type: 3}
+      propertyPath: columnZ
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2155239201932444736, guid: a48ce1b58c686d6479aa479420e20e8d,
         type: 3}

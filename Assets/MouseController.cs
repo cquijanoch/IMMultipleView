@@ -173,7 +173,11 @@ public class MouseController : MonoBehaviour
                     straffe *= Time.deltaTime;
                     DeletePivot();
                     CreatePivot();
-                    subspacePivot.transform.Translate(straffe, high, translation);
+                    Vector3 newPos = subspacePivot.transform.position + subspacePivot.transform.TransformDirection(straffe, high, translation);
+                    if (newPos.x < 2.7f && newPos.x > -2.7f
+                    && newPos.z < 2.7f && newPos.z > -2.7f
+                    && newPos.y < 4f && newPos.y > 1f)
+                        subspacePivot.transform.Translate(straffe, high, translation);
                     m_isAxisInUse = true;
                 }
 

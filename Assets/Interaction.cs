@@ -88,9 +88,14 @@ public class Interaction : MonoBehaviour
         }
 
         SetFilterParameters(id, state, m_parents[id].IdContainer);
-        
+
         ClearSelectData();
-        
+        if (m_filter.Count == 0)
+        {
+            SelectAll();
+            return false;
+        }
+            
         foreach (string d in GetIntersectFilter())
         {
             if (m_parents.ContainsKey(d))
@@ -102,10 +107,10 @@ public class Interaction : MonoBehaviour
                     dataObj = dataGameObj.GetComponent<Data>();
                 if (dataObj)
                 {
-                    if (dataObj.m_currentSubpace.m_letFilter)
+                    //if (dataObj.m_currentSubpace.m_letFilter)
                         dataObj.ChangeSelectData(true, dataObj.customColor);
-                    else
-                        dataObj.ChangeSelectData(true, Constants.COLOR_DATA_OBJECT_SELECTED);
+                    //else
+                    //    dataObj.ChangeSelectData(true, Constants.COLOR_DATA_OBJECT_SELECTED);
                 }
             } 
         }
@@ -180,7 +185,7 @@ public class Interaction : MonoBehaviour
                 if (dataObj.m_currentSubpace.m_letFilter)
                     dataObj.ChangeSelectData(false, dataObj.customColor);
                 else
-                    dataObj.ChangeSelectData(false, Constants.COLOR_DATA_OBJECT_SELECTED);
+                    dataObj.ChangeSelectData(false, dataObj.customColor, true);
             }    
         }
     }
@@ -190,5 +195,15 @@ public class Interaction : MonoBehaviour
         foreach(string element in list2)
             if (list.Contains(element))
                 list.Remove(element);
+    }
+
+    private void SelectAll()
+    {
+        foreach (string d in new List<string>(m_parents.Keys))
+        {
+            m_parents[d].State = false;
+            Data dataObj = GameObject.Find(d).GetComponent<Data>();
+            dataObj.ChangeSelectData(false, dataObj.customColor, false);
+        }
     }
 }

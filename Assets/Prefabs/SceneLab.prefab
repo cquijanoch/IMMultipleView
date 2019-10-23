@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8443286159296286735}
   - component: {fileID: 8443286159296286732}
   - component: {fileID: 8443286159296286733}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall (1)
   m_TagString: Scenario
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 8443286159320176961}
   - component: {fileID: 8443286159320176958}
   - component: {fileID: 8443286159320176959}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall (4)
   m_TagString: Scenario
   m_Icon: {fileID: 0}
@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 8443286159331489456}
   - component: {fileID: 8443286159331489457}
   - component: {fileID: 8443286159331489454}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Plane
   m_TagString: Scenario
   m_Icon: {fileID: 0}
@@ -286,7 +286,7 @@ GameObject:
   - component: {fileID: 8443286159452549952}
   - component: {fileID: 8443286159452549953}
   - component: {fileID: 8443286159452549950}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall (2)
   m_TagString: Scenario
   m_Icon: {fileID: 0}
@@ -446,7 +446,7 @@ GameObject:
   - component: {fileID: 8443286160102049832}
   - component: {fileID: 8443286160102049833}
   - component: {fileID: 8443286160102049830}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Cylinder
   m_TagString: Scenario
   m_Icon: {fileID: 0}
@@ -538,7 +538,7 @@ GameObject:
   - component: {fileID: 8443286160412078051}
   - component: {fileID: 8443286160412078048}
   - component: {fileID: 8443286160412078049}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Cylinder (2)
   m_TagString: Scenario
   m_Icon: {fileID: 0}
@@ -664,7 +664,7 @@ GameObject:
   - component: {fileID: 8443286160501392942}
   - component: {fileID: 8443286160501392943}
   - component: {fileID: 8443286160501392940}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Cube
   m_TagString: Scenario
   m_Icon: {fileID: 0}
@@ -787,7 +787,7 @@ GameObject:
   - component: {fileID: 8443286160787658513}
   - component: {fileID: 8443286160787658510}
   - component: {fileID: 8443286160787658511}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall (3)
   m_TagString: Scenario
   m_Icon: {fileID: 0}
@@ -1058,7 +1058,7 @@ GameObject:
   - component: {fileID: 8443286160983627073}
   - component: {fileID: 8443286160983627070}
   - component: {fileID: 8443286160983627071}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Cylinder
   m_TagString: Scenario
   m_Icon: {fileID: 0}
@@ -1150,7 +1150,7 @@ GameObject:
   - component: {fileID: 8443286161020333865}
   - component: {fileID: 8443286161020333862}
   - component: {fileID: 8443286161020333863}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Cube
   m_TagString: Scenario
   m_Icon: {fileID: 0}
@@ -1241,7 +1241,7 @@ GameObject:
   - component: {fileID: 8443286161138569204}
   - component: {fileID: 8443286161138569205}
   - component: {fileID: 8443286161138569202}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Cylinder (1)
   m_TagString: Scenario
   m_Icon: {fileID: 0}
@@ -1402,7 +1402,7 @@ GameObject:
   - component: {fileID: 8443286161250220643}
   - component: {fileID: 8443286161250220640}
   - component: {fileID: 8443286161250220641}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Wall (5)
   m_TagString: Scenario
   m_Icon: {fileID: 0}

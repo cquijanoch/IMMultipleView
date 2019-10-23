@@ -133,13 +133,13 @@ public class Data : MonoBehaviour
      * @param state is the state which will be changed
      * @param color is the color which will be setted
      */
-    public bool ChangeSelectData(bool state, Color color)
+    public bool ChangeSelectData(bool state, Color color, bool transparent = false)
     {
-        if (state == is_selected && m_currentColor.Equals(color)) return is_selected;
+        //if (state == is_selected && m_currentColor.Equals(color)) return is_selected;
         Material newMaterial = new Material(m_material);
         if (state)
         {
-            m_currentColor = new Color(color.r, color.g, color.b, 1f);
+            m_currentColor = new Color(color.r, color.g, color.b, Constants.COLOR_SELECT_A_COLOR);
             m_colorList.Add(m_currentColor);
             newMaterial.color = m_currentColor;
             gameObject.GetComponent<Renderer>().material = newMaterial;
@@ -152,8 +152,12 @@ public class Data : MonoBehaviour
             m_colorList.Remove(m_currentColor);
             if (m_colorList.Count > 0)
                 m_currentColor = m_colorList[m_colorList.Count - 1];
-            else
+            else 
             {
+                if (transparent)
+                    customColor.a = 0f;
+                else
+                    customColor.a = Constants.COLOR_UNSELECT_A_COLOR;
                 m_currentColor = customColor;
                 is_selected = false;
             }

@@ -105,14 +105,14 @@ public class BarPlotter : MonoBehaviour
             float color_G = System.Convert.ToSingle(m_barList[i][m_colorGName]) / 255f;
             float color_B = System.Convert.ToSingle(m_barList[i][m_colorBName]) / 255f;
 
-            material_data.color = new Color(color_R, color_G, color_B, Constants.TRANSPARENCY_DATA);
+            material_data.color = new Color(color_R, color_G, color_B, Constants.COLOR_UNSELECT_A_COLOR);
             bar.GetComponent<Renderer>().material = new Material(material_data);
             bar.GetComponent<Data>().Id = System.Convert.ToInt32(m_barList[i][m_idName]);
             if (name_1 > 0) bar.GetComponent<Data>().Name_1 = subtitleName_1 + " " + m_barList[i][m_nameFirst].ToString();
             if (name_2 > 0) bar.GetComponent<Data>().Name_2 = subtitleName_2 + " " + m_barList[i][m_nameSecond].ToString();
             if (name_3 > 0) bar.GetComponent<Data>().Name_3 = subtitleName_3 + " " + m_barList[i][m_nameThird].ToString();
 
-            bar.GetComponent<Data>().CustomColor = new Color(color_R, color_G, color_B, Constants.TRANSPARENCY_DATA);
+            bar.GetComponent<Data>().CustomColor = new Color(color_R, color_G, color_B, Constants.COLOR_UNSELECT_A_COLOR);
             bar.GetComponent<Data>().m_currentSubpace = subspace.GetComponent<Subspace>();
             if (m_interactionsCoordinated)
             {

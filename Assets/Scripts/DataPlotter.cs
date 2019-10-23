@@ -108,11 +108,11 @@ public class DataPlotter : MonoBehaviour
             float color_B = System.Convert.ToSingle(m_pointList[i][m_colorBName]) / 255f;
             if (columnSelect > 0 && m_pointList[i][m_dataSelected].ToString().Equals(Constants.CSV_DATA_SELECTED))
             {
-                material_data.color = new Color(color_R, color_G, color_B, 1f);
+                material_data.color = new Color(color_R, color_G, color_B, Constants.COLOR_SELECT_A_COLOR);
                 dataPoint.GetComponent<Data>().is_selected = true;
             }   
             else
-                material_data.color = new Color(color_R, color_G, color_B, Constants.TRANSPARENCY_DATA);
+                material_data.color = new Color(color_R, color_G, color_B, Constants.COLOR_UNSELECT_A_COLOR);
             dataPoint.GetComponent<Renderer>().material = new Material(material_data);
             dataPoint.GetComponent<Data>().Id = System.Convert.ToInt32(m_pointList[i][m_idName]);
 

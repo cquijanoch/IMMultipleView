@@ -29,10 +29,12 @@ public class Constants
 
     /** Color DataObject    **/
     public static Color COLOR_DATA_OBJECT_SELECTED = Color.green;
-    public static float TRANSPARENCY_DATA = 0.0f;
+    //public static float TRANSPARENCY_DATA = 0.0f;
 
     public static Color BUTTON_COLOR_ACTIVATE = Color.green;
     public static Color BUTTON_COLOR_DESACTIVATE = Color.white;
+    public static float COLOR_SELECT_A_COLOR = 1f;
+    public static float COLOR_UNSELECT_A_COLOR = 0.2f;
 
     public static string CSV_DATA_SELECTED = "1"; 
 
