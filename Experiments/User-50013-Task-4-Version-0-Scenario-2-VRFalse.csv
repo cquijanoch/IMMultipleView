@@ -1,0 +1,2 @@
+UserID, TaskID, Version, Scenario, VR, Time(sec), Clones, Delete accepted, Delete canceled, Select Subspaces(clicks), Select Single, Brushing(clicks), APickup(sec), ARotation(sec), ATraslation(sec), AScale(sec), ANavSlaving(sec), BPickup(sec), BRotation(sec), BTraslation(sec), BScale(sec), BNavSlaving(sec), UserAnswer, CorrectAnswer
+50013,4,0,2,False,131.0309,0,0,0,1,0,10,4.319434,4.319434,0.4826762,0,0, 0 , 0 , 0 , 0, 0,#Genre Bar 0: #Artist Projection 0: #Music Projection 0: #Year Bar 0: ,Questionario

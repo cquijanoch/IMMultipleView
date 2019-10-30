@@ -46,6 +46,13 @@ public class DataPlotter : MonoBehaviour
     public GameObject interactions;
     public Material material_data;
 
+    private void Awake()
+    {
+        GameObject mainTask = GameObject.Find("MainMenu");
+        if (mainTask && mainTask.GetComponent<InitMainMenu>().m_versionDataset == 1)
+            inputfile = inputfile + "B";
+    }
+
     void Start()
     {
         if (interactions)

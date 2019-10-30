@@ -7,7 +7,10 @@ public class MacroHand : MonoBehaviour
 {
     private SteamVR_Behaviour_Pose m_Pose = null;
     private FixedJoint m_Joint = null;
-    private GameObject m_currentDialog;
+    [HideInInspector]
+    public GameObject m_currentDialog;
+    [HideInInspector]
+    
     private Hand m_myHand;
     private MacroHand m_otherHand;
     private bool m_custonStatusFingerOtherHand = false;
@@ -15,20 +18,35 @@ public class MacroHand : MonoBehaviour
     private SteamVR_Action_Boolean m_GripAction = null;
     private List<Subspace> m_ContactInteractables = new List<Subspace>(); //List of Subspaces inner into MacroHand
     private int m_currentIndexSelected = -1;
-    private bool m_isPressedPrimaryPickup = false;
+    public bool m_isPressedPrimaryPickup = false;
     private bool m_isPressedSecundaryPickup = false;
     private int m_TypeHand = Constants.HAND_NONE_USE;
     private Interaction m_interactionsCoordinated = null;
     private Console m_console = null;
+    private Console m_consoleLeft = null;
+    //private Console m_consoleRight = null;
 
     [HideInInspector]
     public Subspace m_CurrentTakedSubspace = null; // subspace when is pickup
     public GameObject dialogCommon;
+    
     public Subspace dataToDelete;
     public bool printEvents = false;
     public bool stoppingScaleOnTriggerExit = false;
     public GameObject interactions;
     public GameObject console;
+
+    /** -Tasks- **/
+    public float m_totalTime = 0f;
+    public float m_pickupTime = 0f;
+    public int m_clones = 0;
+    public int m_deletedAcepted = 0;
+    public int m_deletedCanceled = 0;
+    public int m_selectSubspaces = 0;
+
+    public float m_scaleTime = 0f;
+    public float m_navSlaving = 0f;
+    /** -Tasks- **/
 
     private void Awake()
     {
@@ -46,6 +64,10 @@ public class MacroHand : MonoBehaviour
             m_console = console.GetComponent<Console>();
             m_console.AddText("MACRO HAND NAME: " + transform.name);
         }
+
+        GameObject consoleLeft = GameObject.Find("ConsoleLeft");
+        if (consoleLeft)
+            m_consoleLeft = consoleLeft.GetComponent<Console>();
         StartCoroutine(InitCoroutine());
     }
 
@@ -64,7 +86,20 @@ public class MacroHand : MonoBehaviour
     {
         if (m_myHand.modeAnswer)
             return;
-        
+
+        m_totalTime += Time.deltaTime;
+
+        if (m_Joint.connectedBody)
+        {
+            m_pickupTime += Time.deltaTime;
+            if (m_CurrentTakedSubspace && m_CurrentTakedSubspace.subspacesChild.Count > 0)
+                m_navSlaving += Time.deltaTime;
+        }
+            
+
+        if (m_CurrentTakedSubspace && m_CurrentTakedSubspace.m_modeScale)
+            m_scaleTime += Time.deltaTime;
+
         /** FIX BUG**/
         if (!m_isPressedPrimaryPickup && m_Joint.connectedBody)
         {
@@ -86,7 +121,7 @@ public class MacroHand : MonoBehaviour
             return;
         }
 
-        if (SteamVR_Actions._default.TouchYbutton.GetStateDown(m_Pose.inputSource))
+        if (SteamVR_Actions._default.TouchXbutton.GetStateDown(m_Pose.inputSource))
         {
             if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " Clone");
             if (m_console) m_console.AddText("CLONE()");
@@ -102,7 +137,7 @@ public class MacroHand : MonoBehaviour
             if (m_console) m_console.AddText("m_currentIndexSelected: " + m_currentIndexSelected);
             return;
         }
-
+        /**
         if (m_ContactInteractables.Count > 1 && SteamVR_Actions._default.GrabPinch.GetStateDown(m_Pose.inputSource) &&
             !m_isPressedPrimaryPickup && !m_isPressedSecundaryPickup)
         {
@@ -110,9 +145,9 @@ public class MacroHand : MonoBehaviour
             if (m_console) m_console.AddText("CHANGECURRENTSELECTIONSPACE()");
             ChangeCurrentSelectionSpace();
             return;
-        }
+        }**/
 
-        if (m_ContactInteractables.Count > 0 && !m_currentDialog && SteamVR_Actions._default.TouchJostick.GetStateDown(m_Pose.inputSource)
+        if (m_ContactInteractables.Count > 0 && !m_currentDialog && !m_myHand.m_FinishTaskDialog && SteamVR_Actions._default.TouchYbutton.GetStateDown(m_Pose.inputSource)
             && !m_isPressedPrimaryPickup)
         {
             if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + " EnableToDelete");
@@ -121,13 +156,15 @@ public class MacroHand : MonoBehaviour
             return;
         }
 
+        
+        /**
         if (m_CurrentTakedSubspace && SteamVR_Actions._default.TouchXbutton.GetStateDown(m_Pose.inputSource) && m_ContactInteractables.Count > 1)
         {
             if (printEvents) print(Time.deltaTime + " " + m_Pose.inputSource + "SetTransformForSimilar");
             if (m_console) m_console.AddText("SETTRANSFORMFORSIMILAR()");
             SetTransformForSimilar();
             return;
-        }
+        }**/
     }
 
     private void SetTransformForSimilar()
@@ -262,6 +299,9 @@ public class MacroHand : MonoBehaviour
             m_Joint.connectedBody = targetBody;
             m_CurrentTakedSubspace.m_PrimaryHand = this;
             m_CurrentTakedSubspace.m_SecondaryHand = null;
+            m_selectSubspaces++;
+            if (m_consoleLeft)
+                m_consoleLeft.AddText("m_selectSubspaces: " + m_selectSubspaces);
         }
         if (m_TypeHand == Constants.HAND_SECONDARY_USE)
         {
@@ -330,6 +370,8 @@ public class MacroHand : MonoBehaviour
         MacroHand hp = GetPrimaryHandPressedFromInner();
         if (!hp)
             return;
+        if (m_currentIndexSelected < 0)
+            return;
         if (!hp.m_ContactInteractables[m_currentIndexSelected])
             return;
         Rigidbody targetBody = hp.m_ContactInteractables[m_currentIndexSelected].GetComponent<Rigidbody>();
@@ -347,6 +389,9 @@ public class MacroHand : MonoBehaviour
             return;
         Rigidbody targetBody = hp.m_ContactInteractables[hp.m_currentIndexSelected].GetComponent<Rigidbody>();
         hp.m_Joint.connectedBody = targetBody;
+        m_selectSubspaces++;
+        if (m_consoleLeft)
+            m_consoleLeft.AddText("m_selectSubspaces: " + m_selectSubspaces);
     }
 
     /**
@@ -460,6 +505,7 @@ public class MacroHand : MonoBehaviour
         clone.GetComponent<Subspace>().m_letFilter = false;
         clone.GetComponent<Subspace>().m_letRotate = false;
         clone.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
+        clone.GetComponent<Subspace>().subspacesChild = new List<string>();
 
         if (m_interactionsCoordinated)
         {
@@ -469,6 +515,7 @@ public class MacroHand : MonoBehaviour
                 m_interactionsCoordinated.versionSubspace.Add(m_ContactInteractables[m_currentIndexSelected].name, 1);
             clone.GetComponent<Subspace>().version = m_interactionsCoordinated.versionSubspace[m_ContactInteractables[m_currentIndexSelected].name];
         }
+        m_clones++;
     }
 
     /**
@@ -499,6 +546,7 @@ public class MacroHand : MonoBehaviour
         if (!answer && m_currentDialog)
         {
             DisableToDelete();
+            m_deletedCanceled++;
             return;
         }
 
@@ -520,6 +568,7 @@ public class MacroHand : MonoBehaviour
         if (!m_custonStatusFingerOtherHand)
             m_otherHand.GetComponent<Hand>().DesactivateFingerHand();
         m_otherHand.GetComponent<Hand>().modeAnswer = false;
+        m_deletedAcepted++;
     }
 
     /**
@@ -579,4 +628,5 @@ public class MacroHand : MonoBehaviour
             return null;
         return m_ContactInteractables[m_currentIndexSelected];
     }
+
 }

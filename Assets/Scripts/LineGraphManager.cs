@@ -205,8 +205,9 @@ public class LineGraphManager : MonoBehaviour {
 
             lineRenderer.material = bluemat;
 
-            lineRenderer.SetWidth(lrWidth, lrWidth);
-            lineRenderer.SetVertexCount(2);
+            lineRenderer.startWidth =  lrWidth;
+            lineRenderer.endWidth = lrWidth;
+            lineRenderer.positionCount = 2;
             lineRenderer.transform.localPosition = new Vector3(origin.transform.localPosition.x, origin.transform.localPosition.y, 0); 
 
 

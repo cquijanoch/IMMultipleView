@@ -15,6 +15,11 @@ public class Hand : MonoBehaviour
     public bool modeAnswer = false;
     public GameObject menuCanvas;
 
+    [HideInInspector]
+    public GameObject m_FinishTaskDialog;
+    public GameObject finishTaskCommon;
+    private bool m_custonStatusFingerOtherHand = false;
+
     void Start()
     {
         m_Pose = GetComponent<SteamVR_Behaviour_Pose>();
@@ -28,6 +33,16 @@ public class Hand : MonoBehaviour
     {
         if (modeAnswer)
             return;
+        //if (m_ContactInteractables.Count > 1 && SteamVR_Actions._default.GrabPinch.GetStateDown(m_Pose.inputSource) &&
+        //     !m_isPressedPrimaryPickup && !m_isPressedSecundaryPickup)
+        if (!m_currentMacroHand.m_currentDialog && !m_FinishTaskDialog
+             && ((m_currentMacroHand.enabled && !m_currentMacroHand.m_isPressedPrimaryPickup)
+             || (!m_currentMacroHand.enabled && m_currentMicroHand.enabled))
+             && SteamVR_Actions._default.TouchJostick.GetStateDown(m_Pose.inputSource))
+        {
+            FinishTask();
+            return;
+        }
         if (!m_currentMacroHand.m_CurrentTakedSubspace && !m_currentMacroHand.dataToDelete
             && (SteamVR_Actions._default.TouchNoPressGrabPinch.GetStateUp(m_Pose.inputSource)
             || !SteamVR_Actions._default.TouchNoPressGrabPinch.GetState(m_Pose.inputSource))
@@ -198,5 +213,24 @@ public class Hand : MonoBehaviour
     public void DesactivateFingerHand()
     {
         GetComponent<Valve.VR.InteractionSystem.Hand>().useFingerJointHover = false;
+    }
+
+    private void FinishTask()
+    {
+        HideHand();
+        m_FinishTaskDialog = Instantiate(finishTaskCommon);
+        m_FinishTaskDialog.transform.SetParent(transform);
+        m_custonStatusFingerOtherHand = GetOtherMacroHand().GetComponent<Hand>().getStatusFingerHand();
+        GetOtherMacroHand().GetComponent<Hand>().ActivateFingerHand();
+        GetOtherMacroHand().GetComponent<Hand>().modeAnswer = true;
+    }
+
+    public void DisableFinishTask(bool answer)
+    {
+        Destroy(m_FinishTaskDialog);
+        ShowHand();
+        if (!m_custonStatusFingerOtherHand)
+            GetOtherMacroHand().GetComponent<Hand>().DesactivateFingerHand();
+        GetOtherMacroHand().GetComponent<Hand>().modeAnswer = false;
     }
 }

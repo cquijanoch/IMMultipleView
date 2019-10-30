@@ -46,11 +46,18 @@ public class BarPlotter : MonoBehaviour
     public float characterAxisLabelSize = 4f;
     public float characterYLabelSize = 0.8f;
     public int numLinesAxisY = 10;
-    public int factorLineY = 1;
+    //public int factorLineY = 1;
     public float factorWidthBar = 0.04f;
     public float factorPositionXBar = 0.05f;
     public GameObject Interactions;
     public Material material_data;
+
+    private void Awake()
+    {
+        GameObject mainTask = GameObject.Find("MainMenu");
+        if (mainTask && mainTask.GetComponent<InitMainMenu>().m_versionDataset == 1)
+            inputfile = inputfile + "B";
+    }
 
     void Start()
     {
@@ -161,8 +168,8 @@ public class BarPlotter : MonoBehaviour
                     posInitY +  YLineSeparation * line,
                     subspace.localPosition.z), 
                     Quaternion.Euler(0, -90, 0)) as GameObject;
-                
-                var YLabelValue = line * factorLineY;
+
+                var YLabelValue = dataMin + line * (dataMax - dataMin) / numLinesAxisY;//factorLineY;
                 YLineLabel.GetComponent<TextMesh>().text = YLabelValue.ToString("0,0");
                 YLineLabel.GetComponent<TextMesh>().characterSize = characterYLabelSize;
                 YLine.transform.SetParent(PointHolder.transform);

@@ -14,7 +14,25 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Trainning2.unity
     guid: a55d124a4f5c922409cfc5946525f736
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Music Interaction.unity
     guid: df56778cb87909043b80c9460d9ac63d
+  - enabled: 0
+    path: Assets/__DELETED_GUID_Trash/839ff7c1897272c49b84e18cc87bc9f5
+    guid: 839ff7c1897272c49b84e18cc87bc9f5
+  - enabled: 1
+    path: Assets/Scenes/MusicScene1.unity
+    guid: 4624eb902e5349343b1beed8ba1d591f
+  - enabled: 1
+    path: Assets/Scenes/MusicLowScene1.unity
+    guid: b04ecdfbd0964414bbfb551a09513155
+  - enabled: 1
+    path: Assets/Scenes/MusicScene2.unity
+    guid: bc1c55278c023c849b5f8696c341d802
+  - enabled: 1
+    path: Assets/Scenes/MusicLowScene2.unity
+    guid: 3be1ef1b4e29983478cc8f617c468772
+  - enabled: 1
+    path: Assets/Scenes/WaitScene.unity
+    guid: a0c9f7ea0f754f34ba74b0d2192aaccd
   m_configObjects: {}

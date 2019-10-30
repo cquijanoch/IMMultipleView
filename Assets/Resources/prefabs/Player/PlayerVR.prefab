@@ -81,7 +81,7 @@ MonoBehaviour:
   controllerHoverRadius: 0
   useFingerJointHover: 0
   fingerJointHover: 10
-  fingerJointHoverRadius: 0.05
+  fingerJointHoverRadius: 0.03
   objectAttachmentPoint: {fileID: 5174364855815619679}
   noSteamVRFallbackCamera: {fileID: 0}
   noSteamVRFallbackMaxDistanceNoItem: 10
@@ -209,6 +209,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95daa48eab0bba3429c93617d19507ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_currentDialog: {fileID: 0}
+  m_isPressedPrimaryPickup: 0
   m_CurrentTakedSubspace: {fileID: 0}
   dialogCommon: {fileID: 6917367031368038115, guid: 0cf22f0f8a28e30499bdab8118172044,
     type: 3}
@@ -217,6 +219,14 @@ MonoBehaviour:
   stoppingScaleOnTriggerExit: 0
   interactions: {fileID: 0}
   console: {fileID: 0}
+  m_totalTime: 0
+  m_pickupTime: 0
+  m_clones: 0
+  m_deletedAcepted: 0
+  m_deletedCanceled: 0
+  m_selectSubspaces: 0
+  m_scaleTime: 0
+  m_navSlaving: 0
 --- !u!114 &2034341036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,6 +242,9 @@ MonoBehaviour:
   showMenu: 0
   modeAnswer: 0
   menuCanvas: {fileID: 7475678743971749618, guid: 7b4a89e9b196d5f4cb709851117755bc,
+    type: 3}
+  m_FinishTaskDialog: {fileID: 0}
+  finishTaskCommon: {fileID: 6917367031368038115, guid: 521a1740cac6966468b1048997c3ea41,
     type: 3}
 --- !u!1 &3020931974151357648
 GameObject:
@@ -490,7 +503,7 @@ MonoBehaviour:
   controllerHoverRadius: 0
   useFingerJointHover: 0
   fingerJointHover: 10
-  fingerJointHoverRadius: 0.05
+  fingerJointHoverRadius: 0.03
   objectAttachmentPoint: {fileID: 3018173036628638842}
   noSteamVRFallbackCamera: {fileID: 0}
   noSteamVRFallbackMaxDistanceNoItem: 10
@@ -598,6 +611,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95daa48eab0bba3429c93617d19507ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_currentDialog: {fileID: 0}
+  m_isPressedPrimaryPickup: 0
   m_CurrentTakedSubspace: {fileID: 0}
   dialogCommon: {fileID: 6917367031368038115, guid: 0cf22f0f8a28e30499bdab8118172044,
     type: 3}
@@ -606,6 +621,14 @@ MonoBehaviour:
   stoppingScaleOnTriggerExit: 0
   interactions: {fileID: 0}
   console: {fileID: 0}
+  m_totalTime: 0
+  m_pickupTime: 0
+  m_clones: 0
+  m_deletedAcepted: 0
+  m_deletedCanceled: 0
+  m_selectSubspaces: 0
+  m_scaleTime: 0
+  m_navSlaving: 0
 --- !u!114 &2034357405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,6 +664,9 @@ MonoBehaviour:
   showMenu: 0
   modeAnswer: 0
   menuCanvas: {fileID: 7475678743971749618, guid: 7b4a89e9b196d5f4cb709851117755bc,
+    type: 3}
+  m_FinishTaskDialog: {fileID: 0}
+  finishTaskCommon: {fileID: 6917367031368038115, guid: 521a1740cac6966468b1048997c3ea41,
     type: 3}
 --- !u!1 &3020931974151387210
 GameObject:
@@ -1021,7 +1047,7 @@ Camera:
     m_Bits: 4160749567
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 1
+  m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
   m_AllowMSAA: 1
@@ -1353,7 +1379,11 @@ MonoBehaviour:
   Hand: 0
   speed: 1
   Head: {fileID: 0}
+  LeftHand: {fileID: 3020931974151366352}
+  RightHand: {fileID: 3020931974151349986}
+  Coordination: {fileID: 0}
   Deadzone: 0
+  walk: 0
   fly: 0
 --- !u!1 &3020931974151468658
 GameObject:

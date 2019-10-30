@@ -14,6 +14,9 @@ public class MovementVR : MonoBehaviour
     public SteamVR_Input_Sources Hand;//Set Hand To Get Input From
     public float speed;
     public GameObject Head;
+    public GameObject LeftHand;
+    public GameObject RightHand;
+    public GameObject Coordination;
     //public CapsuleCollider Collider;
     public float Deadzone;//the Deadzone of the trackpad. used to prevent unwanted walking.
     public bool walk = false;
@@ -27,6 +30,18 @@ public class MovementVR : MonoBehaviour
         //m_Pose = GetComponent<SteamVR_Behaviour_Pose>();
         if (!Head)
             Head = GameObject.FindGameObjectWithTag("MainCamera");
+    }
+
+    private void Start()
+    {
+        StartCoroutine(InitCoroutine());
+    }
+
+    IEnumerator InitCoroutine()
+    {
+        yield return new WaitForSeconds(2);
+        Coordination = GameObject.Find("Coordination");
+
     }
 
     void Update()

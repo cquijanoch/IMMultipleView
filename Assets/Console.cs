@@ -31,4 +31,10 @@ public class Console : MonoBehaviour
         foreach (string obj in m_Inputs)
             m_ConsoleText.text += obj + "\n";
     }
+
+    public void Clear()
+    {
+        m_Inputs.Clear();
+        UpdateText();
+    }
 }

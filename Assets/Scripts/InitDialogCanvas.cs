@@ -6,6 +6,7 @@ public class InitDialogCanvas : MonoBehaviour
 {
     public GameObject Head;
     public bool Answer = false;
+    public bool ModeTask = false;
 
     void Start()
     {
@@ -24,13 +25,26 @@ public class InitDialogCanvas : MonoBehaviour
     {
         print("Yes Button Clicked");
         Answer = true;
-        transform.parent.GetComponent<MacroHand>().Delete(Answer);
+        if (!ModeTask)
+            transform.parent.GetComponent<MacroHand>().Delete(Answer);
+        else
+        {
+            GameObject menu = GameObject.Find("MainMenu");
+            if (menu)
+                menu.GetComponent<InitMainMenu>().EndTask();
+        }
     }
 
     public void onClickNoButton()
     {
         print("No Button Clicked");
         Answer = false;
-        transform.parent.GetComponent<MacroHand>().Delete(Answer);
+        if (!ModeTask)
+            transform.parent.GetComponent<MacroHand>().Delete(Answer);
+        else
+        {
+            transform.parent.GetComponent<Hand>().DisableFinishTask(Answer);
+        }
+        
     }
 }

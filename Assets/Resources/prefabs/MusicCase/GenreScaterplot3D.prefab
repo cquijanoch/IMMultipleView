@@ -83,13 +83,13 @@ MonoBehaviour:
   colorB: 6
   columnParents: 8
   name_1: 7
-  name_2: -1
+  name_2: 10
   name_3: -1
   name_4: -1
   columnBrothers: 9
   columnSelect: -1
   subtitleName_1: 'Genre:'
-  subtitleName_2: 
+  subtitleName_2: 'Musics:'
   subtitleName_3: 
   subtitleName_4: 
   plotScale: 1

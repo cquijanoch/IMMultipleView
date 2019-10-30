@@ -20,7 +20,7 @@ public class MicroHand : MonoBehaviour
     public GameObject interactions;
     public AudioClip SingleSelectAudio;
     public AudioClip DoubleSelectAudio;
-    
+
     private void Awake()
     {
         m_Pose = GetComponent<SteamVR_Behaviour_Pose>();

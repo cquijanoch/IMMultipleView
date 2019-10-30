@@ -13,6 +13,11 @@ public class Interaction : MonoBehaviour
     public Dictionary<string, int> versionSubspace = new Dictionary<string, int>();
     public bool setEmptyColorWhenSelectData = true;
 
+    /** -Task- **/
+    public int m_selectSingle = 0;
+    public int m_brushing = 0;
+    /** -Task- **/
+
     public bool InsertData(string data, string parent, string brother, bool state, string idContainer)
     {
         if (!m_parents.ContainsKey(data))
@@ -70,10 +75,19 @@ public class Interaction : MonoBehaviour
 
         string id = data.Id.ToString();
         if (!m_parents.ContainsKey(id) || !data.m_currentSubpace.m_letFilter)
+        {
+            m_selectSingle++;
             return false;
+        }
 
         if (m_parents[id].Parents.Count == 0)
+        {
+            m_selectSingle++;
             return state;
+        }
+
+        m_brushing++;
+
         UpdateFilterHistory(id, state);
         foreach (string idBrother in m_parents[id].Brothers)
         {

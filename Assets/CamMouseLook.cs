@@ -11,10 +11,12 @@ public class CamMouseLook : MonoBehaviour
 
     GameObject character;
 
-    public bool mouselooked = false;
+    public bool mouselooked = true;
     void Start()
     {
         character = transform.parent.gameObject;
+        //character.transform.rotation = transform.parent.rotation;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     void Update()
@@ -28,5 +30,8 @@ public class CamMouseLook : MonoBehaviour
         mouseLook.y = Mathf.Clamp(mouseLook.y, -90f, 90f);
         transform.localRotation = Quaternion.AngleAxis(-mouseLook.y, Vector3.right);
         character.transform.localRotation = Quaternion.AngleAxis(mouseLook.x, character.transform.up);
+
+        if (Input.GetKeyDown(KeyCode.F10))
+            Cursor.lockState = CursorLockMode.None;
     }
 }

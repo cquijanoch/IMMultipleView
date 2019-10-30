@@ -21,6 +21,7 @@ public class MouseController : MonoBehaviour
     public int currentHit = 0;
     public float rotationSpeed = 1000f;
     public GameObject dialogConfirmation = null;
+    public GameObject dialogConfirmationF = null;
     public GameObject pivot = null;
 
     /**Interactable Components **/
@@ -37,6 +38,23 @@ public class MouseController : MonoBehaviour
     public Text text4;
 
     public GameObject interaction = null;
+    private int fingerID = -1;
+    /** -Tasks- **/
+    public float m_totalTime = 0f;
+    public float m_scaleTime = 0f;
+    public float m_rotationTime = 0f;
+    public float m_traslationTime = 0f;
+    public float m_pickupTime = 0f;
+    public float m_navSlaving = 0f;
+    public int m_clones = 0;
+    public int m_deletedAcepted = 0;
+    public int m_deletedCanceled = 0;
+    public int m_selectSubspaces = 0;
+
+    public bool isReady = false;
+    /** -Tasks- **/
+
+    
 
     private void Awake()
     {
@@ -50,12 +68,13 @@ public class MouseController : MonoBehaviour
         highlightMat = (Material)Resources.Load("SteamVR_HoverHighlight", typeof(Material));
         if (interaction)
             m_interaction = interaction.GetComponent<Interaction>();
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CamMouseLook>().mouselooked = true;
         StartCoroutine(InitCoroutine());
     }
 
     IEnumerator InitCoroutine()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         GameObject canvas = GameObject.Find("Canvas");
         if (canvas)
         {
@@ -73,6 +92,18 @@ public class MouseController : MonoBehaviour
                     }   
                 }
 
+                if (canvas.transform.GetChild(i).name == "DialogConfirmationF")
+                {
+                    dialogConfirmationF = canvas.transform.GetChild(i).gameObject;
+                    for (int j = 0; j < dialogConfirmationF.transform.childCount; j++)
+                    {
+                        if (dialogConfirmationF.transform.GetChild(j).name == "ButtonYes")
+                            dialogConfirmationF.transform.GetChild(j).GetComponent<Button>().onClick.AddListener(ConfirmationFinishTaskYes);
+                        if (dialogConfirmationF.transform.GetChild(j).name == "ButtonNo")
+                            dialogConfirmationF.transform.GetChild(j).GetComponent<Button>().onClick.AddListener(ConfirmationFinishTaskNo);
+                    }
+                }
+
                 if (canvas.transform.GetChild(i).name == "Text1")
                     text1 = canvas.transform.GetChild(i).GetComponent<Text>();
                 if (canvas.transform.GetChild(i).name == "Text2")
@@ -86,28 +117,51 @@ public class MouseController : MonoBehaviour
 
         if (!interaction)
         {
-            GameObject coordenation = GameObject.Find("Coordination");
-            if (coordenation)
-                m_interaction = coordenation.GetComponent<Interaction>();
+            interaction = GameObject.Find("Coordination");
+            if (interaction)
+                m_interaction = interaction.GetComponent<Interaction>();
         }
     }
+    /**
+    void OnGUI()
+    {
+        //Press this button to lock the Cursor
+        if (GUI.Button(new Rect(0, 0, 100, 50), "Lock Cursor"))
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
 
+        //Press this button to confine the Cursor within the screen
+        if (GUI.Button(new Rect(125, 0, 100, 50), "Confine Cursor"))
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+        }
+    }
+    **/
     void Update()
     {
+        if (!isReady && Input.GetMouseButtonUp(0))
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.lockState = CursorLockMode.Locked;
+            
+            isReady = true;
+            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CamMouseLook>().mouselooked = false;
+        }
+
+        if (!isReady)
+            return;
+        
+        m_totalTime += Time.deltaTime;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit[] f = Physics.RaycastAll(ray, Mathf.Infinity);
 
-        if (Input.GetMouseButtonUp(1))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
-            GetComponent<MovementFPS>().stopMovement = false;
-            if (subspaceNearest && !m_modeDelete)
-            {
-                subspaceNearest.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
-            }
-            cachedPosition = Vector3.zero;
-            m_dragging = false;
-            DeletePivot();
+            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CamMouseLook>().mouselooked = true;
+            Cursor.lockState = CursorLockMode.None;
+            dialogConfirmationF.SetActive(true);
             return;
         }
 
@@ -121,15 +175,37 @@ public class MouseController : MonoBehaviour
                 GetComponent<MovementFPS>().stopMovement = true;
                 CreatePivot();
                 subspaceNearest.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITH_CONTROLLER;
-                subspaceNearest.GetComponent<Subspace>().m_letRotate = false;
+                //subspaceNearest.GetComponent<Subspace>().m_letRotate = false;
+                subspaceNearest.GetComponent<Subspace>().m_letRotate = true;
                 cachedPosition = transform.position;
+                m_dragging = true;
+                GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CamMouseLook>().mouselooked = true;
+                m_selectSubspaces++;
+                Cursor.lockState = CursorLockMode.None;
             }
+            return;
+        }
+
+        if (Input.GetMouseButtonUp(1) && !m_modeDelete)
+        {
+            GetComponent<MovementFPS>().stopMovement = false;
+            if (subspaceNearest)
+            {
+                subspaceNearest.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
+                subspaceNearest.GetComponent<Subspace>().m_letRotate = false;
+            }
+            cachedPosition = Vector3.zero;
+            m_dragging = false;
+            DeletePivot();
+            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CamMouseLook>().mouselooked = false;
+            Cursor.lockState = CursorLockMode.Locked;
             return;
         }
 
         if (subspaceNearest && Input.GetMouseButton(1))//macro
         {
-            if (Input.GetMouseButtonDown(0))
+            m_pickupTime += Time.deltaTime; 
+            /**if (Input.GetMouseButtonDown(0))
             {
                 m_dragging = true;
                 DeletePivot();
@@ -137,14 +213,15 @@ public class MouseController : MonoBehaviour
                 subspaceNearest.GetComponent<Subspace>().m_letRotate = true;
                 return;
             }
-            if (m_dragging && (Input.GetMouseButtonUp(0)))
+            if (m_dragging && (Input.GetMouseButtonUp(1)))
             {
+                GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CamMouseLook>().mouselooked = false;
                 m_dragging = false;
                 DeletePivot();
                 subspaceNearest.GetComponent<Subspace>().m_letRotate = false;
                 return;
-            }
-                
+            }**/
+
 
             if (m_dragging)
             {
@@ -153,8 +230,14 @@ public class MouseController : MonoBehaviour
                 
                 subspaceNearest.transform.parent.Rotate(Vector3.up, -rotX);
                 subspaceNearest.transform.parent.Rotate(Vector3.right, rotY);
-            }
+                
+                m_rotationTime += Time.deltaTime;
+                if (subspaceNearest.m_letRotate && subspaceNearest.subspacesChild.Count > 0)
+                    m_navSlaving += Time.deltaTime;
 
+                //print("m_rotationTime " + m_rotationTime);
+                //print("m_navSlaving " + m_navSlaving);
+            }
 
             if (Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0
                 || Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.Q))
@@ -166,18 +249,20 @@ public class MouseController : MonoBehaviour
                     float straffe = Input.GetAxis("Horizontal") * 10f;
                     float high = 0f;
                     if (Input.GetKey(KeyCode.E))
-                        high = 0.01f;
+                        high = 0.005f;
                     if (Input.GetKey(KeyCode.Q))
-                        high = -0.01f;
+                        high = -0.005f;
                     translation *= Time.deltaTime;
                     straffe *= Time.deltaTime;
                     DeletePivot();
                     CreatePivot();
                     Vector3 newPos = subspacePivot.transform.position + subspacePivot.transform.TransformDirection(straffe, high, translation);
-                    if (newPos.x < 2.7f && newPos.x > -2.7f
-                    && newPos.z < 2.7f && newPos.z > -2.7f
+                    if (newPos.x < 2.7f && newPos.x > -1.7f
+                    && newPos.z < 1.9f && newPos.z > -1.74f
                     && newPos.y < 4f && newPos.y > 1f)
                         subspacePivot.transform.Translate(straffe, high, translation);
+                    m_traslationTime += Time.deltaTime;
+                    //print("m_traslationTime " + m_traslationTime);
                     m_isAxisInUse = true;
                 }
 
@@ -186,16 +271,22 @@ public class MouseController : MonoBehaviour
             }
 
             if (Input.GetAxis("Mouse ScrollWheel") != 0f) // forward
+            {
                 subspaceNearest.ChangeScaleScroll(Input.GetAxis("Mouse ScrollWheel"));
+                m_scaleTime += Time.deltaTime;
+                print("m_scaleTime " + m_scaleTime);
+            }
 
-            if (Input.GetKeyDown(KeyCode.Return))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 Clone(subspaceNearest);
+                m_clones++;
             }
 
             if (Input.GetKeyDown(KeyCode.Delete) && !subspaceNearest.isOriginal)
             {
                 GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CamMouseLook>().mouselooked = true;
+                Cursor.lockState = CursorLockMode.None;
                 m_modeDelete = true;
                 subspaceNearest.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_PREPARE_TO_DELETE;
                 dialogConfirmation.SetActive(true);
@@ -262,6 +353,8 @@ public class MouseController : MonoBehaviour
         m_modeDelete = false;
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CamMouseLook>().mouselooked = false;
         GetComponent<MovementFPS>().stopMovement = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        m_deletedAcepted++;
     }
 
     public void ConfirmationDeleteNo()
@@ -271,6 +364,25 @@ public class MouseController : MonoBehaviour
         m_modeDelete = false;
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CamMouseLook>().mouselooked = false;
         GetComponent<MovementFPS>().stopMovement = false;
+        m_deletedCanceled++;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void ConfirmationFinishTaskYes()
+    {
+        GameObject menu = GameObject.Find("MainMenu");
+        Cursor.lockState = CursorLockMode.Locked;
+        if (menu)
+            menu.GetComponent<InitMainMenu>().EndTask();
+        //GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CamMouseLook>().mouselooked = false;
+    }
+
+    public void ConfirmationFinishTaskNo()
+    {
+        dialogConfirmationF.SetActive(false);
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CamMouseLook>().mouselooked = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
     }
 
     private void Clone(Subspace subspace)
@@ -282,6 +394,7 @@ public class MouseController : MonoBehaviour
         clone.GetComponent<Subspace>().isOriginal = false;
         clone.GetComponent<Subspace>().m_letFilter = false;
         clone.GetComponent<Subspace>().m_letRotate = false;
+        clone.GetComponent<Subspace>().subspacesChild = new List<string>();
         clone.GetComponent<Renderer>().material.color = Constants.SPACE_COLOR_WITHOUT_CONTROLLER;
 
         if (m_interaction)

@@ -1,0 +1,2 @@
+UserID, TaskID, Version, Scenario, VR, Time(sec), Clones, Delete accepted, Delete canceled, Select Subspaces(clicks), Select Single, Brushing(clicks), APickup(sec), ARotation(sec), ATraslation(sec), AScale(sec), ANavSlaving(sec), BPickup(sec), BRotation(sec), BTraslation(sec), BScale(sec), BNavSlaving(sec), UserAnswer, CorrectAnswer
+5006,2,0,1,False,61.62761,0,0,0,2,2,12,2.666398,2.666398,0.5396584,0,1.456868, 0 , 0 , 0 , 0, 0,#Genre Bar 0: 3-#Artist Projection 0: 411-#Music Projection 0: #Year Bar 0: 632-634-635-633-636-637-,Mr Dibbs

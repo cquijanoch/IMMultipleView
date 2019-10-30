@@ -83,22 +83,19 @@ MonoBehaviour:
   colorB: 9
   columnParents: 11
   name_1: 10
-  name_2: -1
+  name_2: 13
   name_3: -1
   name_4: -1
+  columnBrothers: 12
   columnSelect: -1
   subtitleName_1: 'Artist:'
-  subtitleName_2: 
+  subtitleName_2: 'Musics:'
   subtitleName_3: 
   subtitleName_4: 
   plotScale: 1
-  PointPrefab: {fileID: 4920441736578095170, guid: 78e47a3f3d5fee94ab2ddf59b6e326b8,
-    type: 3}
-  PointHolder: {fileID: 1976004587428099160}
-  Interactions: {fileID: 8954751151237846796, guid: fb123e559703fc840b21bea7947379da,
-    type: 3}
-  DataManager: {fileID: 2228049738797126824, guid: 1644a3e2c5cdd774bbfa1eb8903f9212,
-    type: 3}
+  pointPrefab: {fileID: 0}
+  pointHolder: {fileID: 0}
+  interactions: {fileID: 0}
   material_data: {fileID: 2100000, guid: 52c7083f9c7382344affb14206fe0de0, type: 2}
 --- !u!1 &6214511349131428793
 GameObject:
@@ -239,13 +236,19 @@ MonoBehaviour:
   m_minPositionDistance: 0.5
   m_minRotationDistance: 300
   m_minDiffAngleRotation: 15
-  m_modeScale: 0
   m_distanceInitialForScale: 0
-  m_PrimaryHand: {fileID: 0}
-  m_SecondaryHand: {fileID: 0}
-  m_numControllersInner: 0
-  m_modePrepareToDelete: 0
+  m_modeScale: 0
   selectedData: []
   subspacesChild:
   - MusicScaterplot3D
   isOriginal: 1
+  m_PrimaryHand: {fileID: 0}
+  m_SecondaryHand: {fileID: 0}
+  titleSubspace: {fileID: 0}
+  showTitle: 0
+  name: 
+  m_letFilter: 1
+  m_letRotate: 1
+  m_numControllersInner: 0
+  m_modePrepareToDelete: 0
+  version: 0

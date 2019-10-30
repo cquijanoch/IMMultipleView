@@ -34,6 +34,11 @@ public class Subspace : MonoBehaviour
     [HideInInspector]
     public int version = 0;
 
+    /** -Task- **/
+    //public float m_scaleTime = 0f;
+    //public float m_navSlaving = 0f;
+    /** -Task- **/
+
     private void Start()
     {
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Scenario"))
@@ -49,8 +54,11 @@ public class Subspace : MonoBehaviour
             ChangeScale();
 
         if ((subspacesChild.Count > 0 && m_PrimaryHand) || (!XRSettings.enabled && m_letRotate))
+        {
             foreach (string s in subspacesChild)
                 GameObject.Find(s).transform.rotation = transform.rotation;
+            //m_navSlaving += Time.deltaTime;
+        }
     }
 
     private void OnDestroy()
@@ -117,11 +125,13 @@ public class Subspace : MonoBehaviour
         float dist = Vector3.Distance(pos1, pos2);
         transform.localScale += new Vector3(dist - m_distanceInitialForScale, dist - m_distanceInitialForScale, dist - m_distanceInitialForScale) * 1f;
         m_distanceInitialForScale = dist;
+        //m_scaleTime += Time.deltaTime;
     }
 
     public void ChangeScaleScroll(float scale)
     {
-        transform.localScale += new Vector3(scale, scale, scale);
+        if (transform.localScale.x + scale > 0 && transform.localScale.y + scale > 0 && transform.localScale.z + scale > 0)
+            transform.localScale += new Vector3(scale, scale, scale);
     }
 
     public void ResetDistanceInitialForScale()

@@ -139,15 +139,21 @@ MonoBehaviour:
   m_minPositionDistance: 0.5
   m_minRotationDistance: 300
   m_minDiffAngleRotation: 15
-  m_modeScale: 0
   m_distanceInitialForScale: 0
-  m_PrimaryHand: {fileID: 0}
-  m_SecondaryHand: {fileID: 0}
-  m_numControllersInner: 0
-  m_modePrepareToDelete: 0
+  m_modeScale: 0
   selectedData: []
   subspacesChild: []
   isOriginal: 0
+  m_PrimaryHand: {fileID: 0}
+  m_SecondaryHand: {fileID: 0}
+  titleSubspace: {fileID: 0}
+  showTitle: 0
+  name: 
+  m_letFilter: 1
+  m_letRotate: 1
+  m_numControllersInner: 0
+  m_modePrepareToDelete: 0
+  version: 0
 --- !u!1001 &16329326289183467
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -241,6 +247,112 @@ PrefabInstance:
       propertyPath: m_Name
       value: BarPlotter
       objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: inputfile
+      value: year_bar
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: columnX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: columnY
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: name_1
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: name_2
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: name_3
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: subtitleName_1
+      value: 'Year:'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: PointHolder
+      value: 
+      objectReference: {fileID: 6905284903914647357}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: createAxisXLabel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: AxisXLabel
+      value: 
+      objectReference: {fileID: 197276, guid: 622e58fcefdc85a4bbcd6bcef0d19a4d, type: 3}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: createAxisYLabel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: AxisYLabel
+      value: 
+      objectReference: {fileID: 114112, guid: c747a192234eab04eb156a1e59d9b43e, type: 3}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: AxisYLine
+      value: 
+      objectReference: {fileID: 131658, guid: e1947a58e38a77d4a91993f893cead2b, type: 3}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: characterAxisLabelSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: characterYLabelSize
+      value: 0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: factorLineY
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: factorWidthBar
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: factorPositionXBar
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: material_data
+      value: 
+      objectReference: {fileID: 2100000, guid: 52c7083f9c7382344affb14206fe0de0, type: 2}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: DataManager
+      value: 
+      objectReference: {fileID: 2228049738797126824, guid: 1644a3e2c5cdd774bbfa1eb8903f9212,
+        type: 3}
+    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
+        type: 3}
+      propertyPath: subtitleName_2
+      value: 'Musics:'
+      objectReference: {fileID: 0}
     - target: {fileID: 4682711875730730081, guid: 5f06276a1e141b743a144d5ffc59df00,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -296,107 +408,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: inputfile
-      value: year_bar
-      objectReference: {fileID: 0}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: columnX
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: columnY
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: name_1
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: name_2
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: name_3
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: subtitleName_1
-      value: 'Year:'
-      objectReference: {fileID: 0}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: PointHolder
-      value: 
-      objectReference: {fileID: 6905284903914647357}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: createAxisXLabel
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: AxisXLabel
-      value: 
-      objectReference: {fileID: 197276, guid: 622e58fcefdc85a4bbcd6bcef0d19a4d, type: 3}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: createAxisYLabel
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: AxisYLabel
-      value: 
-      objectReference: {fileID: 114112, guid: c747a192234eab04eb156a1e59d9b43e, type: 3}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: AxisYLine
-      value: 
-      objectReference: {fileID: 131658, guid: e1947a58e38a77d4a91993f893cead2b, type: 3}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: characterAxisLabelSize
-      value: 18
-      objectReference: {fileID: 0}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: characterYLabelSize
-      value: 0.005
-      objectReference: {fileID: 0}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: factorLineY
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: factorWidthBar
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: factorPositionXBar
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: material_data
-      value: 
-      objectReference: {fileID: 2100000, guid: 52c7083f9c7382344affb14206fe0de0, type: 2}
-    - target: {fileID: 4682711875730730080, guid: 5f06276a1e141b743a144d5ffc59df00,
-        type: 3}
-      propertyPath: DataManager
-      value: 
-      objectReference: {fileID: 2228049738797126824, guid: 1644a3e2c5cdd774bbfa1eb8903f9212,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f06276a1e141b743a144d5ffc59df00, type: 3}
 --- !u!4 &4667513497230288206 stripped

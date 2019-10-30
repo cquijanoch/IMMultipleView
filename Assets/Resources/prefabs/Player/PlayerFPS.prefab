@@ -66,7 +66,7 @@ Camera:
     m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 1
+  m_TargetDisplay: 0
   m_TargetEye: 0
   m_HDR: 1
   m_AllowMSAA: 1
@@ -239,9 +239,21 @@ MonoBehaviour:
   currentHit: 0
   rotationSpeed: 20
   dialogConfirmation: {fileID: 0}
+  dialogConfirmationF: {fileID: 0}
   pivot: {fileID: 5367295347942242214, guid: 2477bd7d3705c2d41aa7cb44722d0bb1, type: 3}
   text1: {fileID: 0}
   text2: {fileID: 0}
   text3: {fileID: 0}
   text4: {fileID: 0}
   interaction: {fileID: 0}
+  m_totalTime: 0
+  m_scaleTime: 0
+  m_rotationTime: 0
+  m_traslationTime: 0
+  m_pickupTime: 0
+  m_navSlaving: 0
+  m_clones: 0
+  m_deletedAcepted: 0
+  m_deletedCanceled: 0
+  m_selectSubspaces: 0
+  isReady: 0

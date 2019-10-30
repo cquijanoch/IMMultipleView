@@ -339,7 +339,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Are you Sure?
+  m_Text: Delete clone Subspace?
 --- !u!114 &6917367030377656065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -658,6 +658,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Head: {fileID: 0}
   Answer: 0
+  ModeTask: 0
 --- !u!1 &6917367032008147705
 GameObject:
   m_ObjectHideFlags: 0
